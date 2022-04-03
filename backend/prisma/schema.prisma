@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email    String    @unique
+  hash     String
+  hashedRt String?
+  projects Project[]
+
+  @@map("users")
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title       String
+  description String
+  goals       Goal[]
+  deadline    DateTime
+  status      Status
+  prority     Prority
+  progressBar Int      @default(0)
+
+  favorite Boolean @default(false)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  @@map("projects")
+}
+
+enum Status {
+  backlog
+  inProgress
+  finished
+}
+
+enum Prority {
+  low
+  medium
+  high
+}
+
+model Goal {
+  id        Int     @id @default(autoincrement())
+  completed Boolean @default(false)
+  content   String
+
+  projectId Int
+  project   Project @relation(fields: [projectId], references: [id])
+
+  @@map("goals")
+}
