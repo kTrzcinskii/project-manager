@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SignUpDto } from './dto';
+import { SignInDto, SignUpDto } from './dto';
 import { Tokens } from './types';
 
 @Injectable()
@@ -14,6 +14,57 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
+  async signupLocal(dto: SignUpDto): Promise<Tokens> {
+    const newUser = await this.prisma.user.create({
+      data: {
+        email: dto.email,
+        username: dto.username,
+        hash: await argon2.hash(dto.password),
+      },
+    });
+
+    const tokens = await this.getTokens(newUser.id, newUser.email);
+    await this.updateRtHash(newUser.id, tokens.refresh_token);
+    return tokens;
+  }
+
+  async signinLocal(dto: SignInDto): Promise<Tokens> {
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Provided credentials are incorrect');
+    }
+
+    const passwordMatches = await argon2.verify(user.hash, dto.password);
+
+    if (!passwordMatches) {
+      throw new ForbiddenException('Provided credentials are incorrect');
+    }
+
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRtHash(user.id, tokens.refresh_token);
+    return tokens;
+  }
+
+  logout() {}
+
+  refreshTokens() {}
+
+  async updateRtHash(userId: number, rt: string) {
+    const hashedRt = await argon2.hash(rt);
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hashedRt,
+      },
+    });
+  }
+
+  //utils
   async getTokens(userId: number, email: string): Promise<Tokens> {
     const [at, rt] = await Promise.all([
       // !access token
@@ -45,24 +96,4 @@ export class AuthService {
       refresh_token: rt,
     };
   }
-
-  async signupLocal(dto: SignUpDto): Promise<Tokens> {
-    const newUser = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        username: dto.username,
-        hash: await argon2.hash(dto.password),
-      },
-    });
-
-    const tokens = await this.getTokens(newUser.id, newUser.email);
-
-    return tokens;
-  }
-
-  signinLocal() {}
-
-  logout() {}
-
-  refreshTokens() {}
 }
