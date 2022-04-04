@@ -1,6 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as argon2 from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SignInDto, SignUpDto } from './dto';
@@ -15,21 +16,31 @@ export class AuthService {
   ) {}
 
   async signupLocal(dto: SignUpDto): Promise<Tokens> {
-    const newUser = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        username: dto.username,
-        hash: await argon2.hash(dto.password),
-      },
-    });
+    try {
+      const newUser = await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          username: dto.username,
+          hash: await argon2.hash(dto.password),
+        },
+      });
 
-    const tokens = await this.getTokens(
-      newUser.id,
-      newUser.username,
-      newUser.email,
-    );
-    await this.updateRtHash(newUser.id, tokens.refresh_token);
-    return tokens;
+      const tokens = await this.getTokens(
+        newUser.id,
+        newUser.username,
+        newUser.email,
+      );
+      await this.updateRtHash(newUser.id, tokens.refresh_token);
+      return tokens;
+    } catch (error) {
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ForbiddenException('Provided email is already in use');
+      }
+      throw error;
+    }
   }
 
   async signinLocal(dto: SignInDto): Promise<Tokens> {
@@ -52,9 +63,45 @@ export class AuthService {
     return tokens;
   }
 
-  logout() {}
+  async logout(userId: number): Promise<void> {
+    await this.prisma.user.updateMany({
+      where: {
+        id: userId,
+        hashedRt: {
+          not: null,
+        },
+      },
+      data: {
+        hashedRt: null,
+      },
+    });
+  }
 
-  refreshTokens() {}
+  async refreshTokens(userId: number, rt: string): Promise<Tokens> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Provided credentials are incorrect');
+    }
+
+    if (!user.hashedRt) {
+      throw new ForbiddenException('Your refresh token has expired');
+    }
+
+    const rtMatches = argon2.verify(user.hashedRt, rt);
+
+    if (!rtMatches) {
+      throw new ForbiddenException('Your refresh token is incorrect');
+    }
+
+    const tokens = await this.getTokens(user.id, user.username, user.email);
+    await this.updateRtHash(user.id, tokens.refresh_token);
+    return tokens;
+  }
 
   async updateRtHash(userId: number, rt: string) {
     const hashedRt = await argon2.hash(rt);
