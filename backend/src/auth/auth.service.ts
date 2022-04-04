@@ -23,7 +23,11 @@ export class AuthService {
       },
     });
 
-    const tokens = await this.getTokens(newUser.id, newUser.username);
+    const tokens = await this.getTokens(
+      newUser.id,
+      newUser.username,
+      newUser.email,
+    );
     await this.updateRtHash(newUser.id, tokens.refresh_token);
     return tokens;
   }
@@ -43,7 +47,7 @@ export class AuthService {
       throw new ForbiddenException('Provided credentials are incorrect');
     }
 
-    const tokens = await this.getTokens(user.id, user.username);
+    const tokens = await this.getTokens(user.id, user.username, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
     return tokens;
   }
@@ -65,13 +69,18 @@ export class AuthService {
   }
 
   //utils
-  async getTokens(userId: number, username: string): Promise<Tokens> {
+  async getTokens(
+    userId: number,
+    username: string,
+    email: string,
+  ): Promise<Tokens> {
     const [at, rt] = await Promise.all([
       // !access token
       this.jwtService.signAsync(
         {
           sub: userId,
           username,
+          email,
         },
         {
           expiresIn: 60 * 30, // 30 minutes
@@ -83,6 +92,7 @@ export class AuthService {
         {
           sub: userId,
           username,
+          email,
         },
         {
           expiresIn: 60 * 60 * 24 * 7, // 1 week
