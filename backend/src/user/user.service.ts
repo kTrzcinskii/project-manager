@@ -1,10 +1,12 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as argon2 from 'argon2';
+import { DeleteAccountDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -84,6 +86,28 @@ export class UserService {
       );
     }
 
-    return updatedUser;
+    return { successful: true };
+  }
+
+  async deleteAccount(userId: number, dto: DeleteAccountDto) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new InternalServerErrorException(
+        'There is a problem with the server, try again later',
+      );
+    }
+
+    const credentialsMatch =
+      user.email === dto.email &&
+      (await argon2.verify(user.hash, dto.password));
+
+    if (!credentialsMatch) {
+      throw new ForbiddenException('Provided credentials are incorrect');
+    }
+
+    await this.prisma.user.delete({ where: { id: userId } });
+
+    return { successful: true };
   }
 }

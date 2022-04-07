@@ -1,27 +1,42 @@
-import { Body, Controller, Get, Patch, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { Response } from 'express';
 import { Payload } from 'src/auth/types';
 import { GetCurrentUser } from 'src/common/decorators';
 import { AtGuard } from 'src/common/guards';
 import { Serialize } from 'src/common/interceptors';
+import { CookiesService } from 'src/cookies/cookies.service';
 import {
   ChangeEmailDto,
   ChangePasswordDto,
   ChangeUsernameDto,
+  DeleteAccountDto,
   PublicUserDto,
 } from './dto';
 import { UserService } from './user.service';
 
 @Controller('user')
-@Serialize(PublicUserDto)
 @UseGuards(AtGuard)
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private cookiesService: CookiesService,
+  ) {}
 
+  @Serialize(PublicUserDto)
   @Get('me')
   me(@GetCurrentUser() user: Payload) {
     return this.userService.me(user.sub);
   }
 
+  @Serialize(PublicUserDto)
   @Patch('change-username')
   changeUsername(
     @GetCurrentUser() user: Payload,
@@ -30,6 +45,7 @@ export class UserController {
     return this.userService.changeUsername(user.sub, dto.username);
   }
 
+  @Serialize(PublicUserDto)
   @Patch('change-email')
   changeEmail(@GetCurrentUser() user: Payload, @Body() dto: ChangeEmailDto) {
     return this.userService.changeEmail(user.sub, dto.email);
@@ -41,5 +57,16 @@ export class UserController {
     @Body() dto: ChangePasswordDto,
   ) {
     return this.userService.changePassword(user.sub, dto.password);
+  }
+
+  @Delete('delete-account')
+  async deleteAccount(
+    @GetCurrentUser() user: Payload,
+    @Body() dto: DeleteAccountDto,
+    @Res() response: Response,
+  ) {
+    const successful = await this.userService.deleteAccount(user.sub, dto);
+    this.cookiesService.deteleCookies(response);
+    return response.json(successful);
   }
 }
