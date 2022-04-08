@@ -30,7 +30,7 @@ model Project {
   description String
   goals       Goal[]
   deadline    DateTime
-  status      Status
+  status      Status   @default(inProgress)
   prority     Prority
   progressBar Int      @default(0)
 
