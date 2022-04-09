@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { priority, priorityTypes } from '../types';
-import { GoalDto } from './goal.dto';
+import { CreateGoalDto } from './create-goal.dto';
 
 export class CreateProjectDto {
   @IsString()
@@ -23,8 +23,8 @@ export class CreateProjectDto {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => GoalDto)
-  goals: GoalDto[];
+  @Type(() => CreateGoalDto)
+  goals: CreateGoalDto[];
 
   @IsDateString()
   @IsNotEmpty()

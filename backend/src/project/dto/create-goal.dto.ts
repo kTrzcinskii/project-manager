@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class GoalDto {
+export class CreateGoalDto {
   @IsString()
   @IsNotEmpty()
   content: string;
