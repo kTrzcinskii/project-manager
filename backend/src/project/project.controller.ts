@@ -28,6 +28,14 @@ export class ProjectController {
     return this.projectService.createProject(user.sub, dto);
   }
 
+  @Patch('update-goal/:id')
+  updateGoal(
+    @GetCurrentUser() user: Payload,
+    @Param('id', ParseIntPipe) goalId: number,
+  ) {
+    return this.projectService.updateGoal(user.sub, goalId);
+  }
+
   @Delete('delete/:id')
   deleteProject(
     @GetCurrentUser() user: Payload,
