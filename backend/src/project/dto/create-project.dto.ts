@@ -8,6 +8,7 @@ import {
   IsOptional,
   IsArray,
   ValidateNested,
+  ArrayMinSize,
 } from 'class-validator';
 import { priority, priorityTypes } from '../types';
 import { CreateGoalDto } from './create-goal.dto';
@@ -22,6 +23,8 @@ export class CreateProjectDto {
   description: string;
 
   @IsArray()
+  @ArrayMinSize(1)
+  @IsNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreateGoalDto)
   goals: CreateGoalDto[];
