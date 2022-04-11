@@ -1,10 +1,11 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProjectDto } from './dto';
+import { CreateGoalDto, CreateProjectDto } from './dto';
 import { status } from './types';
 
 @Injectable()
@@ -52,6 +53,35 @@ export class ProjectService {
     });
 
     return { ...project, projectGoals };
+  }
+
+  async addNewGoal(userId: number, projectId: number, dto: CreateGoalDto) {
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!project || project.userId !== userId) {
+      throw new NotFoundException(
+        'Project that you are trying to add goal to does not exist',
+      );
+    }
+
+    const updatedProject = await this.prisma.project.update({
+      where: { id: projectId },
+      data: { goals: { create: { content: dto.content } } },
+    });
+
+    if (!updatedProject) {
+      throw new InternalServerErrorException(
+        'There is a problem with the server, try again later',
+      );
+    }
+
+    const projectGoals = await this.prisma.goal.findMany({
+      where: { projectId: updatedProject.id },
+    });
+
+    return { ...updatedProject, projectGoals };
   }
 
   async updateGoal(userId: number, goalId: number) {

@@ -12,7 +12,7 @@ import {
 import { Payload } from 'src/auth/types';
 import { GetCurrentUser } from 'src/common/decorators';
 import { AtGuard } from 'src/common/guards';
-import { CreateProjectDto } from './dto';
+import { CreateGoalDto, CreateProjectDto } from './dto';
 import { ProjectService } from './project.service';
 
 @UseGuards(AtGuard)
@@ -26,6 +26,15 @@ export class ProjectController {
     @Body() dto: CreateProjectDto,
   ) {
     return this.projectService.createProject(user.sub, dto);
+  }
+
+  @Post(':id/create-goal')
+  addNewGoal(
+    @GetCurrentUser() user: Payload,
+    @Param('id', ParseIntPipe) projectId: number,
+    @Body() dto: CreateGoalDto,
+  ) {
+    return this.projectService.addNewGoal(user.sub, projectId, dto);
   }
 
   @Patch('update-goal/:id')
