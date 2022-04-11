@@ -66,9 +66,32 @@ export class ProjectService {
       );
     }
 
+    let progressBar = project.progressBar;
+
+    if (project.progressBar !== 0) {
+      const allGoals = await this.prisma.goal.findMany({
+        where: { projectId: project.id },
+      });
+      const completedGoals = allGoals.filter((goal) => goal.completed);
+      progressBar = Math.round(
+        (completedGoals.length / (allGoals.length + 1)) * 100,
+      );
+    }
+
+    let status: status = project.status;
+    if (status === 'finished') {
+      const currentDate = new Date().getTime();
+      const deadline = new Date(project.deadline).getTime();
+      status = currentDate > deadline ? 'backlog' : 'inProgress';
+    }
+
     const updatedProject = await this.prisma.project.update({
       where: { id: projectId },
-      data: { goals: { create: { content: dto.content } } },
+      data: {
+        goals: { create: { content: dto.content } },
+        progressBar,
+        status,
+      },
     });
 
     if (!updatedProject) {
@@ -80,6 +103,63 @@ export class ProjectService {
     const projectGoals = await this.prisma.goal.findMany({
       where: { projectId: updatedProject.id },
     });
+
+    return { ...updatedProject, projectGoals };
+  }
+
+  async deleteGoal(userId: number, projectId: number, goalId: number) {
+    const goal = await this.prisma.goal.findUnique({ where: { id: goalId } });
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
+    });
+    if (
+      !goal ||
+      !project ||
+      project.userId !== userId ||
+      goal.projectId !== projectId
+    ) {
+      throw new NotFoundException(
+        'The goal you are trying to delete does not exist',
+      );
+    }
+
+    const goalsNumber = await (
+      await this.prisma.goal.findMany({ where: { projectId: projectId } })
+    ).length;
+    if (goalsNumber <= 1) {
+      throw new BadRequestException(
+        'Your project must containt at least one goal',
+      );
+    }
+
+    let progressBar = project.progressBar;
+
+    const allGoals = await this.prisma.goal.findMany({
+      where: { projectId: project.id },
+    });
+    const completedGoals = allGoals.filter((goal) => goal.completed);
+    progressBar = Math.round(
+      (completedGoals.length / (allGoals.length - 1)) * 100,
+    );
+
+    let status: status = project.status;
+    if (status !== 'finished' && progressBar === 100) {
+      status = 'finished';
+    }
+
+    await this.prisma.goal.delete({ where: { id: goalId } });
+    const updatedProject = await this.prisma.project.update({
+      where: { id: projectId },
+      data: { status, progressBar },
+    });
+
+    if (!updatedProject) {
+      throw new InternalServerErrorException(
+        'There is a problem with a server, try again later',
+      );
+    }
+
+    const projectGoals = allGoals.filter((goal) => goal.id !== goalId);
 
     return { ...updatedProject, projectGoals };
   }

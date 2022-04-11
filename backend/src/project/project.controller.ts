@@ -37,6 +37,15 @@ export class ProjectController {
     return this.projectService.addNewGoal(user.sub, projectId, dto);
   }
 
+  @Delete(':projectId/delete-goal/:goalId')
+  deleteGoal(
+    @GetCurrentUser() user: Payload,
+    @Param('goalId', ParseIntPipe) goalId: number,
+    @Param('projectId', ParseIntPipe) projectId: number,
+  ) {
+    return this.projectService.deleteGoal(user.sub, projectId, goalId);
+  }
+
   @Patch('update-goal/:id')
   updateGoal(
     @GetCurrentUser() user: Payload,
