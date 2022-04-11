@@ -11,7 +11,7 @@ import {
   ArrayMinSize,
 } from 'class-validator';
 import { priority, priorityTypes } from '../types';
-import { CreateGoalDto } from './create-goal.dto';
+import { CreateGoalDto } from '../../goal/dto';
 
 export class CreateProjectDto {
   @IsString()

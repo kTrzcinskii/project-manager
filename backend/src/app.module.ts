@@ -4,8 +4,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { CookiesModule } from './cookies/cookies.module';
 import { ProjectModule } from './project/project.module';
+import { GoalModule } from './goal/goal.module';
 @Module({
-  imports: [AuthModule, PrismaModule, UserModule, CookiesModule, ProjectModule],
+  imports: [AuthModule, PrismaModule, UserModule, CookiesModule, ProjectModule, GoalModule],
   controllers: [],
   providers: [],
 })
