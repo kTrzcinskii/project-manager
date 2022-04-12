@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProjectDto } from './dto';
+import { CreateProjectDto, EditProjectDto } from './dto';
 import { status } from './types';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class ProjectService {
         title: dto.title,
         description: dto.description,
         deadline: new Date(dto.deadline),
-        prority: dto.priority,
+        priority: dto.priority,
         goals: {
           createMany: {
             data: [...dto.goals],
@@ -52,6 +52,31 @@ export class ProjectService {
     });
 
     return { ...project, projectGoals };
+  }
+
+  async editProjet(userId: number, projectId: number, dto: EditProjectDto) {
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!project || project.userId !== userId) {
+      throw new NotFoundException(
+        'Project you are trying to edit does not exist',
+      );
+    }
+
+    const updatedProject = await this.prisma.project.update({
+      where: { id: projectId },
+      data: { ...dto },
+    });
+
+    if (!updatedProject) {
+      throw new InternalServerErrorException(
+        'There is a problem with the server, try again later',
+      );
+    }
+
+    return updatedProject;
   }
 
   async deleteProject(userId: number, projectId: number) {
