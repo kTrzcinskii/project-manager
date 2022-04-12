@@ -31,7 +31,7 @@ model Project {
   goals       Goal[]
   deadline    DateTime
   status      Status   @default(inProgress)
-  prority     Prority
+  priority    Priority
   progressBar Int      @default(0)
 
   favorite Boolean @default(false)
@@ -48,7 +48,7 @@ enum Status {
   finished
 }
 
-enum Prority {
+enum Priority {
   low
   medium
   high
