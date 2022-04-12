@@ -11,7 +11,7 @@ import {
 import { Payload } from 'src/auth/types';
 import { GetCurrentUser } from 'src/common/decorators';
 import { AtGuard } from 'src/common/guards';
-import { CreateGoalDto } from './dto';
+import { ChangeGoalContentDto, CreateGoalDto } from './dto';
 import { GoalService } from './goal.service';
 
 @UseGuards(AtGuard)
@@ -42,5 +42,14 @@ export class GoalController {
     @Param('id', ParseIntPipe) goalId: number,
   ) {
     return this.goalService.updateGoal(user.sub, goalId);
+  }
+
+  @Patch(':id/change-content')
+  changeGoalContent(
+    @GetCurrentUser() user: Payload,
+    @Param('id', ParseIntPipe) goalId: number,
+    @Body() dto: ChangeGoalContentDto,
+  ) {
+    return this.goalService.changeGoalContent(user.sub, goalId, dto);
   }
 }

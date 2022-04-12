@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateGoalDto } from './dto';
+import { ChangeGoalContentDto, CreateGoalDto } from './dto';
 import { status } from '../project/types';
 
 @Injectable()
@@ -187,5 +187,48 @@ export class GoalService {
       status: updatedProject.status,
       progressBar: updatedProject.progressBar,
     };
+  }
+
+  async changeGoalContent(
+    userId: number,
+    goalId: number,
+    dto: ChangeGoalContentDto,
+  ) {
+    if (!goalId) {
+      throw new NotFoundException(
+        'The goal you are trying to edit does not exist',
+      );
+    }
+
+    const goal = await this.prisma.goal.findUnique({ where: { id: goalId } });
+
+    if (!goal) {
+      throw new NotFoundException(
+        'The goal you are trying to edit does not exist',
+      );
+    }
+
+    const project = await this.prisma.project.findUnique({
+      where: { id: goal.projectId },
+    });
+
+    if (project.userId !== userId) {
+      throw new NotFoundException(
+        'The goal you are trying to edit does not exist',
+      );
+    }
+
+    if (!project) {
+      throw new NotFoundException(
+        'The project containing the goal you are trying to edit does not exist',
+      );
+    }
+
+    const updatedGoal = await this.prisma.goal.update({
+      where: { id: goalId },
+      data: { content: dto.content },
+    });
+
+    return updatedGoal;
   }
 }
