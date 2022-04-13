@@ -54,6 +54,9 @@ export class ProjectService {
           },
         },
       },
+      include: {
+        goals: true,
+      },
     });
 
     if (!project) {
@@ -62,11 +65,7 @@ export class ProjectService {
       );
     }
 
-    const projectGoals = await this.prisma.goal.findMany({
-      where: { projectId: project.id },
-    });
-
-    return { ...project, projectGoals };
+    return project;
   }
 
   async editProjet(userId: number, projectId: number, dto: EditProjectDto) {
@@ -83,6 +82,7 @@ export class ProjectService {
     const updatedProject = await this.prisma.project.update({
       where: { id: projectId },
       data: { ...dto },
+      include: { goals: true },
     });
 
     if (!updatedProject) {
