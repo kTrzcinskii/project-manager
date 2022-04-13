@@ -11,6 +11,21 @@ import { status } from './types';
 export class ProjectService {
   constructor(private prisma: PrismaService) {}
 
+  async getSingleProject(userId: number, projectId: number) {
+    const project = await this.prisma.project.findUnique({
+      where: {
+        id: projectId,
+      },
+      include: { goals: true },
+    });
+
+    if (!project || project.userId !== userId) {
+      throw new NotFoundException('Project with provided id does not exist');
+    }
+
+    return project;
+  }
+
   async createProject(userId: number, dto: CreateProjectDto) {
     const currentDate = new Date().getTime();
     const deadlineDate = new Date(dto.deadline).getTime();

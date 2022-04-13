@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseIntPipe,
   Patch,
@@ -18,6 +19,14 @@ import { ProjectService } from './project.service';
 @Controller('projects')
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
+
+  @Get(':id')
+  getSingleProject(
+    @GetCurrentUser() user: Payload,
+    @Param('id', ParseIntPipe) projectId: number,
+  ) {
+    return this.projectService.getSingleProject(user.sub, projectId);
+  }
 
   @Post('create')
   createProject(
