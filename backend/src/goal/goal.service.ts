@@ -15,6 +15,7 @@ export class GoalService {
   async addNewGoal(userId: number, projectId: number, dto: CreateGoalDto) {
     const project = await this.prisma.project.findUnique({
       where: { id: projectId },
+      include: { goals: true },
     });
 
     if (!project || project.userId !== userId) {
@@ -26,9 +27,7 @@ export class GoalService {
     let progressBar = project.progressBar;
 
     if (project.progressBar !== 0) {
-      const allGoals = await this.prisma.goal.findMany({
-        where: { projectId: project.id },
-      });
+      const allGoals = project.goals;
       const completedGoals = allGoals.filter((goal) => goal.completed);
       progressBar = Math.round(
         (completedGoals.length / (allGoals.length + 1)) * 100,
@@ -49,6 +48,7 @@ export class GoalService {
         progressBar,
         status,
       },
+      include: { goals: true },
     });
 
     if (!updatedProject) {
@@ -57,34 +57,29 @@ export class GoalService {
       );
     }
 
-    const projectGoals = await this.prisma.goal.findMany({
-      where: { projectId: updatedProject.id },
-    });
-
-    return { ...updatedProject, projectGoals };
+    return updatedProject;
   }
 
   async deleteGoal(userId: number, goalId: number) {
-    const goal = await this.prisma.goal.findUnique({ where: { id: goalId } });
-    const projectId = goal.projectId;
-    const project = await this.prisma.project.findUnique({
-      where: { id: projectId },
+    const project = await this.prisma.project.findFirst({
+      where: { goals: { some: { id: goalId } } },
+      include: { goals: true },
     });
-    if (
-      !goal ||
-      !project ||
-      project.userId !== userId ||
-      goal.projectId !== projectId
-    ) {
+
+    if (!project) {
+      throw new NotFoundException('Goal with provided id does not exist');
+    }
+
+    const goal = project.goals.find((goal) => goal.id === goalId);
+
+    if (!goal || project.userId !== userId) {
       throw new NotFoundException(
         'The goal you are trying to delete does not exist',
       );
     }
 
-    const goalsNumber = await this.prisma.goal.findMany({
-      where: { projectId: projectId },
-    });
-    if (goalsNumber.length <= 1) {
+    const goalsNumber = project.goals.length;
+    if (goalsNumber <= 1) {
       throw new BadRequestException(
         'Your project must containt at least one goal',
       );
@@ -94,9 +89,7 @@ export class GoalService {
 
     const goalValue = goal.completed ? 1 : 0;
 
-    const allGoals = await this.prisma.goal.findMany({
-      where: { projectId: project.id },
-    });
+    const allGoals = project.goals;
     const completedGoals = allGoals.filter((goal) => goal.completed);
     progressBar = Math.round(
       ((completedGoals.length - goalValue) / (allGoals.length - 1)) * 100,
@@ -109,8 +102,9 @@ export class GoalService {
 
     await this.prisma.goal.delete({ where: { id: goalId } });
     const updatedProject = await this.prisma.project.update({
-      where: { id: projectId },
+      where: { id: project.id },
       data: { status, progressBar },
+      include: { goals: true },
     });
 
     if (!updatedProject) {
@@ -119,35 +113,26 @@ export class GoalService {
       );
     }
 
-    const projectGoals = allGoals.filter((goal) => goal.id !== goalId);
-
-    return { ...updatedProject, projectGoals };
+    return updatedProject;
   }
 
   async updateGoal(userId: number, goalId: number) {
-    const goal = await this.prisma.goal.findUnique({ where: { id: goalId } });
-
-    if (!goal) {
-      throw new NotFoundException('There is no goal with provided id');
-    }
-
-    const project = await this.prisma.project.findUnique({
-      where: { id: goal.projectId },
+    const project = await this.prisma.project.findFirst({
+      where: { goals: { some: { id: goalId } } },
+      include: { goals: true },
     });
 
     if (!project) {
-      throw new InternalServerErrorException(
-        'There is a problem with a server, try again later',
-      );
+      throw new NotFoundException('Goal with provided id does not exist');
     }
 
-    if (project.userId !== userId) {
-      throw new NotFoundException('There is no goal with provided id');
+    const goal = project.goals.find((goal) => goal.id === goalId);
+
+    if (!goal || project.userId !== userId) {
+      throw new NotFoundException('Goal with provided id does not exist');
     }
 
-    const allGoals = await this.prisma.goal.findMany({
-      where: { projectId: project.id },
-    });
+    const allGoals = project.goals;
     const allGoalsNumber = allGoals.length;
     let completedGoalsNumber = allGoals.filter((goal) => goal.completed).length;
 
@@ -181,6 +166,7 @@ export class GoalService {
         progressBar,
         status,
       },
+      select: { progressBar: true, status: true },
     });
 
     return {
@@ -194,33 +180,22 @@ export class GoalService {
     goalId: number,
     dto: ChangeGoalContentDto,
   ) {
-    if (!goalId) {
+    const project = await this.prisma.project.findFirst({
+      where: { goals: { some: { id: goalId } } },
+      include: { goals: true },
+    });
+
+    if (!project || project.userId !== userId) {
       throw new NotFoundException(
         'The goal you are trying to edit does not exist',
       );
     }
 
-    const goal = await this.prisma.goal.findUnique({ where: { id: goalId } });
+    const goal = project.goals.find((goal) => goal.id === goalId);
 
     if (!goal) {
       throw new NotFoundException(
         'The goal you are trying to edit does not exist',
-      );
-    }
-
-    const project = await this.prisma.project.findUnique({
-      where: { id: goal.projectId },
-    });
-
-    if (project.userId !== userId) {
-      throw new NotFoundException(
-        'The goal you are trying to edit does not exist',
-      );
-    }
-
-    if (!project) {
-      throw new NotFoundException(
-        'The project containing the goal you are trying to edit does not exist',
       );
     }
 
