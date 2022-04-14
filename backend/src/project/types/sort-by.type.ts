@@ -11,6 +11,6 @@ export const sortByTypes = [
   'status_desc',
   'priority_asc',
   'priority_desc',
-];
+] as const;
 
 export type sortBy = typeof sortByTypes[number];
