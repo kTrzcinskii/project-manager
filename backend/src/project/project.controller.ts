@@ -7,12 +7,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Payload } from 'src/auth/types';
 import { GetCurrentUser } from 'src/common/decorators';
 import { AtGuard } from 'src/common/guards';
-import { CreateProjectDto, EditProjectDto } from './dto';
+import { CreateProjectDto, EditProjectDto, QueryParamDto } from './dto';
 import { ProjectService } from './project.service';
 
 @UseGuards(AtGuard)
@@ -26,6 +27,15 @@ export class ProjectController {
     @Param('id', ParseIntPipe) projectId: number,
   ) {
     return this.projectService.getSingleProject(user.sub, projectId);
+  }
+
+  //TODO:
+  @Get('')
+  getAllProjects(
+    @GetCurrentUser() user: Payload,
+    @Query() query: QueryParamDto,
+  ) {
+    return this.projectService.getAllProjects(user.sub, query);
   }
 
   @Post('create')

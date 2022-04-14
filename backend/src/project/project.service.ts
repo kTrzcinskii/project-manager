@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateProjectDto, EditProjectDto } from './dto';
+import { CreateProjectDto, EditProjectDto, QueryParamDto } from './dto';
 import { status } from './types';
 
 @Injectable()
@@ -24,6 +24,44 @@ export class ProjectService {
     }
 
     return project;
+  }
+
+  async getAllProjects(userId: number, query: QueryParamDto) {
+    const numberOfProjects = Number(query.limit) || 6;
+    const page = Number(query.page) || 0;
+    const sortBy = query.srt && query.srt.split('_');
+
+    let orderObj: any = {};
+    if (sortBy && sortBy.length === 2) {
+      orderObj[sortBy[0]] = sortBy[1];
+    } else {
+      orderObj['createdAt'] = 'desc';
+    }
+
+    const allProject = await this.prisma.project.findMany({
+      where: { userId },
+      select: {
+        createdAt: true,
+        deadline: true,
+        title: true,
+        favorite: true,
+        id: true,
+        priority: true,
+        progressBar: true,
+        status: true,
+      },
+      take: numberOfProjects + 1,
+      skip: page * numberOfProjects,
+      orderBy: orderObj,
+    });
+
+    let hasMore = false;
+    const projects = allProject.slice(0, numberOfProjects);
+    if (allProject.length === numberOfProjects + 1) {
+      hasMore = true;
+    }
+
+    return { projects, hasMore };
   }
 
   async createProject(userId: number, dto: CreateProjectDto) {

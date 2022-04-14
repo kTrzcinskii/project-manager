@@ -1,2 +1,3 @@
-export * from './status.types';
-export * from './priority.types';
+export * from './status.type';
+export * from './priority.type';
+export * from './sort-by.type';
