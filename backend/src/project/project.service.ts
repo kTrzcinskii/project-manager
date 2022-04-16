@@ -129,7 +129,7 @@ export class ProjectService {
 
     if (filteredProjects) {
       return {
-        filteredProjects,
+        projects: filteredProjects,
         hasMore: filteredProjects.length < projects.length ? true : hasMore,
       };
     }
