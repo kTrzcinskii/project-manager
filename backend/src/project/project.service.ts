@@ -59,8 +59,10 @@ export class ProjectService {
       orderObj['createdAt'] = 'desc';
     }
 
+    const filterObj = this.getFilters(query);
+
     const allProject = await this.prisma.project.findMany({
-      where: { userId },
+      where: { userId, ...filterObj },
       select: {
         createdAt: true,
         deadline: true,
@@ -116,6 +118,20 @@ export class ProjectService {
         const timeLeft = this.transfromTime(deadlineDate - currentDate);
         project.timeLeft = timeLeft;
       }
+    }
+
+    let filteredProjects: ProjectsWithTimeLeft[] | undefined = undefined;
+    if (query.status) {
+      filteredProjects = projects.filter(
+        (project) => project.status === query.status,
+      );
+    }
+
+    if (filteredProjects) {
+      return {
+        filteredProjects,
+        hasMore: filteredProjects.length < projects.length ? true : hasMore,
+      };
     }
 
     return { projects, hasMore };
@@ -250,5 +266,20 @@ export class ProjectService {
       return `${years} year`;
     }
     return `${years} years`;
+  }
+
+  getFilters(query: QueryParamDto) {
+    let filterObj: any = {};
+    if (query.favorite) {
+      filterObj.favorite = query.favorite === 'true';
+    }
+    if (query.priority) {
+      filterObj.priority = query.priority;
+    }
+    if (query.title) {
+      filterObj.title = { contains: query.title };
+    }
+
+    return filterObj;
   }
 }

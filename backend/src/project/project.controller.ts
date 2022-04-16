@@ -29,7 +29,6 @@ export class ProjectController {
     return this.projectService.getSingleProject(user.sub, projectId);
   }
 
-  //TODO:
   @Get('')
   getAllProjects(
     @GetCurrentUser() user: Payload,
