@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProjectDto, EditProjectDto, QueryParamDto } from './dto';
-import { status } from './types';
+import { ProjectsWithTimeLeft, status } from './types';
 
 @Injectable()
 export class ProjectService {
@@ -21,6 +21,27 @@ export class ProjectService {
 
     if (!project || project.userId !== userId) {
       throw new NotFoundException('Project with provided id does not exist');
+    }
+
+    const currentDate = new Date().getTime();
+    const deadlineDate = new Date(project.deadline).getTime();
+    let updatedProject: any = undefined;
+    if (project.status === 'inProgress' && currentDate > deadlineDate) {
+      updatedProject = await this.prisma.project.update({
+        where: { id: projectId },
+        data: { status: 'backlog' },
+        include: { goals: true },
+      });
+
+      if (!updatedProject) {
+        throw new InternalServerErrorException(
+          'There is a problem with the server, please try again later',
+        );
+      }
+    }
+
+    if (updatedProject) {
+      return updatedProject;
     }
 
     return project;
@@ -56,9 +77,45 @@ export class ProjectService {
     });
 
     let hasMore = false;
-    const projects = allProject.slice(0, numberOfProjects);
+    const projects: ProjectsWithTimeLeft[] = allProject.slice(
+      0,
+      numberOfProjects,
+    );
     if (allProject.length === numberOfProjects + 1) {
       hasMore = true;
+    }
+
+    const currentDate = new Date().getTime();
+
+    for (const project of projects) {
+      const deadlineDate = new Date(project.deadline).getTime();
+      if (project.status === 'inProgress' && currentDate > deadlineDate) {
+        const updatedProject = await this.prisma.project.update({
+          where: { id: project.id },
+          data: { status: 'backlog' },
+          select: {
+            createdAt: true,
+            deadline: true,
+            title: true,
+            favorite: true,
+            id: true,
+            priority: true,
+            progressBar: true,
+            status: true,
+          },
+        });
+        if (!updatedProject) {
+          throw new InternalServerErrorException(
+            'There is a problem with the server, please try again later',
+          );
+        }
+        project.status = updatedProject.status;
+      }
+
+      if (project.status === 'inProgress') {
+        const timeLeft = this.transfromTime(deadlineDate - currentDate);
+        project.timeLeft = timeLeft;
+      }
     }
 
     return { projects, hasMore };
@@ -144,5 +201,54 @@ export class ProjectService {
     await this.prisma.project.delete({ where: { id: projectId } });
 
     return { successful: true };
+  }
+
+  //! UTILS
+
+  transfromTime(time: number) {
+    const seconds = Math.floor(time / 1000);
+    if (seconds < 60) {
+      return `${seconds} seconds`;
+    }
+    const minutes = Math.floor(seconds / 60);
+    if (minutes === 1) {
+      return `${minutes} minute`;
+    }
+    if (minutes < 60) {
+      return `${minutes} minutes`;
+    }
+    const hours = Math.floor(minutes / 60);
+    if (hours === 1) {
+      return `${hours} hour`;
+    }
+    if (hours < 24) {
+      return `${hours} hours`;
+    }
+    const days = Math.floor(hours / 24);
+    if (days === 1) {
+      return `${days} day`;
+    }
+    if (days < 7) {
+      return `${days} days`;
+    }
+    const weeks = Math.floor(days / 7);
+    if (weeks === 1) {
+      return `${weeks} week`;
+    }
+    if (weeks > 1 && days < 31) {
+      return `${weeks} weeks`;
+    }
+    const months = Math.floor(days / 31);
+    if (months === 1) {
+      return `${months} month`;
+    }
+    if (months < 12) {
+      return `${months} months`;
+    }
+    const years = Math.floor(months / 12);
+    if (years === 1) {
+      return `${years} year`;
+    }
+    return `${years} years`;
   }
 }
