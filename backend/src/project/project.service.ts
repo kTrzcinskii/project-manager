@@ -50,14 +50,8 @@ export class ProjectService {
   async getAllProjects(userId: number, query: QueryParamDto) {
     const numberOfProjects = Number(query.limit) || 6;
     const page = Number(query.page) || 0;
-    const sortBy = query.srt && query.srt.split('_');
 
-    let orderObj: any = {};
-    if (sortBy && sortBy.length === 2) {
-      orderObj[sortBy[0]] = sortBy[1];
-    } else {
-      orderObj['createdAt'] = 'desc';
-    }
+    const orderObj = this.getOrder(query);
 
     const filterObj = this.getFilters(query);
 
@@ -266,6 +260,19 @@ export class ProjectService {
       return `${years} year`;
     }
     return `${years} years`;
+  }
+
+  getOrder(query: QueryParamDto) {
+    const sortBy = query.srt && query.srt.split('_');
+
+    let orderObj: any = {};
+    if (sortBy && sortBy.length === 2) {
+      orderObj[sortBy[0]] = sortBy[1];
+    } else {
+      orderObj['createdAt'] = 'desc';
+    }
+
+    return orderObj;
   }
 
   getFilters(query: QueryParamDto) {
