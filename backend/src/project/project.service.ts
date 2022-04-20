@@ -48,8 +48,8 @@ export class ProjectService {
   }
 
   async getAllProjects(userId: number, query: QueryParamDto) {
-    const numberOfProjects = Number(query.limit) || 6;
-    const page = Number(query.page) || 0;
+    const numberOfProjects = query.limit || 6;
+    const page = query.page || 0;
 
     const orderObj = this.getOrder(query);
 

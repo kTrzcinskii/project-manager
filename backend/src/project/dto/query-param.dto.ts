@@ -1,8 +1,10 @@
+import { Type } from 'class-transformer';
 import {
+  IsBoolean,
   IsBooleanString,
   IsDateString,
   IsIn,
-  IsNumberString,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -17,12 +19,14 @@ import {
 
 export class QueryParamDto {
   @IsOptional()
-  @IsNumberString()
-  page?: string;
+  @IsNumber()
+  @Type(() => Number)
+  page?: number;
 
   @IsOptional()
-  @IsNumberString()
-  limit?: string;
+  @IsNumber()
+  @Type(() => Number)
+  limit?: number;
 
   @IsOptional()
   @IsIn(sortByTypes)
