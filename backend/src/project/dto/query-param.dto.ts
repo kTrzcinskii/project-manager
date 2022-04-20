@@ -1,9 +1,14 @@
+import { Type } from 'class-transformer';
 import {
+  IsBoolean,
   IsBooleanString,
+  IsDateString,
   IsIn,
-  IsNumberString,
+  IsNumber,
   IsOptional,
   IsString,
+  Max,
+  Min,
 } from 'class-validator';
 import {
   priority,
@@ -16,12 +21,14 @@ import {
 
 export class QueryParamDto {
   @IsOptional()
-  @IsNumberString()
-  page?: string;
+  @IsNumber()
+  @Type(() => Number)
+  page?: number;
 
   @IsOptional()
-  @IsNumberString()
-  limit?: string;
+  @IsNumber()
+  @Type(() => Number)
+  limit?: number;
 
   @IsOptional()
   @IsIn(sortByTypes)
@@ -42,4 +49,42 @@ export class QueryParamDto {
   @IsOptional()
   @IsString()
   title?: string;
+
+  @IsOptional()
+  @IsDateString()
+  deadlineFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  deadlineTo?: string;
+
+  @IsOptional()
+  @IsDateString()
+  createdFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  createdTo?: string;
+
+  @IsOptional()
+  @IsDateString()
+  updatedFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  updatedTo?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(100)
+  @Type(() => Number)
+  progressBarFrom: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(100)
+  @Type(() => Number)
+  progressBarTo: number;
 }

@@ -48,8 +48,8 @@ export class ProjectService {
   }
 
   async getAllProjects(userId: number, query: QueryParamDto) {
-    const numberOfProjects = Number(query.limit) || 6;
-    const page = Number(query.page) || 0;
+    const numberOfProjects = query.limit || 6;
+    const page = query.page || 0;
 
     const orderObj = this.getOrder(query);
 
@@ -59,6 +59,7 @@ export class ProjectService {
       where: { userId, ...filterObj },
       select: {
         createdAt: true,
+        updatedAt: true,
         deadline: true,
         title: true,
         favorite: true,
@@ -91,6 +92,7 @@ export class ProjectService {
           data: { status: 'backlog' },
           select: {
             createdAt: true,
+            updatedAt: true,
             deadline: true,
             title: true,
             favorite: true,
@@ -285,6 +287,82 @@ export class ProjectService {
     }
     if (query.title) {
       filterObj.title = { contains: query.title };
+    }
+
+    if (query.deadlineFrom && query.deadlineTo) {
+      filterObj.deadline = {
+        gte: new Date(query.deadlineFrom),
+        lte: new Date(query.deadlineTo),
+      };
+    }
+
+    if (query.deadlineFrom && !query.deadlineTo) {
+      filterObj.deadline = {
+        gte: new Date(query.deadlineFrom),
+      };
+    }
+
+    if (!query.deadlineFrom && query.deadlineTo) {
+      filterObj.deadline = {
+        lte: new Date(query.deadlineTo),
+      };
+    }
+
+    if (query.createdFrom && query.createdTo) {
+      filterObj.createdAt = {
+        gte: new Date(query.createdFrom),
+        lte: new Date(query.createdTo),
+      };
+    }
+
+    if (query.createdFrom && !query.createdTo) {
+      filterObj.createdAt = {
+        gte: new Date(query.createdFrom),
+      };
+    }
+
+    if (!query.createdFrom && query.createdTo) {
+      filterObj.createdAt = {
+        lte: new Date(query.createdTo),
+      };
+    }
+
+    if (query.updatedFrom && query.updatedTo) {
+      filterObj.updatedAt = {
+        gte: new Date(query.updatedFrom),
+        lte: new Date(query.updatedTo),
+      };
+    }
+
+    if (query.updatedFrom && !query.updatedTo) {
+      filterObj.updatedAt = {
+        gte: new Date(query.updatedFrom),
+      };
+    }
+
+    if (!query.updatedFrom && query.updatedTo) {
+      filterObj.updatedAt = {
+        lte: new Date(query.updatedTo),
+      };
+    }
+
+    if (query.progressBarFrom && query.progressBarTo) {
+      filterObj.progressBar = {
+        gte: query.progressBarFrom,
+        lte: query.progressBarTo,
+      };
+    }
+
+    if (query.progressBarFrom && !query.progressBarTo) {
+      filterObj.progressBar = {
+        gte: query.progressBarFrom,
+      };
+    }
+
+    if (!query.progressBarFrom && query.progressBarTo) {
+      filterObj.progressBar = {
+        lte: query.progressBarTo,
+      };
     }
 
     return filterObj;
