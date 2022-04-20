@@ -346,6 +346,25 @@ export class ProjectService {
       };
     }
 
+    if (query.progressBarFrom && query.progressBarTo) {
+      filterObj.progressBar = {
+        gte: query.progressBarFrom,
+        lte: query.progressBarTo,
+      };
+    }
+
+    if (query.progressBarFrom && !query.progressBarTo) {
+      filterObj.progressBar = {
+        gte: query.progressBarFrom,
+      };
+    }
+
+    if (!query.progressBarFrom && query.progressBarTo) {
+      filterObj.progressBar = {
+        lte: query.progressBarTo,
+      };
+    }
+
     return filterObj;
   }
 }
