@@ -1,5 +1,6 @@
 export interface ProjectsWithTimeLeft {
   createdAt: Date;
+  updatedAt: Date;
   deadline: Date;
   title: string;
   favorite: boolean;

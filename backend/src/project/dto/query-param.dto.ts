@@ -1,5 +1,6 @@
 import {
   IsBooleanString,
+  IsDateString,
   IsIn,
   IsNumberString,
   IsOptional,
@@ -42,4 +43,28 @@ export class QueryParamDto {
   @IsOptional()
   @IsString()
   title?: string;
+
+  @IsOptional()
+  @IsDateString()
+  deadlineFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  deadlineTo?: string;
+
+  @IsOptional()
+  @IsDateString()
+  createdFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  createdTo?: string;
+
+  @IsOptional()
+  @IsDateString()
+  updatedFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  updatedTo?: string;
 }
