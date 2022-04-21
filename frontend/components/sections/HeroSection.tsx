@@ -5,8 +5,9 @@ import {
   VStack,
   useBreakpointValue,
   Stack,
+  Box,
 } from "@chakra-ui/react";
-import HeroBtn from "./HeroBtn";
+import HeroBtn from "../ui/HeroBtn";
 
 const HeroSection: React.FC = ({}) => {
   return (
@@ -16,6 +17,7 @@ const HeroSection: React.FC = ({}) => {
       backgroundImage={"url(/images/hero_image.jpg)"}
       backgroundSize={"cover"}
       backgroundPosition={"center center"}
+      id='hero_section'
     >
       <VStack
         w={"full"}
@@ -42,11 +44,11 @@ const HeroSection: React.FC = ({}) => {
             })}
           >
             <Heading
-              color={"teal.300"}
+              color={"teal.400"}
               fontWeight={600}
               lineHeight={1.2}
               fontSize={useBreakpointValue({
-                base: "3xl",
+                base: "4xl",
                 md: "5xl",
                 lg: "6xl",
                 xl: "7xl",
@@ -61,19 +63,39 @@ const HeroSection: React.FC = ({}) => {
                 md: "xl",
                 lg: "2xl",
               })}
+              align='justify'
             >
               Take care of all your projects in one place with this powerful
-              website. Project Manager has all you need to conveniently keep
-              track of your goals and progress!
+              website. Project Manager has{" "}
+              <Box as='span' color='teal.400'>
+                all you need
+              </Box>{" "}
+              to conveniently keep track of your goals and progress!
             </Text>
           </Stack>
-          <Stack direction={"row"} w='full' justifyContent='center' spacing={5}>
-            <HeroBtn type='primary'>Login</HeroBtn>
-            <HeroBtn type='primary'>Register</HeroBtn>
-          </Stack>
-          <Stack mt={3} direction={"row"} w='full' justifyContent='center'>
-            <HeroBtn type='secondary'>Learn More</HeroBtn>
-          </Stack>
+          <Flex
+            direction={useBreakpointValue({
+              base: "column",
+              md: "row",
+            })}
+            w='full'
+            justifyContent={"space-between"}
+          >
+            <Stack direction={"row"} justifyContent='center' spacing={5}>
+              <HeroBtn type='primary'>Login</HeroBtn>
+              <HeroBtn type='primary'>Register</HeroBtn>
+            </Stack>
+            <Stack
+              direction={"row"}
+              justifyContent='center'
+              mt={useBreakpointValue({
+                base: 3,
+                md: 0,
+              })}
+            >
+              <HeroBtn type='secondary'>Learn More</HeroBtn>
+            </Stack>
+          </Flex>
         </Stack>
       </VStack>
     </Flex>

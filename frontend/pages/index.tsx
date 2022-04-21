@@ -1,11 +1,12 @@
 import type { NextPage } from "next";
-import HeroSection from "../components/HeroSection";
+import { Box } from "@chakra-ui/react";
+import HeroSection from "../components/sections/HeroSection";
 
 const Home: NextPage = () => {
   return (
-    <div>
+    <Box>
       <HeroSection />
-    </div>
+    </Box>
   );
 };
 
