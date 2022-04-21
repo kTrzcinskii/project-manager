@@ -5,8 +5,6 @@ import {
   VStack,
   useBreakpointValue,
   Stack,
-  Box,
-  Button,
 } from "@chakra-ui/react";
 import HeroBtn from "./HeroBtn";
 
