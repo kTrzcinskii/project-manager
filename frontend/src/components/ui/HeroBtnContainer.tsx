@@ -12,8 +12,12 @@ const HeroBtnContainer: React.FC = () => {
       justifyContent={"space-between"}
     >
       <HStack justifyContent='center' spacing={{ base: 5, lg: 8 }}>
-        <HeroBtn type='primary'>Login</HeroBtn>
-        <HeroBtn type='primary'>Register</HeroBtn>
+        <HeroBtn type='primary' href='/login'>
+          Login
+        </HeroBtn>
+        <HeroBtn type='primary' href='/register'>
+          Register
+        </HeroBtn>
       </HStack>
       <Stack
         direction={"row"}
@@ -23,7 +27,9 @@ const HeroBtnContainer: React.FC = () => {
           md: 0,
         })}
       >
-        <HeroBtn type='secondary'>Learn More</HeroBtn>
+        <HeroBtn type='secondary' href='#toDo'>
+          Learn More
+        </HeroBtn>
       </Stack>
     </Flex>
   );
