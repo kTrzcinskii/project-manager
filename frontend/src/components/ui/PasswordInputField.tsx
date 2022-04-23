@@ -2,23 +2,22 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Input,
   InputGroup,
+  InputLeftElement,
   InputProps,
   InputRightElement,
 } from "@chakra-ui/react";
 import { useField } from "formik";
 import { InputHTMLAttributes, useState } from "react";
+import { LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 type PasswordInputFieldProps = InputHTMLAttributes<HTMLInputElement> &
   InputProps & {
-    label: string;
     name: string;
   };
 
 const PasswordInputField: React.FC<PasswordInputFieldProps> = ({
-  label,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -27,8 +26,10 @@ const PasswordInputField: React.FC<PasswordInputFieldProps> = ({
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>
-      <FormLabel htmlFor='password'>{label}</FormLabel>
       <InputGroup>
+        <InputLeftElement>
+          <LockIcon />
+        </InputLeftElement>
         <Input
           {...field}
           {...props}
@@ -36,8 +37,8 @@ const PasswordInputField: React.FC<PasswordInputFieldProps> = ({
           type={show ? "text" : "password"}
         />
         <InputRightElement>
-          <Button onClick={() => setShow(!show)}>
-            change me to an eye icon
+          <Button onClick={() => setShow(!show)} variant='unstyled' _focus={{}}>
+            {show ? <ViewOffIcon /> : <ViewIcon />}
           </Button>
         </InputRightElement>
       </InputGroup>

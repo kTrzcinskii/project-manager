@@ -1,26 +1,31 @@
 import {
+  ComponentWithAs,
   FormControl,
   FormErrorMessage,
-  FormLabel,
+  IconProps,
   Input,
+  InputGroup,
+  InputLeftElement,
   InputProps,
 } from "@chakra-ui/react";
 import { useField } from "formik";
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, ReactNode } from "react";
 
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> &
   InputProps & {
-    label: string;
     name: string;
+    icon?: ReactNode;
   };
 
-const InputField: React.FC<InputFieldProps> = ({ label, ...props }) => {
+const InputField: React.FC<InputFieldProps> = ({ icon, ...props }) => {
   const [field, meta] = useField(props);
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>
-      <FormLabel htmlFor={field.name}>{label}</FormLabel>
-      <Input {...field} {...props} id={field.name} />
+      <InputGroup>
+        {icon && <InputLeftElement>{icon}</InputLeftElement>}
+        <Input {...field} {...props} id={field.name} />
+      </InputGroup>
       <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>
   );

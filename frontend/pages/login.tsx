@@ -1,11 +1,14 @@
 import {
   Container,
   Heading,
+  Link,
+  Text,
   useBreakpointValue,
   VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import LoginForm from "../src/components/sections/LoginForm";
+import NextLink from 'next/link'
 
 const Login: NextPage = () => {
   return (
@@ -18,15 +21,23 @@ const Login: NextPage = () => {
       >
         <VStack
           w='full'
-          spacing={useBreakpointValue({ base: 5, md: 6, lg: 8 })}
+          spacing={useBreakpointValue({ base: 5, md: 8, lg: 12 })}
           align='flex-start'
         >
-          <Heading
-            mx='auto'
-            size={useBreakpointValue({ base: "lg", md: "xl" })}
-          >
-            Login to Your Account
-          </Heading>
+          <VStack w='full' align='flex-start' spacing={3}>
+            <Heading
+              mx='auto'
+              size={useBreakpointValue({ base: "lg", md: "xl" })}
+            >
+              Login to Your Account
+            </Heading>
+            <Text>
+              Don&apos;t have an account?{" "}
+              <NextLink href='register' passHref>
+                <Link>Create one here!</Link>
+              </NextLink>
+            </Text>
+          </VStack>
           <LoginForm />
         </VStack>
       </Container>

@@ -1,7 +1,9 @@
+import { useBreakpointValue, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import LoginFormSchema from "../../utils/loginFormSchema";
+import LoginFormSchema from "../../utils/LoginFormSchema";
 import InputField from "../ui/InputField";
 import PasswordInputField from "../ui/PasswordInputField";
+import { AtSignIcon } from "@chakra-ui/icons";
 
 interface LoginFormValues {
   email: string;
@@ -10,6 +12,8 @@ interface LoginFormValues {
 
 const LoginForm: React.FC = () => {
   const initialVaules: LoginFormValues = { email: "", password: "" };
+
+  const formSpacing = useBreakpointValue({ base: 4, md: 6, lg: 8 });
 
   return (
     <Formik
@@ -21,17 +25,15 @@ const LoginForm: React.FC = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <InputField
-            label='Email'
-            name='email'
-            type='email'
-            placeholder='Enter email'
-          />
-          <PasswordInputField
-            label='Password'
-            name='password'
-            placeholder='Enter password'
-          />
+          <VStack w='full' align='flex-start' spacing={formSpacing}>
+            <InputField
+              name='email'
+              type='email'
+              placeholder='Email'
+              icon={<AtSignIcon />}
+            />
+            <PasswordInputField name='password' placeholder='Password' />
+          </VStack>
         </Form>
       )}
     </Formik>
