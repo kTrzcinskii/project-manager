@@ -4,14 +4,10 @@ import LoginFormSchema from "../../utils/LoginFormSchema";
 import InputField from "../ui/InputField";
 import PasswordInputField from "../ui/PasswordInputField";
 import { AtSignIcon } from "@chakra-ui/icons";
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
+import ILoginFormValues from "../../lib/interfaces/ILoginFormValues";
 
 const LoginForm: React.FC = () => {
-  const initialValues: LoginFormValues = { email: "", password: "" };
+  const initialValues: ILoginFormValues = { email: "", password: "" };
 
   const formSpacing = useBreakpointValue({ base: 4, md: 6, lg: 8 });
 
