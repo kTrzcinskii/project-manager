@@ -1,5 +1,5 @@
 import axios from "axios";
-import IRegisterFormValues from "../lib/interfaces/IRegisterFormValues";
+import IRegisterFormValues from "../interfaces/IRegisterFormValues";
 
 const endpoint = `${process.env.BACKEND_ENDPOINT}/auth/local/signup`;
 

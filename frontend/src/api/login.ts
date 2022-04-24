@@ -1,5 +1,5 @@
 import axios from "axios";
-import ILoginFormValues from "../lib/interfaces/ILoginFormValues";
+import ILoginFormValues from "../interfaces/ILoginFormValues";
 
 const endpoint = `${process.env.BACKEND_ENDPOINT}/auth/local/signin`;
 

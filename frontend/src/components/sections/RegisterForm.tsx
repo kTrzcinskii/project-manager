@@ -5,7 +5,7 @@ import RegisterFormSchema from "../../utils/RegisterFormSchema";
 import InputField from "../ui/InputField";
 import PasswordInputField from "../ui/PasswordInputField";
 import { FaUser } from "react-icons/fa";
-import IRegisterFormValues from "../../lib/interfaces/IRegisterFormValues";
+import IRegisterFormValues from "../../interfaces/IRegisterFormValues";
 
 const RegisterForm: React.FC = () => {
   const initialValues: IRegisterFormValues = {

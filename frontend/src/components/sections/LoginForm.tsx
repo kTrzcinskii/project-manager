@@ -4,7 +4,7 @@ import LoginFormSchema from "../../utils/LoginFormSchema";
 import InputField from "../ui/InputField";
 import PasswordInputField from "../ui/PasswordInputField";
 import { AtSignIcon } from "@chakra-ui/icons";
-import ILoginFormValues from "../../lib/interfaces/ILoginFormValues";
+import ILoginFormValues from "../../interfaces/ILoginFormValues";
 
 const LoginForm: React.FC = () => {
   const initialValues: ILoginFormValues = { email: "", password: "" };
