@@ -8,40 +8,40 @@ import {
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import LoginForm from "../src/components/sections/LoginForm";
-import NextLink from 'next/link'
+import NextLink from "next/link";
+import GradientBg from "../src/components/ui/GradientBg";
+import FormContainer from "../src/components/ui/FormContainer";
 
 const Login: NextPage = () => {
   return (
-    <VStack alignItems='center' justifyContent='center' minH='100vh'>
-      <Container
-        maxW={useBreakpointValue({
-          base: "90%",
-          md: "2xl",
-        })}
-      >
+    <GradientBg>
+      <FormContainer>
         <VStack
           w='full'
-          spacing={useBreakpointValue({ base: 5, md: 8, lg: 12 })}
-          align='flex-start'
+          spacing={useBreakpointValue({ base: 4, md: 6, lg: 8 })}
+          align='center'
         >
-          <VStack w='full' align='flex-start' spacing={3}>
-            <Heading
-              mx='auto'
-              size={useBreakpointValue({ base: "lg", md: "xl" })}
-            >
-              Login to Your Account
-            </Heading>
-            <Text>
-              Don&apos;t have an account?{" "}
-              <NextLink href='register' passHref>
-                <Link>Create one here!</Link>
-              </NextLink>
-            </Text>
-          </VStack>
+          <Heading
+            size={useBreakpointValue({ base: "lg", md: "xl" })}
+            color='teal.800'
+          >
+            Login
+          </Heading>
           <LoginForm />
+          <Text
+            color='gray.500'
+            fontSize={useBreakpointValue({ base: "sm", md: "md" })}
+          >
+            Don&apos;t have an account?{" "}
+            <NextLink href='/register' passHref>
+              <Link color='teal.600' fontWeight='semibold'>
+                Create one here!
+              </Link>
+            </NextLink>
+          </Text>
         </VStack>
-      </Container>
-    </VStack>
+      </FormContainer>
+    </GradientBg>
   );
 };
 

@@ -28,17 +28,23 @@ const PasswordInputField: React.FC<PasswordInputFieldProps> = ({
     <FormControl isInvalid={meta.touched && !!meta.error}>
       <InputGroup>
         <InputLeftElement>
-          <LockIcon />
+          <LockIcon color='teal.700' />
         </InputLeftElement>
         <Input
           {...field}
           {...props}
           id='passwword'
           type={show ? "text" : "password"}
+          variant='filled'
+          _focus={{ borderColor: "teal.500", borderWidth: 2 }}
         />
         <InputRightElement>
           <Button onClick={() => setShow(!show)} variant='unstyled' _focus={{}}>
-            {show ? <ViewOffIcon /> : <ViewIcon />}
+            {show ? (
+              <ViewOffIcon color='teal.700' />
+            ) : (
+              <ViewIcon color='teal.700' />
+            )}
           </Button>
         </InputRightElement>
       </InputGroup>

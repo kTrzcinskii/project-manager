@@ -24,7 +24,13 @@ const InputField: React.FC<InputFieldProps> = ({ icon, ...props }) => {
     <FormControl isInvalid={meta.touched && !!meta.error}>
       <InputGroup>
         {icon && <InputLeftElement>{icon}</InputLeftElement>}
-        <Input {...field} {...props} id={field.name} />
+        <Input
+          {...field}
+          {...props}
+          id={field.name}
+          variant='filled'
+          _focus={{ borderColor: "teal.500", borderWidth: 2 }}
+        />
       </InputGroup>
       <FormErrorMessage>{meta.error}</FormErrorMessage>
     </FormControl>

@@ -1,4 +1,4 @@
-import { useBreakpointValue, VStack } from "@chakra-ui/react";
+import { useBreakpointValue, VStack, Button } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import LoginFormSchema from "../../utils/LoginFormSchema";
 import InputField from "../ui/InputField";
@@ -30,9 +30,17 @@ const LoginForm: React.FC = () => {
               name='email'
               type='email'
               placeholder='Email'
-              icon={<AtSignIcon />}
+              icon={<AtSignIcon color='teal.700' />}
             />
             <PasswordInputField name='password' placeholder='Password' />
+            <Button
+              type='submit'
+              colorScheme='teal'
+              w='full'
+              _focus={{ ring: 3, ringColor: "teal.800" }}
+            >
+              Login
+            </Button>
           </VStack>
         </Form>
       )}
