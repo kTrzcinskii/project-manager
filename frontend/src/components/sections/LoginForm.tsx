@@ -11,13 +11,13 @@ interface LoginFormValues {
 }
 
 const LoginForm: React.FC = () => {
-  const initialVaules: LoginFormValues = { email: "", password: "" };
+  const initialValues: LoginFormValues = { email: "", password: "" };
 
   const formSpacing = useBreakpointValue({ base: 4, md: 6, lg: 8 });
 
   return (
     <Formik
-      initialValues={initialVaules}
+      initialValues={initialValues}
       onSubmit={(values, action) => {
         console.log(values);
       }}
