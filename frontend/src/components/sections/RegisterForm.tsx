@@ -8,9 +8,11 @@ import { FaUser } from "react-icons/fa";
 import IRegisterFormValues from "../../interfaces/IRegisterFormValues";
 import useRegister from "../../hooks/mutation/useRegister";
 import axios from "axios";
-import axiosInstance from "../../utils/axiosInstance";
+import { useRouter } from "next/router";
 
 const RegisterForm: React.FC = () => {
+  const router = useRouter();
+
   const initialValues: IRegisterFormValues = {
     username: "",
     email: "",
@@ -34,6 +36,7 @@ const RegisterForm: React.FC = () => {
           }
         } else {
           //TODO: Action after successful register
+          router.push("/home");
         }
       }}
       validationSchema={RegisterFormSchema}
@@ -65,6 +68,8 @@ const RegisterForm: React.FC = () => {
               colorScheme='teal'
               w='full'
               _focus={{ ring: 3, ringColor: "teal.800" }}
+              isLoading={isSubmitting}
+              loadingText='Register'
             >
               Register
             </Button>
