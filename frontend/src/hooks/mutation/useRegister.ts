@@ -10,5 +10,5 @@ export default function useRegister() {
     AxiosResponse<ISuccessful, any>,
     Error | AxiosError<IServerErrorResponse>,
     IRegisterFormValues
-  >(async (values: IRegisterFormValues) => await registerAPI(values));
+  >(async (values: IRegisterFormValues) => registerAPI(values));
 }

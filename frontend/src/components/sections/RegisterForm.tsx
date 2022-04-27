@@ -9,6 +9,7 @@ import IRegisterFormValues from "../../interfaces/IRegisterFormValues";
 import useRegister from "../../hooks/mutation/useRegister";
 import axios from "axios";
 import { useRouter } from "next/router";
+import transfromAPIErrors from "../../utils/transformAPIErrors";
 
 const RegisterForm: React.FC = () => {
   const router = useRouter();
@@ -27,17 +28,19 @@ const RegisterForm: React.FC = () => {
     <Formik
       initialValues={initialValues}
       onSubmit={(values, action) => {
-        console.log(values);
-        mutation.mutate(values);
-        if (mutation.isError) {
-          //TODO: Error Handling
-          if (axios.isAxiosError(mutation.error)) {
-            console.log(mutation.error.response?.data);
-          }
-        } else {
-          //TODO: Action after successful register
-          router.push("/home");
-        }
+        mutation.mutate(values, {
+          onSuccess: () => {
+            router.push("/home");
+          },
+          onError: (error) => {
+            action.setSubmitting(false);
+            if (axios.isAxiosError(error)) {
+              action.setErrors(
+                transfromAPIErrors(error, ["username", "email", "password"])
+              );
+            }
+          },
+        });
       }}
       validationSchema={RegisterFormSchema}
     >
