@@ -2,7 +2,7 @@ import { AxiosAuthRefreshRequestConfig } from "axios-auth-refresh";
 import ILoginFormValues from "../interfaces/ILoginFormValues";
 import axiosInstance from "../utils/axiosInstance";
 
-const endpoint = `${process.env.BACKEND_ENDPOINT}/auth/local/signin`;
+const endpoint = "/auth/local/signin";
 
 const loginAPI = (values: ILoginFormValues) => {
   return axiosInstance.post(endpoint, values, {
