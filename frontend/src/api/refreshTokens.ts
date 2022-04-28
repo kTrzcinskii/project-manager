@@ -3,7 +3,7 @@ import ISuccessful from "../interfaces/ISuccessful";
 
 const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/auth/refresh`;
 
-const refreshTokens = (failedRequest: any) => {
+const refreshTokens = (_failedRequest: any) => {
   return axios.post<ISuccessful>(endpoint, {}, { withCredentials: true });
 };
 
