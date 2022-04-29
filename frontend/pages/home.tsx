@@ -1,10 +1,7 @@
-import { AxiosResponse } from "axios";
 import type { NextPage, NextPageContext } from "next";
-import refreshTokensServerSide from "../src/api/refreshTokensServerSide";
 import IMe from "../src/interfaces/IMe";
 import isUserLoggedIn from "../src/utils/isUserLoggedIn";
 import setCookiesServerSide from "../src/utils/setCookiesServerSide";
-import transfromCookiesServerSide from "../src/utils/transformCookiesServerSide";
 
 const Home: NextPage<{
   logged: boolean;
@@ -21,7 +18,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
   let cookies = ctx.req?.headers.cookie;
 
   if (!cookies) {
-    return { props: { logged: false, user: {} } };
+    return { props: { logged: false, user: undefined } };
   }
 
   if (!cookies.includes("at=") && cookies.includes("rt=")) {
