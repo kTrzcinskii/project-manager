@@ -1,4 +1,11 @@
-import { Box, BoxProps, CloseButton, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  CloseButton,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
 import NavItem from "./NavItem";
 import SidebarLinks from "./SidebarLinks";
 
@@ -37,6 +44,19 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
           {link.text}
         </NavItem>
       ))}
+      <Flex
+        mt={{ base: 20, md: 28 }}
+        justifyContent='center'
+        alignItems='center'
+        pos='absolute'
+        bottom='0'
+        w='full'
+        mb={28}
+      >
+        <Button colorScheme='teal' w='full' maxW='200px'>
+          Logout
+        </Button>
+      </Flex>
     </Box>
   );
 };
