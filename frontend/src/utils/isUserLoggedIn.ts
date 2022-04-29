@@ -5,6 +5,6 @@ export default async function isUserLoggedIn(cookies: string) {
     const user = (await meServerSideAPI(cookies)).data;
     return { logged: true, user };
   } catch (error) {
-    return { logged: false, user: undefined };
+    return { logged: false, user: null };
   }
 }
