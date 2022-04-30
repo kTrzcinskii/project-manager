@@ -1,7 +1,7 @@
 import { Box, Drawer, DrawerContent, useDisclosure } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import MobileNav from "../ui/MobileNav";
-import SidebarContent from "../ui/SidebarContent";
+import MobileNav from "../ui/sidebar/MobileNav";
+import SidebarContent from "../ui/sidebar/SidebarContent";
 
 interface SidebarProps {
   children: ReactNode;

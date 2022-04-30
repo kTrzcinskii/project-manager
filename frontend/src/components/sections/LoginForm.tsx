@@ -1,8 +1,8 @@
 import { useBreakpointValue, VStack, Button, Text } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import LoginFormSchema from "../../utils/LoginFormSchema";
-import InputField from "../ui/InputField";
-import PasswordInputField from "../ui/PasswordInputField";
+import InputField from "../ui/form/InputField";
+import PasswordInputField from "../ui/form/PasswordInputField";
 import { AtSignIcon } from "@chakra-ui/icons";
 import ILoginFormValues from "../../interfaces/ILoginFormValues";
 import useLogin from "../../hooks/mutation/useLogin";

@@ -1,8 +1,6 @@
 import {
-  ComponentWithAs,
   FormControl,
   FormErrorMessage,
-  IconProps,
   Input,
   InputGroup,
   InputLeftElement,

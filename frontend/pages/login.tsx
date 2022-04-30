@@ -8,8 +8,8 @@ import {
 import type { NextPage } from "next";
 import LoginForm from "../src/components/sections/LoginForm";
 import NextLink from "next/link";
-import GradientBg from "../src/components/ui/GradientBg";
-import FormContainer from "../src/components/ui/FormContainer";
+import GradientBg from "../src/components/ui/utils/GradientBg";
+import FormContainer from "../src/components/ui/form/FormContainer";
 
 const Login: NextPage = () => {
   return (

@@ -7,8 +7,8 @@ import {
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import RegisterForm from "../src/components/sections/RegisterForm";
-import FormContainer from "../src/components/ui/FormContainer";
-import GradientBg from "../src/components/ui/GradientBg";
+import FormContainer from "../src/components/ui/form/FormContainer";
+import GradientBg from "../src/components/ui/utils/GradientBg";
 import NextLink from "next/link";
 
 const Register: NextPage = () => {

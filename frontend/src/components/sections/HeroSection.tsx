@@ -1,6 +1,6 @@
 import { Container, Flex, useBreakpointValue, VStack } from "@chakra-ui/react";
-import HeroBtnContainer from "../ui/HeroBtnContainer";
-import HeroText from "../ui/HeroText";
+import HeroBtnContainer from "../ui/hero/HeroBtnContainer";
+import HeroText from "../ui/hero/HeroText";
 
 const HeroSection: React.FC = ({}) => {
   return (
