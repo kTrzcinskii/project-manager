@@ -10,7 +10,13 @@ import NextLink from "next/link";
 
 const NotFoundPage: NextPage = () => {
   return (
-    <VStack h='100vh' w='full' justifyContent='center' spacing={10}>
+    <VStack
+      h='100vh'
+      w='full'
+      justifyContent='center'
+      spacing={10}
+      bgColor='gray.100'
+    >
       <Heading
         size={useBreakpointValue({ base: "2xl", md: "3xl" })}
         fontWeight='normal'
