@@ -2,66 +2,12 @@ import type { NextPage, NextPageContext } from "next";
 import Sidebar from "../src/components/sections/Sidebar";
 import IMe from "../src/interfaces/IMe";
 import isUserLoggedIn from "../src/utils/isUserLoggedIn";
+import redirectServerSide from "../src/utils/redirectServerSide";
 import setCookiesServerSide from "../src/utils/setCookiesServerSide";
 
 const Home: NextPage<{
-  logged: boolean;
-  user: IMe | null;
-}> = ({ logged, user }) => {
-  if (!logged || !user) {
-    return (
-      <Sidebar>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-        <h1>not logged</h1>
-      </Sidebar>
-    );
-  }
-
+  user: IMe;
+}> = ({ user }) => {
   return <Sidebar>Welcome {user.username}</Sidebar>;
 };
 
@@ -69,7 +15,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
   let cookies = ctx.req?.headers.cookie;
 
   if (!cookies) {
-    return { props: { logged: false, user: null } };
+    return redirectServerSide("/unauthorized");
   }
 
   if (!cookies.includes("at=") && cookies.includes("rt=")) {
@@ -78,7 +24,11 @@ export async function getServerSideProps(ctx: NextPageContext) {
 
   const { logged, user } = await isUserLoggedIn(cookies);
 
-  return { props: { logged, user } };
+  if (!logged || !user) {
+    return redirectServerSide("/unauthorized");
+  }
+
+  return { props: { user } };
 }
 
 export default Home;
