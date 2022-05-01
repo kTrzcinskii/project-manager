@@ -6,6 +6,8 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import useLogout from "../../../hooks/mutation/useLogout";
 import NavItem from "./NavItem";
 import SidebarLinks from "./SidebarLinks";
 
@@ -17,6 +19,22 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   onClose,
   ...rest
 }) => {
+  const mutation = useLogout();
+
+  const router = useRouter();
+
+  const handleLogout = () => {
+    mutation.mutate(null, {
+      onSuccess: () => {
+        router.push("/");
+      },
+      onError: (error) => {
+        //TODO: Error notification
+        console.log(error);
+      },
+    });
+  };
+
   return (
     <Box
       bgColor='white'
@@ -53,7 +71,7 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         w='full'
         mb={28}
       >
-        <Button colorScheme='teal' w='full' maxW='200px'>
+        <Button colorScheme='teal' w='full' maxW='200px' onClick={handleLogout}>
           Logout
         </Button>
       </Flex>
