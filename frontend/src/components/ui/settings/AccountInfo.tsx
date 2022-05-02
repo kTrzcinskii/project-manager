@@ -1,7 +1,7 @@
 import { Text, VStack } from "@chakra-ui/react";
-import { useEffect } from "react";
 import IMe from "../../../interfaces/IMe";
 import InfoHeader from "./InfoHeader";
+import InfoTextContainer from "./InfoTextContainer";
 
 interface AccountInfoProps {
   user: IMe;
@@ -22,18 +22,18 @@ const AccountInfo: React.FC<AccountInfoProps> = ({ user }) => {
       mx='auto'
       spacing={{ base: 4, md: 8 }}
     >
-      <Text fontSize={{ base: "xl", md: "2xl" }}>
+      <InfoTextContainer>
         <InfoHeader>Username:</InfoHeader> {user.username}
-      </Text>
-      <Text fontSize={{ base: "xl", md: "2xl" }}>
+      </InfoTextContainer>
+      <InfoTextContainer>
         <InfoHeader>Email:</InfoHeader> {user.email}
-      </Text>
-      <Text fontSize={{ base: "xl", md: "2xl" }}>
+      </InfoTextContainer>
+      <InfoTextContainer>
         <InfoHeader>Joined:</InfoHeader> {createdDate}
-      </Text>
-      <Text fontSize={{ base: "xl", md: "2xl" }}>
+      </InfoTextContainer>
+      <InfoTextContainer>
         <InfoHeader>Password:</InfoHeader> {randomPassword}
-      </Text>
+      </InfoTextContainer>
     </VStack>
   );
 };
