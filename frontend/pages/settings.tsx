@@ -1,6 +1,8 @@
 import { Heading, VStack } from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
 import Sidebar from "../src/components/sections/Sidebar";
+import AccountInfo from "../src/components/ui/settings/AccountInfo";
+import SettingsBtnsContainer from "../src/components/ui/settings/SettingsBtnsContainer";
 import IMe from "../src/interfaces/IMe";
 import isUserLoggedIn from "../src/utils/isUserLoggedIn";
 import redirectServerSide from "../src/utils/redirectServerSide";
@@ -11,8 +13,16 @@ const Settings: NextPage<{
 }> = ({ user }) => {
   return (
     <Sidebar>
-      <VStack minH={{ base: "calc(100vh - 112px)", md: "calc(100vh - 32px)" }}>
-        <Heading color='teal.600'>Account Settings</Heading>
+      <VStack
+        minH={{ base: "calc(100vh - 112px)", md: "calc(100vh - 32px)" }}
+        spacing={{ base: 6, md: 10, lg: 14 }}
+        pt={{ base: 3, md: 6 }}
+      >
+        <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
+          Account Settings
+        </Heading>
+        <AccountInfo user={user} />
+        <SettingsBtnsContainer />
       </VStack>
     </Sidebar>
   );
