@@ -71,7 +71,13 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         w='full'
         mb={28}
       >
-        <Button colorScheme='teal' w='full' maxW='200px' onClick={handleLogout}>
+        <Button
+          colorScheme='teal'
+          w='full'
+          maxW='200px'
+          onClick={handleLogout}
+          _focus={{ ring: 3, ringColor: "teal.700" }}
+        >
           Logout
         </Button>
       </Flex>
