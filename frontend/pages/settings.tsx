@@ -11,14 +11,6 @@ import setCookiesServerSide from "../src/utils/setCookiesServerSide";
 const Settings: NextPage<{
   user: IMe;
 }> = ({ user }) => {
-  // const Settings: NextPage = () => {
-  //   const user = {
-  //     username: "test",
-  //     email: "test@gmail.com",
-  //     id: 2,
-  //     createdAt: "2022-08-08",
-  //   };
-
   return (
     <Sidebar>
       <VStack
