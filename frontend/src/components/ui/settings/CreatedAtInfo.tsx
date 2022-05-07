@@ -13,8 +13,6 @@ const CreatedAtInfo: React.FC<CreatedAtInfoProps> = ({ createdAt }) => {
     setCreatedDate(new Date(createdAt).toLocaleString());
   }, [createdAt]);
 
-  // const createdDate = new Date(createdAt).toLocaleString();
-
   return (
     <FieldContainer>
       <InfoField header='joined' value={createdDate} />
