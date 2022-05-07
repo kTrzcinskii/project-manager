@@ -1,5 +1,5 @@
 import { Box, Button, useDisclosure } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import DeleteAccountBody from "./modal-contents/delete-acount/DeleteAccountBody";
 import DeleteAccountFooter from "./modal-contents/delete-acount/DeleteAccountFooter";
 import ModalContainer from "./ModalContainer";
@@ -8,6 +8,8 @@ const DeleteAccountBtn: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef<HTMLInputElement>(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <>
@@ -25,8 +27,15 @@ const DeleteAccountBtn: React.FC = () => {
         isOpen={isOpen}
         onClose={onClose}
         header='Delete Account'
-        body={<DeleteAccountBody initialRef={initialRef} />}
-        footer={<DeleteAccountFooter onClose={onClose} />}
+        body={
+          <DeleteAccountBody
+            initialRef={initialRef}
+            setIsSubmitting={setIsSubmitting}
+          />
+        }
+        footer={
+          <DeleteAccountFooter onClose={onClose} isSubmitting={isSubmitting} />
+        }
         initialRef={initialRef}
       />
     </>

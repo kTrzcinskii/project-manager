@@ -5,7 +5,7 @@ import axiosInstance from "../utils/axiosInstance";
 const endpoint = "/user/delete-account";
 
 const deleteAccountAPI = (values: IDeleteAccountValues) => {
-  return axiosInstance.post<ISuccessful>(endpoint, values);
+  return axiosInstance.delete<ISuccessful>(endpoint, { data: values });
 };
 
 export default deleteAccountAPI;
