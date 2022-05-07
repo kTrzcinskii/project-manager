@@ -1,4 +1,4 @@
-import meServerSideAPI from "../api/meServerSide";
+import meServerSideAPI from "../../api/meServerSide";
 
 export default async function isUserLoggedIn(cookies: string) {
   try {

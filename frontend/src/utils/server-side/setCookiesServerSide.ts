@@ -1,5 +1,5 @@
 import { NextPageContext } from "next";
-import refreshTokensServerSide from "../api/refreshTokensServerSide";
+import refreshTokensServerSide from "../../api/refreshTokensServerSide";
 import transfromCookiesServerSide from "./transformCookiesServerSide";
 
 export default async function setCookiesServerSide(
