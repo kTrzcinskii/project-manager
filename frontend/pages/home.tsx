@@ -1,9 +1,9 @@
 import type { NextPage, NextPageContext } from "next";
 import Sidebar from "../src/components/sections/Sidebar";
 import IMe from "../src/interfaces/IMe";
-import isUserLoggedIn from "../src/utils/isUserLoggedIn";
-import redirectServerSide from "../src/utils/redirectServerSide";
-import setCookiesServerSide from "../src/utils/setCookiesServerSide";
+import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
+import redirectServerSide from "../src/utils/server-side/redirectServerSide";
+import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
 
 const Home: NextPage<{
   user: IMe;
