@@ -5,6 +5,9 @@ import ChangeUsernameFormSchema from "../../utils/schemas/ChangeUsernameFormSche
 import InputField from "../ui/form/InputField";
 import { FaUser } from "react-icons/fa";
 import { RefObject, Dispatch, SetStateAction } from "react";
+import useChangeUsername from "../../hooks/mutation/useChangeUsername";
+import axios from "axios";
+import transfromAPIErrors from "../../utils/transformAPIErrors";
 
 interface ChangeUsernameFormProps {
   initialRef: RefObject<HTMLInputElement>;
@@ -17,7 +20,7 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
 }) => {
   const initialValues: IChangeUsernameValues = { username: "" };
 
-  //const  mutation =
+  const mutation = useChangeUsername();
 
   const router = useRouter();
 
@@ -25,8 +28,20 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={(values, action) => {
-        console.log(values);
         setIsSubmitting(true);
+        mutation.mutate(values, {
+          onSuccess: () => {
+            setIsSubmitting(false);
+            router.reload();
+          },
+          onError: (error) => {
+            setIsSubmitting(false);
+            if (axios.isAxiosError(error)) {
+              console.log(error.response?.data);
+              action.setErrors(transfromAPIErrors(error, ["username"]));
+            }
+          },
+        });
       }}
       validationSchema={ChangeUsernameFormSchema}
     >
