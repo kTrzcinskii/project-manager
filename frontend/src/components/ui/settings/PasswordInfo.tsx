@@ -3,10 +3,7 @@ import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 
 const PasswordInfo: React.FC = () => {
-  let randomPassword = "";
-  for (let i = 0; i < Math.floor(Math.random() * 11) + 6; i++) {
-    randomPassword += "*";
-  }
+  const randomPassword = "**************";
 
   return (
     <FieldContainer>

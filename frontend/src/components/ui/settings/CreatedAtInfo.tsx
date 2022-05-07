@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 
@@ -6,7 +7,13 @@ interface CreatedAtInfoProps {
 }
 
 const CreatedAtInfo: React.FC<CreatedAtInfoProps> = ({ createdAt }) => {
-  const createdDate = new Date(createdAt).toLocaleString();
+  const [createdDate, setCreatedDate] = useState("");
+
+  useEffect(() => {
+    setCreatedDate(new Date(createdAt).toLocaleString());
+  }, [createdAt]);
+
+  // const createdDate = new Date(createdAt).toLocaleString();
 
   return (
     <FieldContainer>
