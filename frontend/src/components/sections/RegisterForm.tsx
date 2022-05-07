@@ -1,7 +1,7 @@
 import { AtSignIcon } from "@chakra-ui/icons";
 import { Button, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import RegisterFormSchema from "../../utils/RegisterFormSchema";
+import RegisterFormSchema from "../../utils/schemas/RegisterFormSchema";
 import InputField from "../ui/form/InputField";
 import PasswordInputField from "../ui/form/PasswordInputField";
 import { FaUser } from "react-icons/fa";
