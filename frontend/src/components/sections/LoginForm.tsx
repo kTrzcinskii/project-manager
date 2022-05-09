@@ -1,4 +1,10 @@
-import { useBreakpointValue, VStack, Button, Text } from "@chakra-ui/react";
+import {
+  useBreakpointValue,
+  VStack,
+  Button,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import LoginFormSchema from "../../utils/schemas/LoginFormSchema";
 import InputField from "../ui/form/InputField";
@@ -9,6 +15,7 @@ import useLogin from "../../hooks/mutation/useLogin";
 import { useRouter } from "next/router";
 import axios from "axios";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
+import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -18,6 +25,9 @@ const LoginForm: React.FC = () => {
   const formSpacing = useBreakpointValue({ base: 4, md: 6, lg: 8 });
 
   const mutation = useLogin();
+
+  const toast = useToast();
+  const toastOptions = networkErrorToastOptions();
 
   return (
     <Formik
@@ -30,6 +40,9 @@ const LoginForm: React.FC = () => {
           onError: (error) => {
             action.setSubmitting(false);
             if (axios.isAxiosError(error)) {
+              if (!error.response) {
+                toast(toastOptions);
+              }
               action.setErrors(
                 transfromAPIErrors(error, ["email", "password"])
               );

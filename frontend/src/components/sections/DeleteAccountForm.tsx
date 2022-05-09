@@ -1,5 +1,5 @@
 import { AtSignIcon } from "@chakra-ui/icons";
-import { VStack } from "@chakra-ui/react";
+import { useToast, VStack } from "@chakra-ui/react";
 import axios from "axios";
 import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import { Dispatch, RefObject, SetStateAction } from "react";
 import useDeleteAccount from "../../hooks/mutation/useDeleteAccount";
 import IDeleteAccountValues from "../../interfaces/IDeleteAccountValues";
 import DeleteAccountFormSchema from "../../utils/schemas/DeleteAccountFormSchema";
+import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
 import InputField from "../ui/form/InputField";
 import PasswordInputField from "../ui/form/PasswordInputField";
@@ -26,6 +27,9 @@ const DeleteAccountForm: React.FC<DeleteAccountFormProps> = ({
 
   const router = useRouter();
 
+  const errorToast = useToast();
+  const errorToastOptions = networkErrorToastOptions();
+
   return (
     <Formik
       initialValues={initialValues}
@@ -40,7 +44,9 @@ const DeleteAccountForm: React.FC<DeleteAccountFormProps> = ({
           onError: (error) => {
             setIsSubmitting(false);
             if (axios.isAxiosError(error)) {
-              console.log(error.response?.data);
+              if (!error.response) {
+                errorToast(errorToastOptions);
+              }
               action.setErrors(
                 transfromAPIErrors(error, ["email", "password"])
               );

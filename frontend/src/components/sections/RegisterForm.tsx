@@ -1,5 +1,5 @@
 import { AtSignIcon } from "@chakra-ui/icons";
-import { Button, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { Button, useBreakpointValue, useToast, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import RegisterFormSchema from "../../utils/schemas/RegisterFormSchema";
 import InputField from "../ui/form/InputField";
@@ -10,6 +10,7 @@ import useRegister from "../../hooks/mutation/useRegister";
 import axios from "axios";
 import { useRouter } from "next/router";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
+import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 
 const RegisterForm: React.FC = () => {
   const router = useRouter();
@@ -24,6 +25,9 @@ const RegisterForm: React.FC = () => {
 
   const mutation = useRegister();
 
+  const toast = useToast();
+  const toastOptions = networkErrorToastOptions();
+
   return (
     <Formik
       initialValues={initialValues}
@@ -35,6 +39,9 @@ const RegisterForm: React.FC = () => {
           onError: (error) => {
             action.setSubmitting(false);
             if (axios.isAxiosError(error)) {
+              if (!error.response) {
+                toast(toastOptions);
+              }
               action.setErrors(
                 transfromAPIErrors(error, ["username", "email", "password"])
               );

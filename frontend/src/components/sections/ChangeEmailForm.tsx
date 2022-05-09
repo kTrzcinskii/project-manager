@@ -10,6 +10,7 @@ import ChangeEmailFormSchema from "../../utils/schemas/ChangeEmailFormSchema";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
 import updateProfileToastOptions from "../../utils/toasts/updateProileToastOptions";
 import InputField from "../ui/form/InputField";
+import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 
 interface ChangeEmailFormProps {
   initialRef: RefObject<HTMLInputElement>;
@@ -31,6 +32,9 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
   const toast = useToast();
   const toastOptions = updateProfileToastOptions("email", time);
 
+  const errorToast = useToast();
+  const errorToastOptions = networkErrorToastOptions();
+
   return (
     <Formik
       initialValues={initialValues}
@@ -45,7 +49,9 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
           onError: (error) => {
             setIsSubmitting(false);
             if (axios.isAxiosError(error)) {
-              console.log(error.response?.data);
+              if (!error.response) {
+                errorToast(errorToastOptions);
+              }
               action.setErrors(transfromAPIErrors(error, ["email"]));
             }
           },

@@ -10,6 +10,7 @@ import axios from "axios";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
 import { useToast } from "@chakra-ui/react";
 import updateProfileToastOptions from "../../utils/toasts/updateProileToastOptions";
+import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 
 interface ChangeUsernameFormProps {
   initialRef: RefObject<HTMLInputElement>;
@@ -31,6 +32,9 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
   const toast = useToast();
   const toastOptions = updateProfileToastOptions("username", time);
 
+  const errorToast = useToast();
+  const errorToastOptions = networkErrorToastOptions();
+
   return (
     <Formik
       initialValues={initialValues}
@@ -45,7 +49,9 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
           onError: (error) => {
             setIsSubmitting(false);
             if (axios.isAxiosError(error)) {
-              console.log(error.response?.data);
+              if (!error.response) {
+                errorToast(errorToastOptions);
+              }
               action.setErrors(transfromAPIErrors(error, ["username"]));
             }
           },
