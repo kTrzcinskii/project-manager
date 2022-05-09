@@ -8,6 +8,8 @@ import { RefObject, Dispatch, SetStateAction } from "react";
 import useChangeUsername from "../../hooks/mutation/useChangeUsername";
 import axios from "axios";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
+import { useToast } from "@chakra-ui/react";
+import updateProfileToastOptions from "../../utils/toasts/updateProileToastOptions";
 
 interface ChangeUsernameFormProps {
   initialRef: RefObject<HTMLInputElement>;
@@ -24,6 +26,11 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
 
   const router = useRouter();
 
+  const time = 3000;
+
+  const toast = useToast();
+  const toastOptions = updateProfileToastOptions("username", time);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -32,7 +39,8 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
         mutation.mutate(values, {
           onSuccess: () => {
             setIsSubmitting(false);
-            router.reload();
+            toast(toastOptions);
+            setTimeout(() => router.reload(), time);
           },
           onError: (error) => {
             setIsSubmitting(false);

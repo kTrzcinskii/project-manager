@@ -1,4 +1,5 @@
 import { AtSignIcon } from "@chakra-ui/icons";
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
@@ -7,6 +8,7 @@ import useChangeEmail from "../../hooks/mutation/useChangeEmail";
 import IChangeEmailValues from "../../interfaces/IChangeEmailValues";
 import ChangeEmailFormSchema from "../../utils/schemas/ChangeEmailFormSchema";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
+import updateProfileToastOptions from "../../utils/toasts/updateProileToastOptions";
 import InputField from "../ui/form/InputField";
 
 interface ChangeEmailFormProps {
@@ -24,6 +26,11 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
 
   const router = useRouter();
 
+  const time = 3000;
+
+  const toast = useToast();
+  const toastOptions = updateProfileToastOptions("email", time);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -32,7 +39,8 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
         mutation.mutate(values, {
           onSuccess: () => {
             setIsSubmitting(false);
-            router.reload();
+            toast(toastOptions);
+            setTimeout(() => router.reload(), time);
           },
           onError: (error) => {
             setIsSubmitting(false);
