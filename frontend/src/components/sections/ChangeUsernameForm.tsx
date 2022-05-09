@@ -50,7 +50,7 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
           <InputField
             name='username'
             type='text'
-            placeholder='Username'
+            placeholder='New username'
             icon={<FaUser color='#285E61' />}
             value={values.username}
             myRef={initialRef}
