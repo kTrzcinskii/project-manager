@@ -32,6 +32,7 @@ const EmailInfo: React.FC<EmailInfoProps> = ({ email }) => {
           <ChangeEmailBody
             initialRef={initialRef}
             setIsSubmitting={setIsSubmitting}
+            onClose={onClose}
           />
         }
         footer={

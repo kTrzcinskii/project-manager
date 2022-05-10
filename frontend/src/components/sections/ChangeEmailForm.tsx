@@ -15,11 +15,13 @@ import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOption
 interface ChangeEmailFormProps {
   initialRef: RefObject<HTMLInputElement>;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
   initialRef,
   setIsSubmitting,
+  onClose,
 }) => {
   const initialValues: IChangeEmailValues = { email: "" };
 
@@ -43,6 +45,7 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
             setIsSubmitting(false);
             toast(toastOptions);
             setTimeout(() => router.reload(), time);
+            onClose();
           },
           onError: (error) => {
             setIsSubmitting(false);

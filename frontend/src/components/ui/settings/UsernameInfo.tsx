@@ -32,6 +32,7 @@ const UsernameInfo: React.FC<UsernameInfoProps> = ({ username }) => {
           <ChangeUsernameBody
             initialRef={initialRef}
             setIsSubmitting={setIsSubmitting}
+            onClose={onClose}
           />
         }
         footer={

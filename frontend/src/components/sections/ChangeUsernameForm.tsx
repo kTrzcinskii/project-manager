@@ -15,11 +15,13 @@ import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOption
 interface ChangeUsernameFormProps {
   initialRef: RefObject<HTMLInputElement>;
   setIsSubmitting: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
   initialRef,
   setIsSubmitting,
+  onClose,
 }) => {
   const initialValues: IChangeUsernameValues = { username: "" };
 
@@ -43,6 +45,7 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
             setIsSubmitting(false);
             toast(toastOptions);
             setTimeout(() => router.reload(), time);
+            onClose();
           },
           onError: (error) => {
             setIsSubmitting(false);
