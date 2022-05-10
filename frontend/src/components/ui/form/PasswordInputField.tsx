@@ -9,15 +9,17 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { useField } from "formik";
-import { InputHTMLAttributes, useState } from "react";
+import { InputHTMLAttributes, LegacyRef, useState } from "react";
 import { LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 type PasswordInputFieldProps = InputHTMLAttributes<HTMLInputElement> &
   InputProps & {
     name: string;
+    myRef?: LegacyRef<HTMLInputElement> | undefined;
   };
 
 const PasswordInputField: React.FC<PasswordInputFieldProps> = ({
+  myRef,
   ...props
 }) => {
   const [field, meta] = useField(props);
@@ -37,6 +39,7 @@ const PasswordInputField: React.FC<PasswordInputFieldProps> = ({
           type={show ? "text" : "password"}
           variant='filled'
           _focus={{ borderColor: "teal.500", borderWidth: 2 }}
+          ref={myRef}
         />
         <InputRightElement>
           <Button onClick={() => setShow(!show)} variant='unstyled' _focus={{}}>
