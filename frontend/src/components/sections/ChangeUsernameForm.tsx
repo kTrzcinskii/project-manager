@@ -8,7 +8,7 @@ import { RefObject, Dispatch, SetStateAction } from "react";
 import useChangeUsername from "../../hooks/mutation/useChangeUsername";
 import axios from "axios";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/toast";
 import updateProfileToastOptions from "../../utils/toasts/updateProileToastOptions";
 import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 
@@ -31,8 +31,6 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
 
   const toast = useToast();
   const toastOptions = updateProfileToastOptions("username", time);
-
-  const errorToast = useToast();
   const errorToastOptions = networkErrorToastOptions();
 
   return (
@@ -50,7 +48,7 @@ const ChangeUsernameForm: React.FC<ChangeUsernameFormProps> = ({
             setIsSubmitting(false);
             if (axios.isAxiosError(error)) {
               if (!error.response) {
-                errorToast(errorToastOptions);
+                toast(errorToastOptions);
               }
               action.setErrors(transfromAPIErrors(error, ["username"]));
             }

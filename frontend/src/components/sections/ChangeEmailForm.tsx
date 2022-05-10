@@ -1,5 +1,5 @@
 import { AtSignIcon } from "@chakra-ui/icons";
-import { useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
@@ -31,8 +31,6 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
 
   const toast = useToast();
   const toastOptions = updateProfileToastOptions("email", time);
-
-  const errorToast = useToast();
   const errorToastOptions = networkErrorToastOptions();
 
   return (
@@ -50,7 +48,7 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({
             setIsSubmitting(false);
             if (axios.isAxiosError(error)) {
               if (!error.response) {
-                errorToast(errorToastOptions);
+                toast(errorToastOptions);
               }
               action.setErrors(transfromAPIErrors(error, ["email"]));
             }
