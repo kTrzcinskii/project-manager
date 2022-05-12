@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsIn, IsNumber, IsOptional } from 'class-validator';
+import { IsDateString, IsIn, IsNumber, IsOptional } from 'class-validator';
 import { from, fromTypes } from '../types';
 
 export class QueryParamDto {
@@ -11,4 +11,8 @@ export class QueryParamDto {
   @IsNumber()
   @Type(() => Number)
   customFrom?: number;
+
+  @IsOptional()
+  @IsDateString()
+  date?: string;
 }

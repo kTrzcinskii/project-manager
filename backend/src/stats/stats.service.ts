@@ -10,24 +10,28 @@ export class StatsService {
   async getMainStats(userId: number, query: QueryParamDto) {
     const from: from | number = query.from || query.customFrom || 'week';
 
+    let date = undefined;
+    if (query.date) {
+      date = new Date(query.date);
+    }
+
     const { searchFrom, searchTo } = this.getDateRange(from);
+
+    const searchObject = this.getSearchObject(searchFrom, searchTo, date);
 
     const createdProjectsNumber = await this.prisma.project.count({
       where: {
         userId,
-        createdAt: {
-          gte: searchFrom,
-          lte: searchTo,
-        },
+        createdAt: searchObject,
       },
     });
 
     const completedProjectsNumber = await this.prisma.project.count({
-      where: { userId, completedAt: { gte: searchFrom, lte: searchTo } },
+      where: { userId, completedAt: searchObject },
     });
 
     const updatedProjectsNumber = await this.prisma.project.count({
-      where: { userId, updatedAt: { gte: searchFrom, lte: searchTo } },
+      where: { userId, updatedAt: searchObject },
     });
 
     const userProjectsIds = (
@@ -40,21 +44,21 @@ export class StatsService {
     const createdGoalsNumber = await this.prisma.goal.count({
       where: {
         projectId: { in: userProjectsIds },
-        createdAt: { gte: searchFrom, lte: searchTo },
+        createdAt: searchObject,
       },
     });
 
     const completedGoalsNumber = await this.prisma.goal.count({
       where: {
         projectId: { in: userProjectsIds },
-        completedAt: { gte: searchFrom, lte: searchTo },
+        completedAt: searchObject,
       },
     });
 
     const updatedGoalsNumber = await this.prisma.goal.count({
       where: {
         projectId: { in: userProjectsIds },
-        updatedAt: { gte: searchFrom, lte: searchTo },
+        updatedAt: searchObject,
       },
     });
 
@@ -68,19 +72,24 @@ export class StatsService {
     };
   }
 
+  async getProjectStats(userId: number, projectId: number) {
+    return 'blabla';
+  }
+
   getDateRange(from: from | number) {
     const searchTo = new Date();
 
-    const ONE_DAY = 7 * 24 * 3600 * 1000;
+    const ONE_DAY = 24 * 3600 * 1000;
+    const ONE_WEEK = 7 * ONE_DAY;
     const ONE_MONTH = 30 * ONE_DAY;
     const ONE_YEAR = 365 * ONE_DAY;
 
     if (from === 'today') {
-      return { searchFrom: searchTo, searchTo };
+      return { searchFrom: new Date(searchTo.toLocaleDateString()), searchTo };
     }
 
     if (from === 'week') {
-      const searchFrom = new Date(searchTo.getTime() - ONE_DAY);
+      const searchFrom = new Date(searchTo.getTime() - ONE_WEEK);
       return { searchFrom, searchTo };
     }
 
@@ -99,5 +108,19 @@ export class StatsService {
       const searchFrom = new Date(searchTo.getTime() - from * ONE_DAY);
       return { searchFrom, searchTo };
     }
+  }
+
+  getSearchObject(
+    searchFrom: Date,
+    searchTo: Date,
+    date: Date | undefined,
+  ): { gte: Date; lte: Date } {
+    if (!date) {
+      return { gte: searchFrom, lte: searchTo };
+    }
+    return {
+      gte: date,
+      lte: new Date(date.getTime() + 24 * 3600 * 1000 - 1000),
+    };
   }
 }
