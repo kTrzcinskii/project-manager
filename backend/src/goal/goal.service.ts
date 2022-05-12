@@ -47,6 +47,7 @@ export class GoalService {
         goals: { create: { content: dto.content } },
         progressBar,
         status,
+        completedAt: null,
       },
       include: { goals: true },
     });
@@ -95,15 +96,17 @@ export class GoalService {
       ((completedGoals.length - goalValue) / (allGoals.length - 1)) * 100,
     );
 
+    let completedAt: Date | null = null;
     let status: status = project.status;
     if (status !== 'finished' && progressBar === 100) {
       status = 'finished';
+      completedAt = new Date();
     }
 
     await this.prisma.goal.delete({ where: { id: goalId } });
     const updatedProject = await this.prisma.project.update({
       where: { id: project.id },
-      data: { status, progressBar },
+      data: { status, progressBar, completedAt },
       include: { goals: true },
     });
 
@@ -136,9 +139,14 @@ export class GoalService {
     const allGoalsNumber = allGoals.length;
     let completedGoalsNumber = allGoals.filter((goal) => goal.completed).length;
 
+    let goalCompletedAt: Date | null = null;
+    if (!goal.completed) {
+      goalCompletedAt = new Date();
+    }
+
     const updatedGoal = await this.prisma.goal.update({
       where: { id: goalId },
-      data: { completed: !goal.completed },
+      data: { completed: !goal.completed, completedAt: goalCompletedAt },
     });
 
     if (updatedGoal.completed) {
@@ -152,8 +160,12 @@ export class GoalService {
     );
 
     let status: status;
+    let completedAt: Date | null = null;
     if (project.status !== 'finished') {
       status = progressBar === 100 ? 'finished' : project.status;
+      if (progressBar === 100) {
+        completedAt = new Date();
+      }
     } else {
       const currentDate = new Date().getTime();
       const deadline = new Date(project.deadline).getTime();
@@ -165,6 +177,7 @@ export class GoalService {
       data: {
         progressBar,
         status,
+        completedAt,
       },
       select: { progressBar: true, status: true },
     });

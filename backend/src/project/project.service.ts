@@ -67,6 +67,7 @@ export class ProjectService {
         priority: true,
         progressBar: true,
         status: true,
+        completedAt: true,
       },
       take: numberOfProjects + 1,
       skip: page * numberOfProjects,
@@ -343,6 +344,25 @@ export class ProjectService {
     if (!query.updatedFrom && query.updatedTo) {
       filterObj.updatedAt = {
         lte: new Date(query.updatedTo),
+      };
+    }
+
+    if (query.completedFrom && query.completedTo) {
+      filterObj.completedAt = {
+        gte: new Date(query.completedFrom),
+        lte: new Date(query.completedTo),
+      };
+    }
+
+    if (query.completedFrom && !query.completedTo) {
+      filterObj.completedAt = {
+        gte: new Date(query.completedFrom),
+      };
+    }
+
+    if (!query.completedFrom && query.completedTo) {
+      filterObj.completedAt = {
+        lte: new Date(query.completedTo),
       };
     }
 

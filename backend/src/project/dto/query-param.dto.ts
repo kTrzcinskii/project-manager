@@ -75,6 +75,14 @@ export class QueryParamDto {
   updatedTo?: string;
 
   @IsOptional()
+  @IsDateString()
+  completedFrom?: string;
+
+  @IsOptional()
+  @IsDateString()
+  completedTo?: string;
+
+  @IsOptional()
   @IsNumber()
   @Min(0)
   @Max(100)
