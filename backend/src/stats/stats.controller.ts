@@ -1,4 +1,17 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Payload } from 'src/auth/types';
+import { GetCurrentUser } from 'src/common/decorators';
+import { AtGuard } from 'src/common/guards';
+import { QueryParamDto } from './dto';
+import { StatsService } from './stats.service';
 
 @Controller('stats')
-export class StatsController {}
+@UseGuards(AtGuard)
+export class StatsController {
+  constructor(private statsService: StatsService) {}
+
+  @Get()
+  getMainStats(@GetCurrentUser() user: Payload, @Query() query: QueryParamDto) {
+    return this.statsService.getMainStats(user.sub, query);
+  }
+}
