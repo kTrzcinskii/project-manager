@@ -21,7 +21,7 @@ const ChangePasswordFooter: React.FC<ChangePasswordFooterProps> = ({
       >
         Change Password
       </Button>
-      <Button _focus={{ ring: 3, ringColor: "white" }} onClick={onClose}>
+      <Button _focus={{ ring: 3, ringColor: "gray" }} onClick={onClose}>
         Cancel
       </Button>
     </HStack>

@@ -21,7 +21,7 @@ const ChangeUsernameFooter: React.FC<ChangeUsernameFooterProps> = ({
       >
         Change Username
       </Button>
-      <Button _focus={{ ring: 3, ringColor: "white" }} onClick={onClose}>
+      <Button _focus={{ ring: 3, ringColor: "gray" }} onClick={onClose}>
         Cancel
       </Button>
     </HStack>
