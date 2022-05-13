@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QueryParamDto } from './dto';
 import { from } from './types';
@@ -38,12 +38,7 @@ export class StatsService {
       where: { userId, updatedAt: searchObject },
     });
 
-    const userProjectsIds = (
-      await this.prisma.user.findUnique({
-        where: { id: userId },
-        select: { projects: { select: { id: true } } },
-      })
-    ).projects.map((project) => project.id);
+    const userProjectsIds = await this.getUserProjectsIDs(userId);
 
     const allGoalsNumber = await this.prisma.goal.count({
       where: { projectId: { in: userProjectsIds } },
@@ -82,8 +77,49 @@ export class StatsService {
     };
   }
 
-  async getProjectStats(userId: number, projectId: number) {
-    return 'blabla';
+  async getProjectStats(
+    userId: number,
+    projectId: number,
+    query: QueryParamDto,
+  ) {
+    const userProjectsIds = await this.getUserProjectsIDs(userId);
+    if (!userProjectsIds.includes(projectId)) {
+      throw new NotFoundException('There is no project with provided id.');
+    }
+
+    const from: from | number = query.from || query.customFrom || 'week';
+
+    let date = undefined;
+    if (query.date) {
+      date = new Date(query.date);
+    }
+
+    const { searchFrom, searchTo } = this.getDateRange(from);
+
+    const searchObject = this.getSearchObject(searchFrom, searchTo, date);
+
+    const createdGoalsNumber = await this.prisma.goal.count({
+      where: {
+        projectId,
+        createdAt: searchObject,
+      },
+    });
+
+    const completedGoalsNumber = await this.prisma.goal.count({
+      where: {
+        projectId,
+        completedAt: searchObject,
+      },
+    });
+
+    const updatedGoalsNumber = await this.prisma.goal.count({
+      where: {
+        projectId,
+        updatedAt: searchObject,
+      },
+    });
+
+    return { createdGoalsNumber, completedGoalsNumber, updatedGoalsNumber };
   }
 
   getDateRange(from: from | number) {
@@ -132,5 +168,14 @@ export class StatsService {
       gte: date,
       lte: new Date(date.getTime() + 24 * 3600 * 1000 - 1000),
     };
+  }
+
+  async getUserProjectsIDs(userId: number) {
+    return (
+      await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { projects: { select: { id: true } } },
+      })
+    ).projects.map((project) => project.id);
   }
 }
