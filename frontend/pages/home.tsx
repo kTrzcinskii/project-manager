@@ -1,6 +1,10 @@
+import { HStack, VStack } from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
 import Sidebar from "../src/components/sections/Sidebar";
+import Header from "../src/components/ui/home/Header";
+import ProjectsContainer from "../src/components/ui/project/ProjectsContainer";
 import IMe from "../src/interfaces/IMe";
+import minHonPagesWithSidebar from "../src/utils/minHonPagesWithSidebar";
 import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
 import redirectServerSide from "../src/utils/server-side/redirectServerSide";
 import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
@@ -8,7 +12,16 @@ import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide"
 const Home: NextPage<{
   user: IMe;
 }> = ({ user }) => {
-  return <Sidebar>Welcome {user.username}</Sidebar>;
+  const minH = minHonPagesWithSidebar;
+
+  return (
+    <Sidebar>
+      <VStack spacing={{ base: 5, md: 10 }} minH={minH}>
+        <Header username={user.username} />
+        <ProjectsContainer></ProjectsContainer>
+      </VStack>
+    </Sidebar>
+  );
 };
 
 export async function getServerSideProps(ctx: NextPageContext) {
