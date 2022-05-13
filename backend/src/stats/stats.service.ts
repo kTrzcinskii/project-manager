@@ -19,6 +19,10 @@ export class StatsService {
 
     const searchObject = this.getSearchObject(searchFrom, searchTo, date);
 
+    const allProjectsNumber = await this.prisma.project.count({
+      where: { userId },
+    });
+
     const createdProjectsNumber = await this.prisma.project.count({
       where: {
         userId,
@@ -40,6 +44,10 @@ export class StatsService {
         select: { projects: { select: { id: true } } },
       })
     ).projects.map((project) => project.id);
+
+    const allGoalsNumber = await this.prisma.goal.count({
+      where: { projectId: { in: userProjectsIds } },
+    });
 
     const createdGoalsNumber = await this.prisma.goal.count({
       where: {
@@ -63,9 +71,11 @@ export class StatsService {
     });
 
     return {
+      allProjectsNumber,
       createdProjectsNumber,
       completedProjectsNumber,
       updatedProjectsNumber,
+      allGoalsNumber,
       createdGoalsNumber,
       completedGoalsNumber,
       updatedGoalsNumber,
