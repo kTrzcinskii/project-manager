@@ -1,4 +1,4 @@
-import { HStack, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
 import Sidebar from "../src/components/sections/Sidebar";
 import Header from "../src/components/ui/home/Header";
@@ -18,7 +18,7 @@ const Home: NextPage<{
     <Sidebar>
       <VStack spacing={{ base: 5, md: 10 }} minH={minH}>
         <Header username={user.username} />
-        <ProjectsContainer></ProjectsContainer>
+        <ProjectsContainer title='Projects'></ProjectsContainer>
       </VStack>
     </Sidebar>
   );

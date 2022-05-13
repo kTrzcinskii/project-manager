@@ -4,7 +4,7 @@ import { Button, HStack, IconButton } from "@chakra-ui/react";
 const FilterBtns: React.FC = () => {
   return (
     <HStack spacing={{ base: 2, md: 5 }}>
-      <Button _focus={{ ring: 3, ringColor: "gray" }}>Filter</Button>
+      <Button _focus={{ ring: 3, ringColor: "gray" }}>Show Filters</Button>
       <IconButton
         _focus={{ ring: 3, ringColor: "gray" }}
         aria-label='Filter projects'
