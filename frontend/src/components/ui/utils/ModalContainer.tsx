@@ -16,7 +16,7 @@ interface ModalContainerProps {
   footer: ReactNode;
   isOpen: boolean;
   onClose: () => void;
-  initialRef: RefObject<HTMLInputElement>;
+  initialRef?: RefObject<HTMLInputElement>;
 }
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
