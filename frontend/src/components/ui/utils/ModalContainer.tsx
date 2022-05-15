@@ -17,6 +17,7 @@ interface ModalContainerProps {
   isOpen: boolean;
   onClose: () => void;
   initialRef?: RefObject<HTMLInputElement>;
+  size?: { base: string; md: string; lg: string };
 }
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
@@ -26,14 +27,17 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   isOpen,
   onClose,
   initialRef,
+  size,
 }) => {
+  const mySize = size || { base: "xs", md: "md", lg: "lg" };
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       isCentered
       initialFocusRef={initialRef}
-      size={useBreakpointValue({ base: "xs", md: "md", lg: "lg" })}
+      size={useBreakpointValue(mySize)}
     >
       <ModalOverlay />
       <ModalContent>
