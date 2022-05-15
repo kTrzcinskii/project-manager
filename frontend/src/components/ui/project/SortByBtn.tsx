@@ -1,8 +1,7 @@
 import { Button, HStack, Text, useDisclosure } from "@chakra-ui/react";
 import { BsSortAlphaDown } from "react-icons/bs";
 import ModalContainer from "../utils/ModalContainer";
-import SortByBody from "./sort-by-modal-content/SortByBody";
-import SortByFooter from "./sort-by-modal-content/SortByFooter";
+import SortByBody from "./SortByBody";
 
 const SortByBtn: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -19,7 +18,7 @@ const SortByBtn: React.FC = () => {
         onClose={onClose}
         header='Sort By'
         body={<SortByBody onClose={onClose} />}
-        footer={<SortByFooter />}
+        footer={<></>}
         size={{ base: "xs", md: "xs", lg: "xs" }}
       />
     </>
