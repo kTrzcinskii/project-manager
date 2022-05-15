@@ -1,28 +1,24 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, HStack } from "@chakra-ui/react";
 import CreateNewProjectBtn from "./CreateNewProjectBtn";
-import FilterBtns from "./FilterBtns";
+import FilterBtn from "./FilterBtn";
+import SortByBtn from "./SortByBtn";
 
 const FilterBar: React.FC = () => {
   return (
-    <>
-      <Flex
-        mx='auto'
-        justifyContent='space-between'
-        mt={{ base: 5, md: 8 }}
-        flexDir={{ base: "column-reverse", md: "column-reverse", lg: "row" }}
-        px={5}
-      >
-        <Box mx={{ base: "auto", md: "auto", lg: "0" }}>
-          <FilterBtns />
-        </Box>
-        <Box
-          mx={{ base: "auto", md: "auto", lg: "0" }}
-          mb={{ base: 5, md: 5, lg: 0 }}
-        >
-          <CreateNewProjectBtn />
-        </Box>
-      </Flex>
-    </>
+    <Flex
+      mx='auto'
+      justifyContent='space-between'
+      alignItems='center'
+      mt={{ base: 5, md: 8 }}
+      flexDir={{ base: "column", md: "column", lg: "row" }}
+      px={5}
+    >
+      <HStack spacing={{ base: 2, md: 5 }} mb={{ base: 5, md: 5, lg: 0 }}>
+        <FilterBtn />
+        <SortByBtn />
+      </HStack>
+      <CreateNewProjectBtn />
+    </Flex>
   );
 };
 
