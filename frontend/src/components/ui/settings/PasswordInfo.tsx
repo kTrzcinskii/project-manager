@@ -5,7 +5,7 @@ import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 import ChangePasswordBody from "./modal-contents/change-password/ChangePasswordBody";
 import ChangePasswordFooter from "./modal-contents/change-password/ChangePasswordFooter";
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../utils/ModalContainer";
 
 const PasswordInfo: React.FC = () => {
   const randomPassword = "**************";

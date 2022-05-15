@@ -5,7 +5,7 @@ import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 import ChangeUsernameBody from "./modal-contents/change-username/ChangeUsernameBody";
 import ChangeUsernameFooter from "./modal-contents/change-username/ChangeUsernameFooter";
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../utils/ModalContainer";
 
 interface UsernameInfoProps {
   username: string;

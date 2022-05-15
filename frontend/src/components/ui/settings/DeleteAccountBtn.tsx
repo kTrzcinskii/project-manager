@@ -2,7 +2,7 @@ import { Box, Button, useDisclosure } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import DeleteAccountBody from "./modal-contents/delete-acount/DeleteAccountBody";
 import DeleteAccountFooter from "./modal-contents/delete-acount/DeleteAccountFooter";
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../utils/ModalContainer";
 
 const DeleteAccountBtn: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -5,7 +5,7 @@ import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 import ChangeEmailBody from "./modal-contents/change-email/ChangeEmailBody";
 import ChangeEmailFooter from "./modal-contents/change-email/ChangeEmailFooter";
-import ModalContainer from "./ModalContainer";
+import ModalContainer from "../utils/ModalContainer";
 
 interface EmailInfoProps {
   email: string;

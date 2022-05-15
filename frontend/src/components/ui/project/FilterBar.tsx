@@ -1,4 +1,4 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
+import { Flex, HStack } from "@chakra-ui/react";
 import CreateNewProjectBtn from "./CreateNewProjectBtn";
 import FilterBtn from "./FilterBtn";
 import SortByBtn from "./SortByBtn";
