@@ -30,7 +30,7 @@ export const customStyle: StylesConfig<priorityOption, false> = {
     borderRadius: "0.375rem",
 
     ":hover": {
-      border: "1px solid #E2E8F0",
+      border: isFocused ? "1px solid #319795" : "1px solid #E2E8F0",
       backgroundColor: "#E2E8F0",
     },
   }),
