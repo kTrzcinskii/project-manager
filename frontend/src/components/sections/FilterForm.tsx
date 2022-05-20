@@ -6,6 +6,7 @@ import InputWithLabel from "../ui/form/InputWithLabel";
 import SelectPriority from "../ui/form/SelectPriority";
 import { MdTitle } from "react-icons/md";
 import ProgressBarSlider from "../ui/form/ProgressBarSlider";
+import FavoriteRadio from "../ui/form/FavoriteRadio";
 
 interface FilterFormProps {
   initialRef: RefObject<HTMLInputElement>;
@@ -42,6 +43,10 @@ const FilterForm: React.FC<FilterFormProps> = ({ initialRef }) => {
           <InputWithLabel
             input={<ProgressBarSlider setFieldValue={setFieldValue} />}
             header='Set the progress range'
+          />
+          <InputWithLabel
+            input={<FavoriteRadio setFieldValue={setFieldValue} />}
+            header='Filter based on your favorites'
           />
         </Form>
       )}
