@@ -5,6 +5,7 @@ import InputField from "../ui/form/InputField";
 import InputWithLabel from "../ui/form/InputWithLabel";
 import SelectPriority from "../ui/project/SelectPriority";
 import { MdTitle } from "react-icons/md";
+import ProgressBarSlider from "../ui/project/ProgressBarSlider";
 
 interface FilterFormProps {
   initialRef: RefObject<HTMLInputElement>;
@@ -37,6 +38,10 @@ const FilterForm: React.FC<FilterFormProps> = ({ initialRef }) => {
           <InputWithLabel
             input={<SelectPriority setFieldValue={setFieldValue} />}
             header='Choose priority level'
+          />
+          <InputWithLabel
+            input={<ProgressBarSlider setFieldValue={setFieldValue} />}
+            header='Set the progress range'
           />
         </Form>
       )}
