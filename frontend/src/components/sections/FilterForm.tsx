@@ -3,9 +3,9 @@ import { RefObject } from "react";
 import { IFilterFormValues } from "../../interfaces/IFilterFormValues";
 import InputField from "../ui/form/InputField";
 import InputWithLabel from "../ui/form/InputWithLabel";
-import SelectPriority from "../ui/project/SelectPriority";
+import SelectPriority from "../ui/form/SelectPriority";
 import { MdTitle } from "react-icons/md";
-import ProgressBarSlider from "../ui/project/ProgressBarSlider";
+import ProgressBarSlider from "../ui/form/ProgressBarSlider";
 
 interface FilterFormProps {
   initialRef: RefObject<HTMLInputElement>;
