@@ -16,7 +16,7 @@ const ProgressBarSlider: React.FC<ProgressBarSliderProps> = ({
   setFieldValue,
 }) => {
   const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(0);
+  const [maxValue, setMaxValue] = useState(100);
   const [showMinValue, setShowMinValue] = useState(false);
   const [showMaxValue, setShowMaxValue] = useState(false);
 
@@ -26,7 +26,7 @@ const ProgressBarSlider: React.FC<ProgressBarSliderProps> = ({
         aria-label={["Progress Bar Min", "Progress Bar Max"]}
         colorScheme='teal'
         w='94%'
-        defaultValue={[0, 100]}
+        defaultValue={[minValue, maxValue]}
         onChange={(values) => {
           setMinValue(values[0]);
           setFieldValue("progressBarFrom", values[0]);
