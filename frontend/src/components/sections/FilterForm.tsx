@@ -8,6 +8,7 @@ import { MdTitle } from "react-icons/md";
 import ProgressBarSlider from "../ui/form/ProgressBarSlider";
 import FavoriteRadio from "../ui/form/FavoriteRadio";
 import DateInput from "../ui/form/DateInput";
+import InputWrapper from "../ui/form/InputWrapper";
 
 interface FilterFormProps {
   initialRef: RefObject<HTMLInputElement>;
@@ -49,54 +50,66 @@ const FilterForm: React.FC<FilterFormProps> = ({ initialRef }) => {
             input={<FavoriteRadio setFieldValue={setFieldValue} />}
             header='Filter based on your favorites'
           />
-          <InputWithLabel
-            input={
-              <DateInput field='createdFrom' setFieldValue={setFieldValue} />
-            }
-            header='Choose the date of creation to filter from'
-          />
-          <InputWithLabel
-            input={
-              <DateInput setFieldValue={setFieldValue} field='createdTo' />
-            }
-            header='Choose the date of creation to filter to'
-          />
-          <InputWithLabel
-            input={
-              <DateInput setFieldValue={setFieldValue} field='deadlineFrom' />
-            }
-            header='Choose the date of deadline to filter from'
-          />
-          <InputWithLabel
-            input={
-              <DateInput setFieldValue={setFieldValue} field='deadlineTo' />
-            }
-            header='Choose the date of deadline to filter to'
-          />
-          <InputWithLabel
-            input={
-              <DateInput setFieldValue={setFieldValue} field='updatedFrom' />
-            }
-            header='Choose the date of updating to filter from'
-          />
-          <InputWithLabel
-            input={
-              <DateInput setFieldValue={setFieldValue} field='updatedTo' />
-            }
-            header='Choose the date of udpating to filter to'
-          />
-          <InputWithLabel
-            input={
-              <DateInput setFieldValue={setFieldValue} field='completedFrom' />
-            }
-            header='Choose the date of completing to filter from'
-          />
-          <InputWithLabel
-            input={
-              <DateInput setFieldValue={setFieldValue} field='completedTo' />
-            }
-            header='Choose the date of completing to filter to'
-          />
+          <InputWrapper title='Creation Date Filters'>
+            <InputWithLabel
+              input={
+                <DateInput field='createdFrom' setFieldValue={setFieldValue} />
+              }
+              header='Choose the date of creation to filter from'
+            />
+            <InputWithLabel
+              input={
+                <DateInput setFieldValue={setFieldValue} field='createdTo' />
+              }
+              header='Choose the date of creation to filter to'
+            />
+          </InputWrapper>
+          <InputWrapper title='Deadline Date Filters'>
+            <InputWithLabel
+              input={
+                <DateInput setFieldValue={setFieldValue} field='deadlineFrom' />
+              }
+              header='Choose the date of deadline to filter from'
+            />
+            <InputWithLabel
+              input={
+                <DateInput setFieldValue={setFieldValue} field='deadlineTo' />
+              }
+              header='Choose the date of deadline to filter to'
+            />
+          </InputWrapper>
+          <InputWrapper title='Update Date Filters'>
+            <InputWithLabel
+              input={
+                <DateInput setFieldValue={setFieldValue} field='updatedFrom' />
+              }
+              header='Choose the date of updating to filter from'
+            />
+            <InputWithLabel
+              input={
+                <DateInput setFieldValue={setFieldValue} field='updatedTo' />
+              }
+              header='Choose the date of udpating to filter to'
+            />
+          </InputWrapper>
+          <InputWrapper title='Completing Date Filters' dontShowDivider={true}>
+            <InputWithLabel
+              input={
+                <DateInput
+                  setFieldValue={setFieldValue}
+                  field='completedFrom'
+                />
+              }
+              header='Choose the date of completing to filter from'
+            />
+            <InputWithLabel
+              input={
+                <DateInput setFieldValue={setFieldValue} field='completedTo' />
+              }
+              header='Choose the date of completing to filter to'
+              dontShowDivider={true}
+            />
+          </InputWrapper>
         </Form>
       )}
     </Formik>
