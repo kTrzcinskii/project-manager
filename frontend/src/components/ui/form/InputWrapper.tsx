@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
   VStack,
   Text,
@@ -9,7 +9,7 @@ import {
   Collapse,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 interface InputWrapperProps {
   title: string;
@@ -31,6 +31,7 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
         justifyContent='space-between'
         onClick={onToggle}
         cursor='pointer'
+        role='group'
       >
         <Text fontSize='md' fontWeight='semibold' color='teal.800'>
           {title}
@@ -39,14 +40,17 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
           aria-label='Show content'
           _focus={{}}
           variant='unstyled'
-          icon={<ChevronDownIcon />}
+          icon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
           color='teal.800'
           fontSize='xl'
+          _groupHover={{ color: "teal.500" }}
         />
       </HStack>
       {dontShowDivider ? isOpen ? <Divider /> : null : <Divider />}
       <Collapse in={isOpen} animateOpacity>
-        {children}
+        <Box h='full' w='full' py={3} px={2}>
+          {children}
+        </Box>
       </Collapse>
     </VStack>
   );

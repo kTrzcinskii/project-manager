@@ -79,6 +79,7 @@ const DateInput: React.FC<DateInputProps> = ({ setFieldValue, field }) => {
         </Box>
         <Box minW='138px'>
           <Select
+            menuPosition='fixed'
             defaultValue={selectedMonth}
             options={monthOptions}
             theme={customTheme}
