@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Select from "react-select";
+import { customTheme } from "../../../utils/selectCustomStyles";
 import {
   customStyle,
-  customTheme,
   priorityOption,
   priorityOptions,
 } from "../../../utils/selectPriority";
