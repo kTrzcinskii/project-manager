@@ -1,4 +1,4 @@
-const months = [
+export const months = [
   "January",
   "February",
   "March",
@@ -11,7 +11,7 @@ const months = [
   "October",
   "November",
   "December",
-];
+] as const;
 
 export default function transfromMonthNumberToString(number: number) {
   return months[number];
