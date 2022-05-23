@@ -1,5 +1,5 @@
-import { Box, HStack, Stack, VStack, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, HStack, Stack, VStack, IconButton } from "@chakra-ui/react";
+import { useState } from "react";
 import {
   monthOption,
   monthOptions,
@@ -8,10 +8,11 @@ import {
 import { customTheme } from "../../../utils/selectCustomStyles";
 import Select from "react-select";
 import CustomNumberInput from "./CustomNumberInput";
+import { CheckIcon } from "@chakra-ui/icons";
 
 interface DateInputProps {
   field: string;
-  setFieldValue: (field: string, value?: Date) => void;
+  setFieldValue: (field: string, value?: string) => void;
 }
 
 const DateInput: React.FC<DateInputProps> = ({ setFieldValue, field }) => {
@@ -21,20 +22,17 @@ const DateInput: React.FC<DateInputProps> = ({ setFieldValue, field }) => {
   );
   const [selectedYear, setSelectedYear] = useState(2000);
 
-  useEffect(() => {
+  const handleClick = () => {
     if (!selectedMonth) {
-      return;
+      throw new Error("Wrong month value");
     }
     const month =
       selectedMonth?.value < 10
         ? `0${selectedMonth?.value}`
         : selectedMonth?.value;
-    const date = new Date(`${selectedYear}-${month}-${selectedDay}`);
-    if (!date) {
-      return;
-    }
-    setFieldValue(field, date);
-  }, [selectedDay, selectedMonth, selectedYear, field, setFieldValue]);
+    const dateString = `${selectedYear}-${month}-${selectedDay}`;
+    setFieldValue(field, dateString);
+  };
 
   return (
     <VStack w='full'>
@@ -100,6 +98,13 @@ const DateInput: React.FC<DateInputProps> = ({ setFieldValue, field }) => {
             }}
           />
         </Box>
+        <IconButton
+          aria-label='Accept Date'
+          icon={<CheckIcon />}
+          onClick={handleClick}
+          colorScheme='teal'
+          _focus={{ ring: 3, ringColor: "teal.800" }}
+        />
       </Stack>
     </VStack>
   );
