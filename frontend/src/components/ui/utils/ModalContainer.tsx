@@ -18,6 +18,7 @@ interface ModalContainerProps {
   onClose: () => void;
   initialRef?: RefObject<HTMLInputElement>;
   size?: { base: string; md: string; lg: string };
+  isCentered?: boolean;
 }
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
@@ -28,6 +29,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   onClose,
   initialRef,
   size,
+  isCentered = true,
 }) => {
   const mySize = size || { base: "xs", md: "md", lg: "lg" };
 
@@ -35,9 +37,10 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      isCentered
+      isCentered={isCentered}
       initialFocusRef={initialRef}
       size={useBreakpointValue(mySize)}
+      scrollBehavior='outside'
     >
       <ModalOverlay />
       <ModalContent>
