@@ -18,6 +18,7 @@ const FilterBtn: React.FC = () => {
         </HStack>
       </Button>
       <ModalContainer
+        isCentered={false}
         isOpen={isOpen}
         header='Select Filters'
         body={<FilterForm initialRef={initialRef} />}
