@@ -22,7 +22,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({ title }) => {
 
   return (
     <VStack
-      h='full'
+      minH='full'
       alignItems='flex-start'
       w='90%'
       bgColor='white'
@@ -30,7 +30,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({ title }) => {
       justifyContent='flex-start'
       flex={1}
     >
-      <Container maxW='container.lg' flex={1} h='full' position='relative'>
+      <Container maxW='container.lg' flex={1} minH='full'>
         <HStack
           justifyContent='space-between'
           w='full'
