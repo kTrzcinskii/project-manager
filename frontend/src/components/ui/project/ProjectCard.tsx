@@ -28,6 +28,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   createdAt: createdAtDate,
   updatedAt: updatedAtDate,
   index,
+  completedAt: completedAtDate,
 }) => {
   const [createdAt, setCreatedAt] = useState<null | Date>(null);
   useEffect(() => {
@@ -49,6 +50,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   let updatedAtFormated = "";
   if (updatedAt) {
     updatedAtFormated = format(updatedAt, "HH:mm, do MMMM y");
+  }
+
+  const [completedAt, setCompletedAt] = useState<null | Date>(null);
+  useEffect(() => {
+    const date = new Date(completedAtDate);
+    setCompletedAt(date);
+  }, [completedAtDate]);
+
+  let completedAtFormated = "";
+  if (completedAt) {
+    completedAtFormated = format(completedAt, "HH:mm, do MMMM y");
   }
 
   const color = projectCardColors[index];
@@ -112,12 +124,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </Text>
       </Box>
       <Box pt={4} w='80%'>
-        <Text>
-          Last update -{" "}
-          <chakra.span fontWeight='medium' color={`${color}.600`}>
-            {updatedAtFormated}
-          </chakra.span>
-        </Text>
+        {status === "finished" ? (
+          <Text>
+            Completed on{" "}
+            <chakra.span fontWeight='medium' color={`${color}.600`}>
+              {completedAtFormated}
+            </chakra.span>
+          </Text>
+        ) : (
+          <Text>
+            Last updated on{" "}
+            <chakra.span fontWeight='medium' color={`${color}.600`}>
+              {updatedAtFormated}
+            </chakra.span>
+          </Text>
+        )}
       </Box>
       <HStack
         w='80%'
