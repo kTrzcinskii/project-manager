@@ -19,8 +19,8 @@ interface field {
 const fields: field[] = [
   { title: "Title", value: "title", type: "string" },
   { title: "Progress", value: "progressBar", type: "number" },
-  { title: "Deadline", value: "deadline", type: "string" },
-  { title: "Creation Date", value: "createdAt", type: "string" },
+  { title: "Deadline", value: "deadline", type: "number" },
+  { title: "Creation Date", value: "createdAt", type: "number" },
   { title: "Status", value: "status", type: "string" },
   { title: "Priority", value: "priority", type: "string" },
 ];
