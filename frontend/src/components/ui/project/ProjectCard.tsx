@@ -7,7 +7,9 @@ import {
   Progress,
   chakra,
   useToast,
+  Button,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import IHomePageProject from "../../../interfaces/IHomePageProject";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useEffect, useState } from "react";
@@ -18,6 +20,7 @@ import axios from "axios";
 import { useQueryClient } from "react-query";
 import networkErrorToastOptions from "../../../utils/toasts/networkErrorToastOptions";
 import successfulPostEditedToastOptions from "../../../utils/toasts/successfulPostEdited";
+import { useRouter } from "next/router";
 
 interface ProjectCardProps extends IHomePageProject {
   index: number;
@@ -81,11 +84,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   const queryClient = useQueryClient();
 
-  const [acctualFavorite, setAcctualFavorite] = useState(favorite);
+  const [actualFavorite, setActualFavorite] = useState(favorite);
+
+  const router = useRouter();
 
   const favoriteMutation = useEditProject(id);
   const handleClick = () => {
-    setAcctualFavorite((favorite) => !favorite);
+    setActualFavorite((favorite) => !favorite);
     favoriteMutation.mutate(
       { favorite: !favorite },
       {
@@ -94,7 +99,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           queryClient.invalidateQueries(["allProjects", page, query]);
         },
         onError: (error) => {
-          setAcctualFavorite((favorite) => !favorite);
+          setActualFavorite((favorite) => !favorite);
           if (axios.isAxiosError(error)) {
             if (!error.response) {
               toast(toastNetworError);
@@ -115,104 +120,159 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       bgColor={`${color}.50`}
       pos='relative'
       minH='412px'
+      _hover={{ bgColor: `${color}.100` }}
+      transition='background-color 200ms ease-in-out'
+      as={motion.div}
+      custom={index}
+      variants={{
+        hidden: {
+          opacity: 0,
+        },
+        visible: (index: number) => ({
+          transition: {
+            delay: index * 0.15 + 0.3,
+          },
+          opacity: 1,
+        }),
+      }}
+      initial='hidden'
+      animate='visible'
+      role='group'
     >
-      <HStack w='full' justifyContent='space-between' mt={2} px={4}>
-        <IconButton
-          aria-label='Make favorite/unfavorite'
-          variant='ghost'
-          icon={
-            acctualFavorite ? (
-              <AiFillStar fontSize={22} color='F6AD55' />
-            ) : (
-              <AiOutlineStar fontSize={22} color='F6AD55' />
-            )
-          }
-          _hover={{ transform: "scale(1.3)" }}
-          _focus={{}}
-          _active={{}}
-          onClick={handleClick}
-        />
-        <Text fontWeight='semibold'>{createdAtFormated}</Text>
-      </HStack>
-      <Box pt={8}>
-        <Text fontSize='2xl' fontWeight='medium' color={`${color}.900`}>
-          {title}
-        </Text>
-      </Box>
-      <Box pt={8} w='80%'>
-        <HStack w='95%' justifyContent='space-between' mx='auto' fontSize='sm'>
-          <Text>Progress</Text>
-          <Text>{progressBar}%</Text>
-        </HStack>
-        <Progress
-          value={progressBar}
-          colorScheme={color}
-          size='sm'
-          rounded='md'
-          hasStripe={true}
-          isAnimated={true}
-        />
-      </Box>
-      <Box pt={4} w='80%'>
-        <Text>
-          Status -{" "}
-          <chakra.span
-            textTransform='capitalize'
-            fontWeight='medium'
-            color={`${color}.700`}
-          >
-            {status === "inProgress" ? "in progress" : status}
-          </chakra.span>
-        </Text>
-      </Box>
-      <Box pt={4} w='80%'>
-        {status === "finished" ? (
-          <Text>
-            Completed on{" "}
-            <chakra.span fontWeight='medium' color={`${color}.600`}>
-              {completedAtFormated}
-            </chakra.span>
-          </Text>
-        ) : (
-          <Text>
-            Last updated on{" "}
-            <chakra.span fontWeight='medium' color={`${color}.600`}>
-              {updatedAtFormated}
-            </chakra.span>
-          </Text>
-        )}
-      </Box>
-      <HStack
-        w='80%'
-        justifyContent='space-between'
-        pt={5}
-        pb={4}
+      <Button
         pos='absolute'
-        bottom={0}
+        opacity={0}
+        top='50%'
+        left='50%'
+        transform='translate(-50%, -50%)'
+        _groupHover={{ opacity: 1 }}
+        transition='all 200ms ease-in-out'
+        _hover={{ transform: "translate(-50%, -50%) scale(1.1)" }}
+        variant='ghost'
+        bgColor='white'
+        color={`${color}.900`}
+        zIndex={10}
+        onClick={() => router.push(`/project/${id}`)}
+        _focus={{ ring: 3, ringColor: `${color}.800` }}
       >
-        <VStack alignItems='flex-start' spacing={0}>
-          <Text>Priority</Text>
+        See more details
+      </Button>
+      <VStack
+        w='full'
+        _groupHover={{ opacity: 0 }}
+        transition='opacity 200ms ease-in-out'
+        onClick={() => router.push(`/project/${id}`)}
+      >
+        <HStack w='full' justifyContent='space-between' mt={2} px={4}>
+          <IconButton
+            aria-label='Make favorite/unfavorite'
+            variant='ghost'
+            icon={
+              actualFavorite ? (
+                <AiFillStar fontSize={22} color='F6AD55' />
+              ) : (
+                <AiOutlineStar fontSize={22} color='F6AD55' />
+              )
+            }
+            _hover={{ transform: "scale(1.3)" }}
+            _focus={{}}
+            _active={{}}
+            onClick={handleClick}
+          />
+          <Text fontWeight='semibold'>{createdAtFormated}</Text>
+        </HStack>
+        <Box pt={7}>
           <Text
-            textTransform='capitalize'
+            px={4}
+            py={2}
+            rounded='lg'
+            fontSize='2xl'
             fontWeight='medium'
-            color={`${color}.700`}
+            color={`${color}.900`}
           >
-            {priority}
+            {title}
           </Text>
-        </VStack>
-        {timeLeft && (
-          <VStack alignItems='flex-end' spacing={0}>
-            <Text>Time left</Text>
-            <Text
-              textTransform='uppercase'
+        </Box>
+        <Box pt={7} w='80%'>
+          <HStack
+            w='95%'
+            justifyContent='space-between'
+            mx='auto'
+            fontSize='sm'
+          >
+            <Text>Progress</Text>
+            <Text>{progressBar}%</Text>
+          </HStack>
+          <Progress
+            value={progressBar}
+            colorScheme={color}
+            size='sm'
+            rounded='md'
+            hasStripe={true}
+            isAnimated={true}
+          />
+        </Box>
+        <Box pt={4} w='80%'>
+          <Text>
+            Status -{" "}
+            <chakra.span
+              textTransform='capitalize'
               fontWeight='medium'
-              color={`${color}.600`}
+              color={`${color}.700`}
             >
-              {timeLeft}
+              {status === "inProgress" ? "in progress" : status}
+            </chakra.span>
+          </Text>
+        </Box>
+        <Box pt={4} w='80%'>
+          {status === "finished" ? (
+            <Text>
+              Completed on{" "}
+              <chakra.span fontWeight='medium' color={`${color}.600`}>
+                {completedAtFormated}
+              </chakra.span>
+            </Text>
+          ) : (
+            <Text>
+              Last updated on{" "}
+              <chakra.span fontWeight='medium' color={`${color}.600`}>
+                {updatedAtFormated}
+              </chakra.span>
+            </Text>
+          )}
+        </Box>
+        <HStack
+          w='80%'
+          justifyContent='space-between'
+          pt={5}
+          pb={4}
+          pos='absolute'
+          bottom={0}
+        >
+          <VStack alignItems='flex-start' spacing={0}>
+            <Text>Priority</Text>
+            <Text
+              textTransform='capitalize'
+              fontWeight='medium'
+              color={`${color}.700`}
+            >
+              {priority}
             </Text>
           </VStack>
-        )}
-      </HStack>
+          {timeLeft && (
+            <VStack alignItems='flex-end' spacing={0}>
+              <Text>Time left</Text>
+              <Text
+                textTransform='uppercase'
+                fontWeight='medium'
+                color={`${color}.600`}
+              >
+                {timeLeft}
+              </Text>
+            </VStack>
+          )}
+        </HStack>
+      </VStack>
     </VStack>
   );
 };
