@@ -127,11 +127,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       variants={{
         hidden: {
           opacity: 0,
+          translateX: "70%",
         },
         visible: (index: number) => ({
           transition: {
-            delay: index * 0.15 + 0.3,
+            delay: index * 0.2 + 0.2,
           },
+          translateX: "0%",
           opacity: 1,
         }),
       }}
