@@ -20,7 +20,7 @@ const UsernameInfo: React.FC<UsernameInfoProps> = ({ username }) => {
 
   return (
     <>
-      <FieldContainer>
+      <FieldContainer index={0}>
         <InfoField header='username' value={username} />
         <ChangeBtn onClick={onOpen} />
       </FieldContainer>

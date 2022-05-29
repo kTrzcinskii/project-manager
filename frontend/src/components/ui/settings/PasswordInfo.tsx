@@ -18,7 +18,7 @@ const PasswordInfo: React.FC = () => {
 
   return (
     <>
-      <FieldContainer>
+      <FieldContainer index={3}>
         <InfoField header='password' value={randomPassword} />
         <ChangeBtn onClick={onOpen} />
       </FieldContainer>

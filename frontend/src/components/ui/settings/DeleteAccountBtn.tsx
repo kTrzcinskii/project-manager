@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import DeleteAccountBody from "./modal-contents/delete-acount/DeleteAccountBody";
 import DeleteAccountFooter from "./modal-contents/delete-acount/DeleteAccountFooter";
 import ModalContainer from "../utils/ModalContainer";
+import { motion } from "framer-motion";
 
 const DeleteAccountBtn: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -13,7 +14,23 @@ const DeleteAccountBtn: React.FC = () => {
 
   return (
     <>
-      <Box py={{ base: 6, md: 10, lg: 16 }}>
+      <Box
+        py={{ base: 6, md: 10, lg: 16 }}
+        as={motion.div}
+        initial={{
+          opacity: 0,
+          translateY: "150%",
+        }}
+        animate={{
+          opacity: 1,
+          translateY: "0%",
+          transition: {
+            duration: 0.3,
+            ease: "easeInOut",
+            delay: 1.5,
+          },
+        }}
+      >
         <Button
           mx='auto'
           colorScheme='red'

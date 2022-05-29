@@ -20,7 +20,7 @@ const EmailInfo: React.FC<EmailInfoProps> = ({ email }) => {
 
   return (
     <>
-      <FieldContainer>
+      <FieldContainer index={1}>
         <InfoField header='email' value={email} />
         <ChangeBtn onClick={onOpen} />
       </FieldContainer>

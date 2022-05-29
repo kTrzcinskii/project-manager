@@ -14,7 +14,7 @@ const CreatedAtInfo: React.FC<CreatedAtInfoProps> = ({ createdAt }) => {
   }, [createdAt]);
 
   return (
-    <FieldContainer>
+    <FieldContainer index={2}>
       <InfoField header='joined' value={createdDate} />
     </FieldContainer>
   );

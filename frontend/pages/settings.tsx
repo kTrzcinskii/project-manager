@@ -1,4 +1,5 @@
 import { Heading, VStack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import type { NextPage, NextPageContext } from "next";
 import Sidebar from "../src/components/sections/Sidebar";
 import AccountDetails from "../src/components/ui/settings/AccountDetails";
@@ -21,7 +22,23 @@ const Settings: NextPage<{
         spacing={{ base: 6, md: 10, lg: 14 }}
         pt={{ base: 3, md: 6 }}
       >
-        <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
+        <Heading
+          color='teal.600'
+          fontSize={{ base: "3xl", md: "4xl" }}
+          as={motion.h1}
+          initial={{
+            opacity: 0,
+            translateY: "-150%",
+          }}
+          animate={{
+            opacity: 1,
+            translateY: "0%",
+            transition: {
+              duration: 0.3,
+              ease: "easeInOut",
+            },
+          }}
+        >
           Account Settings
         </Heading>
         <AccountDetails user={user} />
