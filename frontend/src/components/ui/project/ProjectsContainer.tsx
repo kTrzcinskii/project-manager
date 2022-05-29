@@ -62,7 +62,7 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
       {data?.projects.map((project, index) => {
         return (
           <GridItem key={project.id}>
-            <ProjectCard {...project} index={index} />
+            <ProjectCard {...project} index={index} page={page} query={query} />
           </GridItem>
         );
       })}

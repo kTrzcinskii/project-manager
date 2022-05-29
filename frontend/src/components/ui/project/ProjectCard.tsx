@@ -6,15 +6,23 @@ import {
   Box,
   Progress,
   chakra,
+  useToast,
 } from "@chakra-ui/react";
 import IHomePageProject from "../../../interfaces/IHomePageProject";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import projectCardColors from "../../../utils/projectCardColors";
+import useEditProject from "../../../hooks/mutation/useEditProject";
+import axios from "axios";
+import { useQueryClient } from "react-query";
+import networkErrorToastOptions from "../../../utils/toasts/networkErrorToastOptions";
+import successfulPostEditedToastOptions from "../../../utils/toasts/successfulPostEdited";
 
 interface ProjectCardProps extends IHomePageProject {
   index: number;
+  page: number;
+  query: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -29,6 +37,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   updatedAt: updatedAtDate,
   index,
   completedAt: completedAtDate,
+  page,
+  query,
 }) => {
   const [createdAt, setCreatedAt] = useState<null | Date>(null);
   useEffect(() => {
@@ -65,6 +75,37 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   const color = projectCardColors[index];
 
+  const toast = useToast();
+  const toastNetworError = networkErrorToastOptions();
+  const toastSuccessful = successfulPostEditedToastOptions();
+
+  const queryClient = useQueryClient();
+
+  const [acctualFavorite, setAcctualFavorite] = useState(favorite);
+
+  const favoriteMutation = useEditProject(id);
+  const handleClick = () => {
+    setAcctualFavorite((favorite) => !favorite);
+    favoriteMutation.mutate(
+      { favorite: !favorite },
+      {
+        onSuccess: () => {
+          toast(toastSuccessful);
+          queryClient.invalidateQueries(["allProjects", page, query]);
+        },
+        onError: (error) => {
+          setAcctualFavorite((favorite) => !favorite);
+          if (axios.isAxiosError(error)) {
+            if (!error.response) {
+              toast(toastNetworError);
+            }
+            toast(toastNetworError);
+          }
+        },
+      }
+    );
+  };
+
   return (
     <VStack
       w='full'
@@ -80,7 +121,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           aria-label='Make favorite/unfavorite'
           variant='ghost'
           icon={
-            favorite ? (
+            acctualFavorite ? (
               <AiFillStar fontSize={22} color='F6AD55' />
             ) : (
               <AiOutlineStar fontSize={22} color='F6AD55' />
@@ -89,6 +130,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           _hover={{ transform: "scale(1.3)" }}
           _focus={{}}
           _active={{}}
+          onClick={handleClick}
         />
         <Text fontWeight='semibold'>{createdAtFormated}</Text>
       </HStack>
