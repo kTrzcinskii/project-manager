@@ -10,6 +10,7 @@ import LoginForm from "../src/components/sections/LoginForm";
 import NextLink from "next/link";
 import GradientBg from "../src/components/ui/utils/GradientBg";
 import FormContainer from "../src/components/ui/form/FormContainer";
+import { motion } from "framer-motion";
 
 const Login: NextPage = () => {
   return (
@@ -23,6 +24,20 @@ const Login: NextPage = () => {
           <Heading
             size={useBreakpointValue({ base: "lg", md: "xl" })}
             color='teal.800'
+            as={motion.h1}
+            initial={{
+              opacity: 0,
+              translateX: "-150%",
+            }}
+            animate={{
+              opacity: 1,
+              translateX: "0%",
+              transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+                delay: 0.55,
+              },
+            }}
           >
             Login
           </Heading>
@@ -30,6 +45,20 @@ const Login: NextPage = () => {
           <Text
             color='gray.500'
             fontSize={useBreakpointValue({ base: "sm", md: "md" })}
+            as={motion.p}
+            initial={{
+              opacity: 0,
+              translateX: "-150%",
+            }}
+            animate={{
+              opacity: 1,
+              translateX: "0%",
+              transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+                delay: 1.15,
+              },
+            }}
           >
             Don&apos;t have an account?{" "}
             <NextLink href='/register' passHref>

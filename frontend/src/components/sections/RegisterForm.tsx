@@ -11,6 +11,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
 import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
+import { motion } from "framer-motion";
 
 const RegisterForm: React.FC = () => {
   const router = useRouter();
@@ -53,7 +54,25 @@ const RegisterForm: React.FC = () => {
     >
       {({ isSubmitting, values, handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <VStack w='full' align='flex-start' spacing={formSpacing}>
+          <VStack
+            w='full'
+            align='flex-start'
+            spacing={formSpacing}
+            as={motion.div}
+            initial={{
+              opacity: 0,
+              translateX: "150%",
+            }}
+            animate={{
+              opacity: 1,
+              translateX: "0%",
+              transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+                delay: 0.85,
+              },
+            }}
+          >
             <InputField
               name='username'
               type='text'
