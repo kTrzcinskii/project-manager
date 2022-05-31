@@ -1,4 +1,4 @@
-import { Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import ProjectCard from "./ProjectCard";
 import IAllProjects from "../../../interfaces/IAllProjects";
@@ -18,8 +18,24 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
   isLoading,
 }) => {
   if (isError) {
-    //TODO
-    return <>ERROR</>;
+    return (
+      <Box pt={{ base: 90, md: 160, lg: 200 }} w='80%' mx='auto'>
+        <Heading
+          textAlign='center'
+          color='teal.900'
+          fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+        >
+          Server Error
+        </Heading>
+        <Text
+          fontSize={{ base: "md", md: "lg", lg: "xl" }}
+          textAlign='center'
+          color='gray.800'
+        >
+          Sorry, we cannot reach our server right now. Please try again later.
+        </Text>
+      </Box>
+    );
   }
 
   if (isLoading) {
@@ -29,7 +45,7 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
         mx='auto'
         justifyContent='center'
         alignItems='center'
-        mt={20}
+        mt={{ base: 20, md: 40, lg: 60 }}
       >
         <LoadingSpinner />
       </Flex>
