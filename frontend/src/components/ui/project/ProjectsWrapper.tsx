@@ -34,6 +34,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
   }, []);
 
   const { data, isLoading, isError } = useGetProjects(page, query);
+  const isEmpty = data?.projects.length === 0;
 
   return (
     <VStack
@@ -68,7 +69,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
           isLoading={isLoading}
           isError={isError}
         />
-        {!isLoading && !isError && (
+        {!isLoading && !isError && !isEmpty && (
           <HStack spacing={3} w='full' justifyContent='center' pb={4}>
             <IconButton
               aria-label='Go to previous page'
