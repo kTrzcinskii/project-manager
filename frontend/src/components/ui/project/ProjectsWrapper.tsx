@@ -68,28 +68,30 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
           isLoading={isLoading}
           isError={isError}
         />
-        <HStack spacing={3} w='full' justifyContent='center' pb={4}>
-          <IconButton
-            aria-label='Go to previous page'
-            icon={<ChevronLeftIcon boxSize={8} />}
-            rounded='lg'
-            size='lg'
-            disabled={page === 0 ? true : false}
-            onClick={() => setPage((page) => page - 1)}
-            color='teal.700'
-            _focus={{ ring: 3, ringColor: "teal.700" }}
-          />
-          <IconButton
-            aria-label='Go to next page'
-            icon={<ChevronRightIcon boxSize={8} />}
-            rounded='lg'
-            size='lg'
-            disabled={!data?.hasMore}
-            onClick={() => setPage((page) => page + 1)}
-            color='teal.700'
-            _focus={{ ring: 3, ringColor: "teal.700" }}
-          />
-        </HStack>
+        {!isLoading && !isError && (
+          <HStack spacing={3} w='full' justifyContent='center' pb={4}>
+            <IconButton
+              aria-label='Go to previous page'
+              icon={<ChevronLeftIcon boxSize={8} />}
+              rounded='lg'
+              size='lg'
+              disabled={page === 0 ? true : false}
+              onClick={() => setPage((page) => page - 1)}
+              color='teal.700'
+              _focus={{ ring: 3, ringColor: "teal.700" }}
+            />
+            <IconButton
+              aria-label='Go to next page'
+              icon={<ChevronRightIcon boxSize={8} />}
+              rounded='lg'
+              size='lg'
+              disabled={!data?.hasMore}
+              onClick={() => setPage((page) => page + 1)}
+              color='teal.700'
+              _focus={{ ring: 3, ringColor: "teal.700" }}
+            />
+          </HStack>
+        )}
       </Container>
     </VStack>
   );
