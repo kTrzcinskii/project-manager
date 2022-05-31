@@ -144,12 +144,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <Button
         pos='absolute'
         opacity={0}
-        top='50%'
-        left='50%'
-        transform='translate(-50%, -50%)'
+        bottom='30%'
         _groupHover={{ opacity: 1 }}
         transition='all 200ms ease-in-out'
-        _hover={{ transform: "translate(-50%, -50%) scale(1.1)" }}
+        _hover={{ transform: "scale(1.1)" }}
         variant='ghost'
         bgColor='white'
         color={`${color}.900`}
@@ -159,42 +157,44 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       >
         See more details
       </Button>
+      <HStack w='full' justifyContent='space-between' mt={2} px={4}>
+        <IconButton
+          aria-label='Make favorite/unfavorite'
+          variant='ghost'
+          icon={
+            actualFavorite ? (
+              <AiFillStar fontSize={22} color='F6AD55' />
+            ) : (
+              <AiOutlineStar fontSize={22} color='F6AD55' />
+            )
+          }
+          _hover={{ transform: "scale(1.3)" }}
+          _focus={{}}
+          _active={{}}
+          onClick={handleClick}
+        />
+        <Text fontWeight='semibold'>{createdAtFormated}</Text>
+      </HStack>
+      <Box pt={7}>
+        <Text
+          px={4}
+          py={2}
+          rounded='lg'
+          fontSize='2xl'
+          fontWeight='medium'
+          color={`${color}.900`}
+          onClick={() => router.push(`/project/${id}`)}
+          cursor='pointer'
+        >
+          {title}
+        </Text>
+      </Box>
       <VStack
         w='full'
         _groupHover={{ opacity: 0 }}
         transition='opacity 200ms ease-in-out'
         onClick={() => router.push(`/project/${id}`)}
       >
-        <HStack w='full' justifyContent='space-between' mt={2} px={4}>
-          <IconButton
-            aria-label='Make favorite/unfavorite'
-            variant='ghost'
-            icon={
-              actualFavorite ? (
-                <AiFillStar fontSize={22} color='F6AD55' />
-              ) : (
-                <AiOutlineStar fontSize={22} color='F6AD55' />
-              )
-            }
-            _hover={{ transform: "scale(1.3)" }}
-            _focus={{}}
-            _active={{}}
-            onClick={handleClick}
-          />
-          <Text fontWeight='semibold'>{createdAtFormated}</Text>
-        </HStack>
-        <Box pt={7}>
-          <Text
-            px={4}
-            py={2}
-            rounded='lg'
-            fontSize='2xl'
-            fontWeight='medium'
-            color={`${color}.900`}
-          >
-            {title}
-          </Text>
-        </Box>
         <Box pt={7} w='80%'>
           <HStack
             w='95%'
