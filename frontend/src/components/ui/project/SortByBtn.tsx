@@ -8,9 +8,10 @@ const SortByBtn: React.FC = () => {
 
   return (
     <>
-      <Button _focus={{ ring: 3, ringColor: "gray" }} onClick={onOpen}>
+      <Button _focus={{ ring: 3, ringColor: "teal.700" }} onClick={onOpen}>
         <HStack spacing={2}>
-          <BsSortAlphaDown fontSize='22' /> <Text>Sort By</Text>
+          <BsSortAlphaDown fontSize='22' color='#285E61' />{" "}
+          <Text color='teal.700'>Sort By</Text>
         </HStack>
       </Button>
       <ModalContainer
