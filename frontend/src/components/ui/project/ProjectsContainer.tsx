@@ -1,18 +1,22 @@
-import useGetProjects from "../../../hooks/query/useGetProjects";
 import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import ProjectCard from "./ProjectCard";
+import IAllProjects from "../../../interfaces/IAllProjects";
 interface ProjectsContainerProps {
   page: number;
   query: string;
+  data: IAllProjects | undefined;
+  isError: boolean;
+  isLoading: boolean;
 }
 
 const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
   page,
   query,
+  data,
+  isError,
+  isLoading,
 }) => {
-  const { data, isLoading, isError } = useGetProjects(page, query);
-
   if (isError) {
     //TODO
     return <>ERROR</>;
