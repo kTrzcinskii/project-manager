@@ -8,6 +8,7 @@ import {
 
 interface SortByBodyProps {
   onClose: () => void;
+  handleClick: (sortBy: string) => void;
 }
 
 interface field {
@@ -25,7 +26,7 @@ const fields: field[] = [
   { title: "Priority", value: "priority", type: "string" },
 ];
 
-const SortByBody: React.FC<SortByBodyProps> = ({ onClose }) => {
+const SortByBody: React.FC<SortByBodyProps> = ({ onClose, handleClick }) => {
   return (
     <VStack w='full' spacing={4}>
       {fields.map((field) => {
@@ -52,6 +53,10 @@ const SortByBody: React.FC<SortByBodyProps> = ({ onClose }) => {
                 }
                 _focus={{ ring: 3, ringColor: "teal.800" }}
                 w={14}
+                onClick={() => {
+                  handleClick(`${field.value}_asc`);
+                  onClose();
+                }}
               />
               <IconButton
                 size='lg'
@@ -67,6 +72,10 @@ const SortByBody: React.FC<SortByBodyProps> = ({ onClose }) => {
                 }
                 _focus={{ ring: 3, ringColor: "gray.800" }}
                 w={14}
+                onClick={() => {
+                  handleClick(`${field.value}_desc`);
+                  onClose();
+                }}
               />
             </HStack>
           </HStack>

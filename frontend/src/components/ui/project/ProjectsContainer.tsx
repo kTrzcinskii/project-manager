@@ -5,6 +5,7 @@ import {
   Grid,
   GridItem,
   Heading,
+  Progress,
   Text,
 } from "@chakra-ui/react";
 import LoadingSpinner from "../utils/LoadingSpinner";
@@ -17,6 +18,7 @@ interface ProjectsContainerProps {
   data: IAllProjects | undefined;
   isError: boolean;
   isLoading: boolean;
+  isSorting: boolean;
 }
 
 const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
@@ -25,6 +27,7 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
   data,
   isError,
   isLoading,
+  isSorting,
 }) => {
   const router = useRouter();
 
@@ -59,6 +62,36 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
         mt={{ base: 20, md: 40, lg: 60 }}
       >
         <LoadingSpinner />
+      </Flex>
+    );
+  }
+
+  if (isSorting) {
+    return (
+      <Flex
+        w='full'
+        mx='auto'
+        justifyContent='center'
+        alignItems='center'
+        mt={{ base: 20, md: 40, lg: 60 }}
+        flexDirection='column'
+      >
+        <Text
+          mb={4}
+          textAlign='center'
+          color='teal.900'
+          fontWeight='semibold'
+          fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
+        >
+          Sorting
+        </Text>
+        <Progress
+          isIndeterminate
+          colorScheme='teal'
+          w='300px'
+          maxW='60%'
+          size='sm'
+        />
       </Flex>
     );
   }

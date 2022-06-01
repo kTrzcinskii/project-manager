@@ -25,6 +25,8 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState(propQuery);
 
+  const [isSorting, setIsSorting] = useState(false);
+
   const [date, setDate] = useState("");
   useEffect(() => {
     const today = new Date();
@@ -60,7 +62,11 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
           <Text>{date}</Text>
         </HStack>
         <Box w='full'>
-          <FilterBar />
+          <FilterBar
+            query={query}
+            setQuery={setQuery}
+            setIsSorting={setIsSorting}
+          />
         </Box>
         <ProjectsContainer
           query={query}
@@ -68,8 +74,9 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
           data={data}
           isLoading={isLoading}
           isError={isError}
+          isSorting={isSorting}
         />
-        {!isLoading && !isError && !isEmpty && (
+        {!isSorting && !isLoading && !isError && !isEmpty && (
           <HStack spacing={3} w='full' justifyContent='center' pb={4}>
             <IconButton
               aria-label='Go to previous page'

@@ -1,11 +1,16 @@
 import { Button, HStack, Text, useDisclosure } from "@chakra-ui/react";
-import { useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { BsFilterLeft } from "react-icons/bs";
 import FilterForm from "../../sections/FilterForm";
 import ModalContainer from "../utils/ModalContainer";
 import FilterFooter from "./FilterFooter";
 
-const FilterBtn: React.FC = () => {
+interface FilterBtnProps {
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+}
+
+const FilterBtn: React.FC<FilterBtnProps> = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef<HTMLInputElement>(null);

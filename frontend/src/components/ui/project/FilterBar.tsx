@@ -1,9 +1,20 @@
 import { Flex, HStack } from "@chakra-ui/react";
+import { Dispatch, SetStateAction } from "react";
 import CreateNewProjectBtn from "./CreateNewProjectBtn";
 import FilterBtn from "./FilterBtn";
 import SortByBtn from "./SortByBtn";
 
-const FilterBar: React.FC = () => {
+interface FilterBarProps {
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+  setIsSorting: Dispatch<SetStateAction<boolean>>;
+}
+
+const FilterBar: React.FC<FilterBarProps> = ({
+  query,
+  setQuery,
+  setIsSorting,
+}) => {
   return (
     <Flex
       mx='auto'
@@ -14,8 +25,8 @@ const FilterBar: React.FC = () => {
       px={5}
     >
       <HStack spacing={{ base: 2, md: 5 }} mb={{ base: 5, md: 5, lg: 0 }}>
-        <FilterBtn />
-        <SortByBtn />
+        <FilterBtn query={query} setQuery={setQuery} />
+        <SortByBtn setQuery={setQuery} setIsSorting={setIsSorting} />
       </HStack>
       <CreateNewProjectBtn />
     </Flex>
