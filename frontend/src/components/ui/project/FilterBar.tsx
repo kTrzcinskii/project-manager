@@ -8,12 +8,14 @@ interface FilterBarProps {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   setIsSorting: Dispatch<SetStateAction<boolean>>;
+  setIsFiltering: Dispatch<SetStateAction<boolean>>;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
   query,
   setQuery,
   setIsSorting,
+  setIsFiltering,
 }) => {
   return (
     <Flex
@@ -25,7 +27,11 @@ const FilterBar: React.FC<FilterBarProps> = ({
       px={5}
     >
       <HStack spacing={{ base: 2, md: 5 }} mb={{ base: 5, md: 5, lg: 0 }}>
-        <FilterBtn query={query} setQuery={setQuery} />
+        <FilterBtn
+          query={query}
+          setQuery={setQuery}
+          setIsFiltering={setIsFiltering}
+        />
         <SortByBtn setQuery={setQuery} setIsSorting={setIsSorting} />
       </HStack>
       <CreateNewProjectBtn />

@@ -8,9 +8,14 @@ import FilterFooter from "./FilterFooter";
 interface FilterBtnProps {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
+  setIsFiltering: Dispatch<SetStateAction<boolean>>;
 }
 
-const FilterBtn: React.FC<FilterBtnProps> = () => {
+const FilterBtn: React.FC<FilterBtnProps> = ({
+  query,
+  setIsFiltering,
+  setQuery,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef<HTMLInputElement>(null);
@@ -27,7 +32,15 @@ const FilterBtn: React.FC<FilterBtnProps> = () => {
         isCentered={false}
         isOpen={isOpen}
         header='Select Filters'
-        body={<FilterForm initialRef={initialRef} />}
+        body={
+          <FilterForm
+            initialRef={initialRef}
+            setIsFiltering={setIsFiltering}
+            setQuery={setQuery}
+            query={query}
+            onClose={onClose}
+          />
+        }
         footer={<FilterFooter onClose={onClose} />}
         onClose={onClose}
         initialRef={initialRef}

@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { RefObject } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import { IFilterFormValues } from "../../interfaces/IFilterFormValues";
 import InputField from "../ui/form/InputField";
 import InputWithLabel from "../ui/form/InputWithLabel";
@@ -9,19 +9,81 @@ import ProgressBarSlider from "../ui/form/ProgressBarSlider";
 import FavoriteRadio from "../ui/form/FavoriteRadio";
 import DateInput from "../ui/form/DateInput";
 import InputWrapper from "../ui/form/InputWrapper";
+import getInitialFilterFormValues from "../../utils/getInitialFilterFromValues";
 
 interface FilterFormProps {
   initialRef: RefObject<HTMLInputElement>;
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+  setIsFiltering: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
-const FilterForm: React.FC<FilterFormProps> = ({ initialRef }) => {
-  const initialValues: IFilterFormValues = { priority: "all" };
+const FilterForm: React.FC<FilterFormProps> = ({
+  initialRef,
+  query,
+  setIsFiltering,
+  setQuery,
+  onClose,
+}) => {
+  const initialValues: IFilterFormValues = getInitialFilterFormValues(
+    query
+  ) || {
+    priority: "all",
+    favorite: undefined,
+  };
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values, action) => {
         console.log(values);
+
+        setIsFiltering(true);
+        setQuery((previousQuery: string) => {
+          let newQuery = previousQuery;
+
+          const datesVariabalesNames = [
+            "deadlineFrom",
+            "deadlineTo",
+            "createdFrom",
+            "createdTo",
+            "updatedFrom",
+            "updatedTo",
+            "completedFrom",
+            "completedTo",
+          ];
+          for (let key in values) {
+            if (datesVariabalesNames.includes(key)) {
+              //@ts-ignore
+              values[key] = values[key].toLocalDateString();
+            }
+          }
+
+          for (let key in values) {
+            if (newQuery.includes(key)) {
+              const regexp = new RegExp(`&${key}=[^&]+`, "igm");
+              //@ts-ignore
+              if (values[key] === null || values[key] === undefined) {
+                newQuery = newQuery.replace(newQuery.match(regexp)![0], "");
+              } else {
+                newQuery = newQuery.replace(
+                  newQuery.match(regexp)![0],
+                  //@ts-ignore
+                  `&${key}=${values[key]}`
+                );
+              }
+              //@ts-ignore
+            } else if (values[key] !== null && values[key] !== undefined) {
+              //@ts-ignore
+              newQuery += `&${key}=${values[key]}`;
+            }
+          }
+          console.log(newQuery);
+          return newQuery;
+        });
+        const timeout = setTimeout(() => setIsFiltering(false), 1500);
+        onClose();
       }}
     >
       {({ values, handleSubmit, setFieldValue }) => (
@@ -39,7 +101,12 @@ const FilterForm: React.FC<FilterFormProps> = ({ initialRef }) => {
             header='Search for title'
           />
           <InputWithLabel
-            input={<SelectPriority setFieldValue={setFieldValue} />}
+            input={
+              <SelectPriority
+                setFieldValue={setFieldValue}
+                defaultValue={initialValues.priority}
+              />
+            }
             header='Choose priority level'
           />
           <InputWithLabel
