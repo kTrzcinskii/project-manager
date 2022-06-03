@@ -283,7 +283,7 @@ export class ProjectService {
     if (query.favorite) {
       filterObj.favorite = query.favorite === 'true';
     }
-    if (query.priority) {
+    if (query.priority && query.priority !== 'all') {
       filterObj.priority = query.priority;
     }
     if (query.title) {

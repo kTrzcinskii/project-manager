@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import {
-  IsBoolean,
   IsBooleanString,
   IsDateString,
   IsIn,
@@ -19,6 +18,7 @@ import {
   statusTypes,
 } from '../types';
 
+const priorityWithAll = [...priorityTypes, 'all'] as const;
 export class QueryParamDto {
   @IsOptional()
   @IsNumber()
@@ -43,8 +43,8 @@ export class QueryParamDto {
   status?: status;
 
   @IsOptional()
-  @IsIn(priorityTypes)
-  priority?: priority;
+  @IsIn(priorityWithAll)
+  priority?: priority | 'all';
 
   @IsOptional()
   @IsString()
