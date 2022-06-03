@@ -1,17 +1,10 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Progress,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import ProjectCard from "./ProjectCard";
 import IAllProjects from "../../../interfaces/IAllProjects";
 import { useRouter } from "next/router";
+import ErrorMessage from "./ErrorMessage";
+import ActionMessage from "./ActionMessage";
 interface ProjectsContainerProps {
   page: number;
   query: string;
@@ -19,6 +12,7 @@ interface ProjectsContainerProps {
   isError: boolean;
   isLoading: boolean;
   isSorting: boolean;
+  isFiltering: boolean;
 }
 
 const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
@@ -28,45 +22,11 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
   isError,
   isLoading,
   isSorting,
+  isFiltering,
 }) => {
   const router = useRouter();
 
-  if (isError) {
-    return (
-      <Box pt={{ base: 90, md: 160, lg: 200 }} w='80%' mx='auto'>
-        <Heading
-          textAlign='center'
-          color='teal.900'
-          fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
-        >
-          Server Error
-        </Heading>
-        <Text
-          fontSize={{ base: "md", md: "lg", lg: "xl" }}
-          textAlign='center'
-          color='gray.800'
-        >
-          Sorry, we cannot reach our server right now. Please try again later.
-        </Text>
-      </Box>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <Flex
-        w='full'
-        mx='auto'
-        justifyContent='center'
-        alignItems='center'
-        mt={{ base: 20, md: 40, lg: 60 }}
-      >
-        <LoadingSpinner />
-      </Flex>
-    );
-  }
-
-  if (isSorting) {
+  if (isLoading || isError || isSorting || isFiltering) {
     return (
       <Flex
         w='full'
@@ -76,22 +36,10 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
         mt={{ base: 20, md: 40, lg: 60 }}
         flexDirection='column'
       >
-        <Text
-          mb={4}
-          textAlign='center'
-          color='teal.900'
-          fontWeight='semibold'
-          fontSize={{ base: "lg", md: "xl", lg: "2xl" }}
-        >
-          Sorting
-        </Text>
-        <Progress
-          isIndeterminate
-          colorScheme='teal'
-          w='300px'
-          maxW='60%'
-          size='sm'
-        />
+        {isSorting && <ActionMessage message='Sorting...' />}
+        {isFiltering && <ActionMessage message='Filtering...' />}
+        {isLoading && <LoadingSpinner />}
+        {isError && <ErrorMessage />}
       </Flex>
     );
   }
