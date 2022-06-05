@@ -13,14 +13,38 @@ import { CheckIcon } from "@chakra-ui/icons";
 interface DateInputProps {
   field: string;
   setFieldValue: (field: string, value?: string) => void;
+  defaultValue?: string;
 }
 
-const DateInput: React.FC<DateInputProps> = ({ setFieldValue, field }) => {
-  const [selectedDay, setSelectedDay] = useState(1);
+const DateInput: React.FC<DateInputProps> = ({
+  setFieldValue,
+  field,
+  defaultValue,
+}) => {
+  const values = defaultValue?.split("-");
+  // 0 -> year
+  // 1 -> month
+  // 2 -> day
+  let defaultDay: number = 1;
+  if (values && values[2]) {
+    defaultDay = Number(values[2]);
+  }
+
+  let defaultYear: number = 2000;
+  if (values && values[0]) {
+    defaultYear = Number(values[0]);
+  }
+
+  let defaultMonthIndex: number = 0;
+  if (values && values[1]) {
+    defaultMonthIndex = Number(values[1]);
+  }
+
+  const [selectedDay, setSelectedDay] = useState(defaultDay);
   const [selectedMonth, setSelectedMonth] = useState<monthOption | null>(
-    monthOptions[0]
+    monthOptions[defaultMonthIndex]
   );
-  const [selectedYear, setSelectedYear] = useState(2000);
+  const [selectedYear, setSelectedYear] = useState(defaultYear);
 
   const handleClick = () => {
     if (!selectedMonth) {
@@ -30,7 +54,9 @@ const DateInput: React.FC<DateInputProps> = ({ setFieldValue, field }) => {
       selectedMonth?.value < 10
         ? `0${selectedMonth?.value}`
         : selectedMonth?.value;
-    const dateString = `${selectedYear}-${month}-${selectedDay}`;
+
+    const day = selectedDay < 10 ? `0${selectedDay}` : selectedDay;
+    const dateString = `${selectedYear}-${month}-${day}`;
     setFieldValue(field, dateString);
   };
 
