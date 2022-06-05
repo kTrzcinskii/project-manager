@@ -43,6 +43,21 @@ const getInitialFilterFormValues = (query: string): IFilterFormValues => {
   for (const field of acctualFields) {
     const key = field.split("=")[0].slice(1);
     const value = field.split("=")[1];
+    if (key === "favorite") {
+      if (value === "true") {
+        obj[key] = true;
+      } else if (value === "false") {
+        obj[key] = false;
+      } else {
+        obj[key] = undefined;
+      }
+      continue;
+    }
+
+    if (key === "progressBarFrom" || key === "progressBarTo") {
+      obj[key] = Number(value);
+      continue;
+    }
     //@ts-ignore
     obj[key] = value;
   }
