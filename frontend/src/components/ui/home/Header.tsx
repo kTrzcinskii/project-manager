@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 interface HeaderProps {
   username: string;
+  constantText?: string;
 }
 
 const texts = [
@@ -13,12 +14,16 @@ const texts = [
   "what's on your mind?",
 ];
 
-const Header: React.FC<HeaderProps> = ({ username }) => {
-  const [text, setText] = useState("");
+const Header: React.FC<HeaderProps> = ({ username, constantText }) => {
+  const defaultText = constantText || "";
+
+  const [text, setText] = useState(defaultText);
   useEffect(() => {
-    const randomNumber = Math.floor(Math.random() * texts.length);
-    setText(texts[randomNumber]);
-  }, []);
+    if (!constantText) {
+      const randomNumber = Math.floor(Math.random() * texts.length);
+      setText(texts[randomNumber]);
+    }
+  }, [constantText]);
 
   return (
     <Heading
