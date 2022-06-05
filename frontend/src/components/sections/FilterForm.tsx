@@ -33,6 +33,8 @@ const FilterForm: React.FC<FilterFormProps> = ({
     favorite: undefined,
   };
 
+  console.log(initialValues);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -40,24 +42,6 @@ const FilterForm: React.FC<FilterFormProps> = ({
         setIsFiltering(true);
         setQuery((previousQuery: string) => {
           let newQuery = previousQuery;
-
-          const datesVariabalesNames = [
-            "deadlineFrom",
-            "deadlineTo",
-            "createdFrom",
-            "createdTo",
-            "updatedFrom",
-            "updatedTo",
-            "completedFrom",
-            "completedTo",
-          ];
-          for (let key in values) {
-            if (datesVariabalesNames.includes(key)) {
-              //@ts-ignore
-              values[key] = values[key].toLocalDateString();
-            }
-          }
-
           for (let key in values) {
             if (newQuery.includes(key)) {
               const regexp = new RegExp(`&${key}=[^&]+`, "igm");
@@ -77,7 +61,6 @@ const FilterForm: React.FC<FilterFormProps> = ({
               newQuery += `&${key}=${values[key]}`;
             }
           }
-          console.log(newQuery);
           return newQuery;
         });
         const timeout = setTimeout(() => setIsFiltering(false), 1500);
@@ -129,13 +112,21 @@ const FilterForm: React.FC<FilterFormProps> = ({
           <InputWrapper title='Creation Date Filters'>
             <InputWithLabel
               input={
-                <DateInput field='createdFrom' setFieldValue={setFieldValue} />
+                <DateInput
+                  field='createdFrom'
+                  setFieldValue={setFieldValue}
+                  defaultValue={initialValues.createdFrom}
+                />
               }
               header='Choose the date of creation to filter from'
             />
             <InputWithLabel
               input={
-                <DateInput setFieldValue={setFieldValue} field='createdTo' />
+                <DateInput
+                  setFieldValue={setFieldValue}
+                  field='createdTo'
+                  defaultValue={initialValues.createdTo}
+                />
               }
               header='Choose the date of creation to filter to'
             />
@@ -143,13 +134,21 @@ const FilterForm: React.FC<FilterFormProps> = ({
           <InputWrapper title='Deadline Date Filters'>
             <InputWithLabel
               input={
-                <DateInput setFieldValue={setFieldValue} field='deadlineFrom' />
+                <DateInput
+                  setFieldValue={setFieldValue}
+                  field='deadlineFrom'
+                  defaultValue={initialValues.deadlineFrom}
+                />
               }
               header='Choose the date of deadline to filter from'
             />
             <InputWithLabel
               input={
-                <DateInput setFieldValue={setFieldValue} field='deadlineTo' />
+                <DateInput
+                  setFieldValue={setFieldValue}
+                  field='deadlineTo'
+                  defaultValue={initialValues.deadlineTo}
+                />
               }
               header='Choose the date of deadline to filter to'
             />
@@ -157,13 +156,21 @@ const FilterForm: React.FC<FilterFormProps> = ({
           <InputWrapper title='Update Date Filters'>
             <InputWithLabel
               input={
-                <DateInput setFieldValue={setFieldValue} field='updatedFrom' />
+                <DateInput
+                  setFieldValue={setFieldValue}
+                  field='updatedFrom'
+                  defaultValue={initialValues.updatedFrom}
+                />
               }
               header='Choose the date of updating to filter from'
             />
             <InputWithLabel
               input={
-                <DateInput setFieldValue={setFieldValue} field='updatedTo' />
+                <DateInput
+                  setFieldValue={setFieldValue}
+                  field='updatedTo'
+                  defaultValue={initialValues.updatedTo}
+                />
               }
               header='Choose the date of udpating to filter to'
             />
@@ -174,13 +181,18 @@ const FilterForm: React.FC<FilterFormProps> = ({
                 <DateInput
                   setFieldValue={setFieldValue}
                   field='completedFrom'
+                  defaultValue={initialValues.completedFrom}
                 />
               }
               header='Choose the date of completing to filter from'
             />
             <InputWithLabel
               input={
-                <DateInput setFieldValue={setFieldValue} field='completedTo' />
+                <DateInput
+                  setFieldValue={setFieldValue}
+                  field='completedTo'
+                  defaultValue={initialValues.completedTo}
+                />
               }
               header='Choose the date of completing to filter to'
               dontShowDivider={true}
