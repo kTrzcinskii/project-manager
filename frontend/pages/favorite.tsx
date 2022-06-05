@@ -22,7 +22,7 @@ const Favorite: NextPage<{
           constantText="let's take a look at your favorites!"
         />
         <ProjectsWrapper
-          title='Favorite'
+          title='Favorite Projects'
           query='&favorite=true'
           showFavoriteFilter={false}
         />
