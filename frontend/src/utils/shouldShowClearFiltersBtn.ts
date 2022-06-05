@@ -1,4 +1,9 @@
-const shouldShowClearFiltersBtns = (query: string): boolean => {
+const shouldShowClearFiltersBtns = (
+  query: string,
+  propQuery: string
+): boolean => {
+  query = query.replace(propQuery, "");
+
   if (!query) {
     return false;
   }

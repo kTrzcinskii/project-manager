@@ -6,6 +6,7 @@ interface FilterModalHeaderProps {
   setQuery: Dispatch<SetStateAction<string>>;
   setIsClearingFilters: Dispatch<SetStateAction<boolean>>;
   onClose: () => void;
+  propQuery: string;
 }
 
 const FilterModalHeader: React.FC<FilterModalHeaderProps> = ({
@@ -13,6 +14,7 @@ const FilterModalHeader: React.FC<FilterModalHeaderProps> = ({
   onClose,
   setIsClearingFilters,
   setQuery,
+  propQuery,
 }) => {
   return (
     <HStack w='90%' justifyContent='space-between'>
@@ -23,7 +25,7 @@ const FilterModalHeader: React.FC<FilterModalHeaderProps> = ({
           colorScheme='red'
           onClick={() => {
             setIsClearingFilters(true);
-            setQuery("");
+            setQuery(propQuery);
             const timeout = setTimeout(() => setIsClearingFilters(false), 1500);
             onClose();
           }}

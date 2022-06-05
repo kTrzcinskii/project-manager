@@ -73,6 +73,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
             setIsFiltering={setIsFiltering}
             setIsClearingFilters={setIsClearingFilters}
             showFavoriteFilter={showFavoriteFilter}
+            propQuery={propQuery}
           />
         </Box>
         <ProjectsContainer

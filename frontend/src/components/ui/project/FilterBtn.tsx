@@ -13,6 +13,7 @@ interface FilterBtnProps {
   setIsFiltering: Dispatch<SetStateAction<boolean>>;
   setIsClearingFilters: Dispatch<SetStateAction<boolean>>;
   showFavoriteFilter: boolean;
+  propQuery: string;
 }
 
 const FilterBtn: React.FC<FilterBtnProps> = ({
@@ -21,12 +22,13 @@ const FilterBtn: React.FC<FilterBtnProps> = ({
   setQuery,
   setIsClearingFilters,
   showFavoriteFilter,
+  propQuery,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef<HTMLInputElement>(null);
 
-  const shoudlShowBtn = shouldShowClearFiltersBtns(query);
+  const shoudlShowBtn = shouldShowClearFiltersBtns(query, propQuery);
 
   return (
     <>
@@ -45,6 +47,7 @@ const FilterBtn: React.FC<FilterBtnProps> = ({
             onClose={onClose}
             setIsClearingFilters={setIsClearingFilters}
             setQuery={setQuery}
+            propQuery={propQuery}
           />
         }
         body={
