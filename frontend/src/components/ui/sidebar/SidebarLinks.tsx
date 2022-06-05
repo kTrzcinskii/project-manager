@@ -26,7 +26,7 @@ const SidebarLinks: Array<SidebarLinkProps> = [
   {
     text: "In Progress",
     icon: BsCalendarEvent,
-    link: "/in_progress",
+    link: "/in-progress",
   },
   { text: "Backlog", icon: BsCalendarX, link: "/backlog" },
   { text: "Statistics", icon: ImStatsDots, link: "/statistics" },
