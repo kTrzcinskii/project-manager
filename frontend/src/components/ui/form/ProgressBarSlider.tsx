@@ -10,13 +10,20 @@ import { useState } from "react";
 
 interface ProgressBarSliderProps {
   setFieldValue: (field: string, value?: number) => void;
+  minValueDefault?: number;
+  maxValueDefault?: number;
 }
 
 const ProgressBarSlider: React.FC<ProgressBarSliderProps> = ({
   setFieldValue,
+  minValueDefault,
+  maxValueDefault,
 }) => {
-  const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(100);
+  const minValueInitial = minValueDefault || 0;
+  const maxValueInitial = maxValueDefault || 100;
+
+  const [minValue, setMinValue] = useState(minValueInitial);
+  const [maxValue, setMaxValue] = useState(maxValueInitial);
   const [showMinValue, setShowMinValue] = useState(false);
   const [showMaxValue, setShowMaxValue] = useState(false);
 

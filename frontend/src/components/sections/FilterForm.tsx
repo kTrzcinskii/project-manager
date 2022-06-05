@@ -37,8 +37,6 @@ const FilterForm: React.FC<FilterFormProps> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={(values, action) => {
-        console.log(values);
-
         setIsFiltering(true);
         setQuery((previousQuery: string) => {
           let newQuery = previousQuery;
@@ -110,11 +108,22 @@ const FilterForm: React.FC<FilterFormProps> = ({
             header='Choose priority level'
           />
           <InputWithLabel
-            input={<ProgressBarSlider setFieldValue={setFieldValue} />}
+            input={
+              <ProgressBarSlider
+                setFieldValue={setFieldValue}
+                minValueDefault={initialValues.progressBarFrom}
+                maxValueDefault={initialValues.progressBarTo}
+              />
+            }
             header='Set the progress range'
           />
           <InputWithLabel
-            input={<FavoriteRadio setFieldValue={setFieldValue} />}
+            input={
+              <FavoriteRadio
+                setFieldValue={setFieldValue}
+                defaultValue={initialValues.favorite}
+              />
+            }
             header='Filter based on your favorites'
           />
           <InputWrapper title='Creation Date Filters'>
