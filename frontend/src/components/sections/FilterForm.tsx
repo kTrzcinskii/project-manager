@@ -14,6 +14,7 @@ import getInitialFilterFormValues from "../../utils/getInitialFilterFromValues";
 interface FilterFormProps {
   initialRef: RefObject<HTMLInputElement>;
   query: string;
+  showFavoriteFiler: boolean;
   setQuery: Dispatch<SetStateAction<string>>;
   setIsFiltering: Dispatch<SetStateAction<boolean>>;
   onClose: () => void;
@@ -22,6 +23,7 @@ interface FilterFormProps {
 const FilterForm: React.FC<FilterFormProps> = ({
   initialRef,
   query,
+  showFavoriteFiler: showFavoriteFilter,
   setIsFiltering,
   setQuery,
   onClose,
@@ -101,15 +103,17 @@ const FilterForm: React.FC<FilterFormProps> = ({
             }
             header='Set the progress range'
           />
-          <InputWithLabel
-            input={
-              <FavoriteRadio
-                setFieldValue={setFieldValue}
-                defaultValue={initialValues.favorite}
-              />
-            }
-            header='Filter based on your favorites'
-          />
+          {showFavoriteFilter && (
+            <InputWithLabel
+              input={
+                <FavoriteRadio
+                  setFieldValue={setFieldValue}
+                  defaultValue={initialValues.favorite}
+                />
+              }
+              header='Filter based on your favorites'
+            />
+          )}
           <InputWrapper title='Creation Date Filters'>
             <InputWithLabel
               input={

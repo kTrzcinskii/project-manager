@@ -12,6 +12,7 @@ interface FilterBtnProps {
   setQuery: Dispatch<SetStateAction<string>>;
   setIsFiltering: Dispatch<SetStateAction<boolean>>;
   setIsClearingFilters: Dispatch<SetStateAction<boolean>>;
+  showFavoriteFilter: boolean;
 }
 
 const FilterBtn: React.FC<FilterBtnProps> = ({
@@ -19,6 +20,7 @@ const FilterBtn: React.FC<FilterBtnProps> = ({
   setIsFiltering,
   setQuery,
   setIsClearingFilters,
+  showFavoriteFilter,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -52,6 +54,7 @@ const FilterBtn: React.FC<FilterBtnProps> = ({
             setQuery={setQuery}
             query={query}
             onClose={onClose}
+            showFavoriteFiler={showFavoriteFilter}
           />
         }
         footer={<FilterFooter onClose={onClose} />}

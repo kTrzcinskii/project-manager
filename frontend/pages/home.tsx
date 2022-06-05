@@ -18,7 +18,7 @@ const Home: NextPage<{
     <Sidebar>
       <VStack spacing={{ base: 5, md: 10 }} minH={minH}>
         <Header username={user.username} />
-        <ProjectsWrapper title='Projects' query='' />
+        <ProjectsWrapper title='Projects' query='' showFavoriteFilter={true} />
       </VStack>
     </Sidebar>
   );

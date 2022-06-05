@@ -16,11 +16,13 @@ import ProjectsContainer from "./ProjectsContainer";
 interface ProjectsWrapperProps {
   title: "Projects" | "Finished" | "In Progress" | "Backlog";
   query: string;
+  showFavoriteFilter: boolean;
 }
 
 const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
   title,
   query: propQuery,
+  showFavoriteFilter,
 }) => {
   const [page, setPage] = useState(0);
   const [query, setQuery] = useState(propQuery);
@@ -70,6 +72,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
             setIsSorting={setIsSorting}
             setIsFiltering={setIsFiltering}
             setIsClearingFilters={setIsClearingFilters}
+            showFavoriteFilter={showFavoriteFilter}
           />
         </Box>
         <ProjectsContainer
