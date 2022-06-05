@@ -33,8 +33,6 @@ const FilterForm: React.FC<FilterFormProps> = ({
     favorite: undefined,
   };
 
-  console.log(initialValues);
-
   return (
     <Formik
       initialValues={initialValues}
@@ -43,7 +41,10 @@ const FilterForm: React.FC<FilterFormProps> = ({
         setQuery((previousQuery: string) => {
           let newQuery = previousQuery;
           for (let key in values) {
-            if (newQuery.includes(key)) {
+            if (
+              newQuery.includes(key) &&
+              newQuery[newQuery.indexOf(key) + key.length] !== "_"
+            ) {
               const regexp = new RegExp(`&${key}=[^&]+`, "igm");
               //@ts-ignore
               if (values[key] === null || values[key] === undefined) {
