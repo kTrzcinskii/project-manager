@@ -14,7 +14,7 @@ import FilterBar from "./FilterBar";
 import ProjectsContainer from "./ProjectsContainer";
 
 interface ProjectsWrapperProps {
-  title: "Projects" | "Finished" | "In Progress" | "Backlog";
+  title: "Projects" | "Finished" | "In Progress" | "Backlog" | "Favorite";
   query: string;
   showFavoriteFilter: boolean;
 }
