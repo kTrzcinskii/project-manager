@@ -1,12 +1,19 @@
 import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, memo } from "react";
+import transformBoolValueToString from "../../../utils/transformBoolValueToString";
 
 interface FavoriteRadioProps {
   setFieldValue: (field: string, value?: boolean | null) => void;
+  defaultValue: boolean | undefined | null;
 }
 
-const FavoriteRadio: React.FC<FavoriteRadioProps> = ({ setFieldValue }) => {
-  const [value, setValue] = useState<string>("all");
+const FavoriteRadio: React.FC<FavoriteRadioProps> = ({
+  setFieldValue,
+  defaultValue,
+}) => {
+  const initialValue = transformBoolValueToString(defaultValue);
+
+  const [value, setValue] = useState<string>(initialValue);
 
   return (
     <RadioGroup
@@ -59,4 +66,4 @@ const FavoriteRadio: React.FC<FavoriteRadioProps> = ({ setFieldValue }) => {
   );
 };
 
-export default FavoriteRadio;
+export default memo(FavoriteRadio);
