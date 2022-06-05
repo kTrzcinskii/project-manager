@@ -11,7 +11,7 @@ import {
 import { ReactNode, RefObject } from "react";
 
 interface ModalContainerProps {
-  header: string;
+  header: string | ReactNode;
   body: ReactNode;
   footer: ReactNode;
   isOpen: boolean;
