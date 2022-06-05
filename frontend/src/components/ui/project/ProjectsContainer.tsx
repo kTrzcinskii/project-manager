@@ -13,6 +13,7 @@ interface ProjectsContainerProps {
   isLoading: boolean;
   isSorting: boolean;
   isFiltering: boolean;
+  isClearingFilters: boolean;
 }
 
 const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
@@ -23,10 +24,11 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
   isLoading,
   isSorting,
   isFiltering,
+  isClearingFilters,
 }) => {
   const router = useRouter();
 
-  if (isLoading || isError || isSorting || isFiltering) {
+  if (isLoading || isError || isSorting || isFiltering || isClearingFilters) {
     return (
       <Flex
         w='full'
@@ -38,6 +40,7 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
       >
         {isSorting && <ActionMessage message='Sorting...' />}
         {isFiltering && <ActionMessage message='Filtering...' />}
+        {isClearingFilters && <ActionMessage message='Clearing filters...' />}
         {isLoading && <LoadingSpinner />}
         {isError && <ErrorMessage />}
       </Flex>

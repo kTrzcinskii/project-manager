@@ -27,6 +27,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
 
   const [isSorting, setIsSorting] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
+  const [isClearingFilters, setIsClearingFilters] = useState(false);
 
   const [date, setDate] = useState("");
   useEffect(() => {
@@ -68,6 +69,7 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
             setQuery={setQuery}
             setIsSorting={setIsSorting}
             setIsFiltering={setIsFiltering}
+            setIsClearingFilters={setIsClearingFilters}
           />
         </Box>
         <ProjectsContainer
@@ -78,31 +80,37 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
           isError={isError}
           isSorting={isSorting}
           isFiltering={isFiltering}
+          isClearingFilters={isClearingFilters}
         />
-        {!isFiltering && !isSorting && !isLoading && !isError && !isEmpty && (
-          <HStack spacing={3} w='full' justifyContent='center' pb={4}>
-            <IconButton
-              aria-label='Go to previous page'
-              icon={<ChevronLeftIcon boxSize={8} />}
-              rounded='lg'
-              size='lg'
-              disabled={page === 0 ? true : false}
-              onClick={() => setPage((page) => page - 1)}
-              color='teal.700'
-              _focus={{ ring: 3, ringColor: "teal.700" }}
-            />
-            <IconButton
-              aria-label='Go to next page'
-              icon={<ChevronRightIcon boxSize={8} />}
-              rounded='lg'
-              size='lg'
-              disabled={!data?.hasMore}
-              onClick={() => setPage((page) => page + 1)}
-              color='teal.700'
-              _focus={{ ring: 3, ringColor: "teal.700" }}
-            />
-          </HStack>
-        )}
+        {!isClearingFilters &&
+          !isFiltering &&
+          !isSorting &&
+          !isLoading &&
+          !isError &&
+          !isEmpty && (
+            <HStack spacing={3} w='full' justifyContent='center' pb={4}>
+              <IconButton
+                aria-label='Go to previous page'
+                icon={<ChevronLeftIcon boxSize={8} />}
+                rounded='lg'
+                size='lg'
+                disabled={page === 0 ? true : false}
+                onClick={() => setPage((page) => page - 1)}
+                color='teal.700'
+                _focus={{ ring: 3, ringColor: "teal.700" }}
+              />
+              <IconButton
+                aria-label='Go to next page'
+                icon={<ChevronRightIcon boxSize={8} />}
+                rounded='lg'
+                size='lg'
+                disabled={!data?.hasMore}
+                onClick={() => setPage((page) => page + 1)}
+                color='teal.700'
+                _focus={{ ring: 3, ringColor: "teal.700" }}
+              />
+            </HStack>
+          )}
       </Container>
     </VStack>
   );

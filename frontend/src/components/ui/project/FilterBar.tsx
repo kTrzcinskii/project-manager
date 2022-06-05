@@ -9,6 +9,7 @@ interface FilterBarProps {
   setQuery: Dispatch<SetStateAction<string>>;
   setIsSorting: Dispatch<SetStateAction<boolean>>;
   setIsFiltering: Dispatch<SetStateAction<boolean>>;
+  setIsClearingFilters: Dispatch<SetStateAction<boolean>>;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
@@ -16,6 +17,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
   setQuery,
   setIsSorting,
   setIsFiltering,
+  setIsClearingFilters,
 }) => {
   return (
     <Flex
@@ -31,6 +33,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
           query={query}
           setQuery={setQuery}
           setIsFiltering={setIsFiltering}
+          setIsClearingFilters={setIsClearingFilters}
         />
         <SortByBtn setQuery={setQuery} setIsSorting={setIsSorting} />
       </HStack>

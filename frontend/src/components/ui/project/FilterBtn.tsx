@@ -1,24 +1,30 @@
 import { Button, HStack, Text, useDisclosure } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useRef } from "react";
 import { BsFilterLeft } from "react-icons/bs";
+import shouldShowClearFiltersBtns from "../../../utils/shouldShowClearFiltersBtn";
 import FilterForm from "../../sections/FilterForm";
 import ModalContainer from "../utils/ModalContainer";
 import FilterFooter from "./FilterFooter";
+import FilterModalHeader from "./FilterModalHeader";
 
 interface FilterBtnProps {
   query: string;
   setQuery: Dispatch<SetStateAction<string>>;
   setIsFiltering: Dispatch<SetStateAction<boolean>>;
+  setIsClearingFilters: Dispatch<SetStateAction<boolean>>;
 }
 
 const FilterBtn: React.FC<FilterBtnProps> = ({
   query,
   setIsFiltering,
   setQuery,
+  setIsClearingFilters,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef<HTMLInputElement>(null);
+
+  const shoudlShowBtn = shouldShowClearFiltersBtns(query);
 
   return (
     <>
@@ -31,7 +37,14 @@ const FilterBtn: React.FC<FilterBtnProps> = ({
       <ModalContainer
         isCentered={false}
         isOpen={isOpen}
-        header='Select Filters'
+        header={
+          <FilterModalHeader
+            showBtn={shoudlShowBtn}
+            onClose={onClose}
+            setIsClearingFilters={setIsClearingFilters}
+            setQuery={setQuery}
+          />
+        }
         body={
           <FilterForm
             initialRef={initialRef}
