@@ -9,7 +9,7 @@ import {
   Collapse,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, memo } from "react";
 
 interface InputWrapperProps {
   title: string;
@@ -56,4 +56,4 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
   );
 };
 
-export default InputWrapper;
+export default memo(InputWrapper);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import Select from "react-select";
 import { priorityType } from "../../../interfaces/IFilterFormValues";
 import { customTheme } from "../../../utils/selectCustomStyles";
@@ -41,4 +41,4 @@ const SelectPriority: React.FC<SelectPriorityProps> = ({
   );
 };
 
-export default SelectPriority;
+export default memo(SelectPriority);
