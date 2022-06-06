@@ -19,24 +19,43 @@ export class StatsService {
 
     const searchObject = this.getSearchObject(searchFrom, searchTo, date);
 
-    const allProjectsNumber = await this.prisma.project.count({
+    const allProjects = await this.prisma.project.findMany({
       where: { userId },
+      select: {
+        priority: true,
+      },
     });
+    const allProjectsNumber = this.getProjectsByPriority(allProjects);
 
-    const createdProjectsNumber = await this.prisma.project.count({
+    const allCreatedProjects = await this.prisma.project.findMany({
       where: {
         userId,
         createdAt: searchObject,
       },
+      select: {
+        priority: true,
+      },
     });
+    const createdProjectsNumber =
+      this.getProjectsByPriority(allCreatedProjects);
 
-    const completedProjectsNumber = await this.prisma.project.count({
+    const completedProjects = await this.prisma.project.findMany({
       where: { userId, completedAt: searchObject },
+      select: {
+        priority: true,
+      },
     });
 
-    const updatedProjectsNumber = await this.prisma.project.count({
+    const completedProjectsNumber =
+      this.getProjectsByPriority(completedProjects);
+
+    const updatedProjects = await this.prisma.project.findMany({
       where: { userId, updatedAt: searchObject },
+      select: {
+        priority: true,
+      },
     });
+    const updatedProjectsNumber = this.getProjectsByPriority(updatedProjects);
 
     const userProjectsIds = await this.getUserProjectsIDs(userId);
 
@@ -177,5 +196,24 @@ export class StatsService {
         select: { projects: { select: { id: true } } },
       })
     ).projects.map((project) => project.id);
+  }
+
+  getProjectsByPriority(
+    projects: {
+      priority: 'low' | 'medium' | 'high';
+    }[],
+  ) {
+    const lowPriority = projects.filter(
+      (project) => project.priority === 'low',
+    ).length;
+    const mediumPriorit = projects.filter(
+      (project) => project.priority === 'medium',
+    ).length;
+    const highPriority = projects.filter(
+      (project) => project.priority === 'high',
+    ).length;
+    const all = projects.length;
+
+    return { lowPriority, mediumPriorit, highPriority, all };
   }
 }
