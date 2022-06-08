@@ -6,8 +6,18 @@ import { CookiesModule } from './cookies/cookies.module';
 import { ProjectModule } from './project/project.module';
 import { GoalModule } from './goal/goal.module';
 import { StatsModule } from './stats/stats.module';
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [AuthModule, PrismaModule, UserModule, CookiesModule, ProjectModule, GoalModule, StatsModule],
+  imports: [
+    AuthModule,
+    PrismaModule,
+    UserModule,
+    CookiesModule,
+    ProjectModule,
+    GoalModule,
+    StatsModule,
+    ConfigModule.forRoot(),
+  ],
   controllers: [],
   providers: [],
 })
