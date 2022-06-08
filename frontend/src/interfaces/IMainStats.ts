@@ -1,6 +1,6 @@
 import ISingleProjectStats from "./ISingleProjectStats";
 
-interface projectsObject {
+export interface projectsObject {
   lowPriority: number;
   mediumPriority: number;
   highPriority: number;
@@ -12,5 +12,5 @@ export default interface IMainStats extends ISingleProjectStats {
   createdProjectsNumber: projectsObject;
   completedProjectsNumber: projectsObject;
   updatedProjectsNumber: projectsObject;
-  allGoalsNumber: projectsObject;
+  allGoalsNumber: number;
 }

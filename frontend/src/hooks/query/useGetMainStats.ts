@@ -4,7 +4,7 @@ import IMainStats from "../../interfaces/IMainStats";
 import IServerErrorResponse from "../../interfaces/IServerErrorResponse";
 import getMainStats from "../../api/getMainStats";
 
-export default function useGetMainStast(query?: string) {
+export default function useGetMainStats(query?: string) {
   return useQuery<IMainStats, Error | AxiosError<IServerErrorResponse>>(
     ["mainStats", query],
     () => getMainStats(query),
