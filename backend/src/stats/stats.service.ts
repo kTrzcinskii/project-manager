@@ -206,7 +206,7 @@ export class StatsService {
     const lowPriority = projects.filter(
       (project) => project.priority === 'low',
     ).length;
-    const mediumPriorit = projects.filter(
+    const mediumPriority = projects.filter(
       (project) => project.priority === 'medium',
     ).length;
     const highPriority = projects.filter(
@@ -214,6 +214,6 @@ export class StatsService {
     ).length;
     const all = projects.length;
 
-    return { lowPriority, mediumPriorit, highPriority, all };
+    return { lowPriority, mediumPriority, highPriority, all };
   }
 }
