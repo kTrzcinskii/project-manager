@@ -21,23 +21,30 @@ const ProjectsStats: React.FC<ProjectsStatsProps> = ({
         Projects&apos; Stats
       </Text>
       <Stack
-        direction={{ base: "column", md: "column", lg: "row" }}
-        // spacing={{ base: 5, md: 6, lg: 8 }}
+        direction={{ base: "column", md: "column", lg: "column", xl: "row" }}
+        spacing={{ base: 8, md: 10, lg: 10, xl: 6 }}
         justifyContent='space-between'
-        w='full'
+        w='90%'
       >
-        <SingleStatWithChart data={allProjectsNumber} title='All Projects' />
+        <SingleStatWithChart
+          data={allProjectsNumber}
+          title='All Projects'
+          color='blue'
+        />
         <SingleStatWithChart
           data={createdProjectsNumber}
           title='Created Projects'
+          color='yellow'
         />
         <SingleStatWithChart
           data={updatedProjectsNumber}
           title='Updated Projects'
+          color='purple'
         />
         <SingleStatWithChart
           data={completedProjectsNumber}
           title='Completed Projects'
+          color='pink'
         />
       </Stack>
     </VStack>
