@@ -118,16 +118,38 @@ export class ProjectService {
     }
 
     let filteredProjects: ProjectsWithTimeLeft[] | undefined = undefined;
+    let filteredFinalProjects: ProjectsWithTimeLeft[] | undefined = undefined;
+    let filteredProjectsHasMore: boolean = false;
     if (query.status) {
-      filteredProjects = projects.filter(
-        (project) => project.status === query.status,
-      );
+      filteredProjects = await this.prisma.project.findMany({
+        where: { userId, ...filterObj, status: query.status },
+        select: {
+          createdAt: true,
+          updatedAt: true,
+          deadline: true,
+          title: true,
+          favorite: true,
+          id: true,
+          priority: true,
+          progressBar: true,
+          status: true,
+          completedAt: true,
+        },
+        take: numberOfProjects + 1,
+        skip: page * numberOfProjects,
+        orderBy: orderObj,
+      });
+
+      filteredFinalProjects = filteredProjects.slice(0, numberOfProjects);
+      if (filteredProjects.length === numberOfProjects + 1) {
+        filteredProjectsHasMore = true;
+      }
     }
 
     if (filteredProjects) {
       return {
-        projects: filteredProjects,
-        hasMore: filteredProjects.length < projects.length ? true : hasMore,
+        projects: filteredFinalProjects,
+        hasMore: filteredProjectsHasMore,
       };
     }
 
