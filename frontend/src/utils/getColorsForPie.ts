@@ -28,7 +28,7 @@ const getColorsForPie = (color: string) => {
       font: "#521B41",
     };
 
-  return { low: "", medium: "", high: "" };
+  return { low: "", medium: "", high: "", font: "" };
 };
 
 export default getColorsForPie;
