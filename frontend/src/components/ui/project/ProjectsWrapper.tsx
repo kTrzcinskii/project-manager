@@ -91,6 +91,8 @@ const ProjectsWrapper: React.FC<ProjectsWrapperProps> = ({
           isFiltering={isFiltering}
           isClearingFilters={isClearingFilters}
           propQuery={propQuery}
+          setIsClearingFilters={setIsClearingFilters}
+          setQuery={setQuery}
         />
         {!isClearingFilters &&
           !isFiltering &&

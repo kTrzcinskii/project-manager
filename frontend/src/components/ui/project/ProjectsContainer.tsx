@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import ErrorMessage from "./ErrorMessage";
 import ActionMessage from "./ActionMessage";
 import getPropQueryParam from "../../../utils/getPropQueryParam";
+import { Dispatch, SetStateAction } from "react";
 interface ProjectsContainerProps {
   page: number;
   query: string;
@@ -16,6 +17,8 @@ interface ProjectsContainerProps {
   isFiltering: boolean;
   isClearingFilters: boolean;
   propQuery: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+  setIsClearingFilters: Dispatch<SetStateAction<boolean>>;
 }
 
 const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
@@ -28,6 +31,8 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
   isFiltering,
   isClearingFilters,
   propQuery,
+  setQuery,
+  setIsClearingFilters,
 }) => {
   const router = useRouter();
 
@@ -105,9 +110,36 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
         </Flex>
       );
     }
-    //TODO
     return (
-      <>USER HAS FILTERS THAT RETURN 0 PROJECT - NO PROJECT MET CRITERIA</>
+      <Flex
+        w='full'
+        mx='auto'
+        justifyContent='center'
+        alignItems='center'
+        mt={{ base: 20, md: 40, lg: 60 }}
+        flexDir='column'
+      >
+        <Text
+          textAlign='center'
+          color='gray.800'
+          fontSize={{ base: "md", md: "lg", lg: "xl" }}
+        >
+          It looks like you chose filters that don&apos;t match any project.
+        </Text>
+        <Button
+          pt={4}
+          variant='link'
+          colorScheme='red'
+          fontSize={{ base: "md", md: "lg", lg: "xl" }}
+          onClick={() => {
+            setIsClearingFilters(true);
+            setQuery(propQuery);
+            const timeout = setTimeout(() => setIsClearingFilters(false), 1500);
+          }}
+        >
+          Clear Filters
+        </Button>
+      </Flex>
     );
   }
 
