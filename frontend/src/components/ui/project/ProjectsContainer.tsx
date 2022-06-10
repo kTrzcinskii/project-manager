@@ -1,10 +1,11 @@
-import { Button, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
+import { Button, Flex, Grid, GridItem, Text, chakra } from "@chakra-ui/react";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import ProjectCard from "./ProjectCard";
 import IAllProjects from "../../../interfaces/IAllProjects";
 import { useRouter } from "next/router";
 import ErrorMessage from "./ErrorMessage";
 import ActionMessage from "./ActionMessage";
+import getPropQueryParam from "../../../utils/getPropQueryParam";
 interface ProjectsContainerProps {
   page: number;
   query: string;
@@ -14,6 +15,7 @@ interface ProjectsContainerProps {
   isSorting: boolean;
   isFiltering: boolean;
   isClearingFilters: boolean;
+  propQuery: string;
 }
 
 const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
@@ -25,6 +27,7 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
   isSorting,
   isFiltering,
   isClearingFilters,
+  propQuery,
 }) => {
   const router = useRouter();
 
@@ -74,6 +77,31 @@ const ProjectsContainer: React.FC<ProjectsContainerProps> = ({
           >
             Create New Project
           </Button>
+        </Flex>
+      );
+    } else if (query === propQuery) {
+      const param = getPropQueryParam(propQuery);
+
+      return (
+        <Flex
+          w='full'
+          mx='auto'
+          justifyContent='center'
+          alignItems='center'
+          mt={{ base: 20, md: 40, lg: 60 }}
+          flexDir='column'
+        >
+          <Text
+            textAlign='center'
+            color='gray.800'
+            fontSize={{ base: "md", md: "lg", lg: "xl" }}
+          >
+            It looks like you don&apos;t have any project with status{" "}
+            <chakra.span color='teal.800' fontWeight='semibold'>
+              {param}
+            </chakra.span>
+            .
+          </Text>
         </Flex>
       );
     }
