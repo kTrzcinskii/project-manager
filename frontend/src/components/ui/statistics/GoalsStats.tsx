@@ -1,4 +1,5 @@
 import { Stack, Text, VStack, chakra } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import SingleStatNumber from "./SingleStatNumber";
 
 interface GoalsStatsProps {
@@ -23,9 +24,34 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
 
   const isAnyGoalCreated = createdGoalsNumber > 0;
 
+  const textDelay = 1.1;
+  const textDuration = 0.2;
+  const initialDelay = textDelay + textDuration;
+
   return (
     <VStack spacing={{ base: 3, md: 4, lg: 5 }} w='90%'>
-      <Text w='full' color='teal.600' fontSize={{ base: "xl", md: "2xl" }}>
+      <Text
+        w='full'
+        color='teal.600'
+        fontSize={{ base: "xl", md: "2xl" }}
+        as={motion.p}
+        variants={{
+          hidden: {
+            opacity: 0,
+            translateX: "80%",
+          },
+          visible: {
+            opacity: 1,
+            translateX: "0%",
+            transition: {
+              delay: textDelay,
+              duration: textDuration,
+            },
+          },
+        }}
+        initial='hidden'
+        animate='visible'
+      >
         Goals&apos; Stats
       </Text>
       <Stack
@@ -38,25 +64,55 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
           data={allGoalsNumber}
           title='All Goals'
           color='blue'
+          initialDelay={initialDelay}
+          index={3}
         />
         <SingleStatNumber
           data={createdGoalsNumber}
           title='Created Goals'
           color='yellow'
+          initialDelay={initialDelay}
+          index={2}
         />
         <SingleStatNumber
           data={updatedGoalsNumber}
           title='Updated Goals'
           color='purple'
+          initialDelay={initialDelay}
+          index={1}
         />
         <SingleStatNumber
           data={completedGoalsNumber}
           title='Completed Goals'
           color='pink'
+          initialDelay={initialDelay}
+          index={0}
         />
       </Stack>
       {isAnyGoalCreated && (
-        <Text mt={6} color='teal.600' fontStyle='italic' fontSize='xl'>
+        <Text
+          pt={10}
+          color='teal.600'
+          fontStyle='italic'
+          fontSize='xl'
+          as={motion.p}
+          variants={{
+            hidden: {
+              opacity: 0,
+              translateY: "-80%",
+            },
+            visible: {
+              opacity: 1,
+              translateY: "0%",
+              transition: {
+                delay: initialDelay + 4 * 0.2 + 0.1,
+                duration: textDuration,
+              },
+            },
+          }}
+          initial='hidden'
+          animate='visible'
+        >
           You have completed{" "}
           <chakra.span fontWeight='semibold' color='teal.700'>
             {percent}%
