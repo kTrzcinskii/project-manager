@@ -144,6 +144,14 @@ export class ProjectService {
       if (filteredProjects.length === numberOfProjects + 1) {
         filteredProjectsHasMore = true;
       }
+
+      for (const project of filteredFinalProjects) {
+        const deadlineDate = new Date(project.deadline).getTime();
+        if (project.status === 'inProgress') {
+          const timeLeft = this.transfromTime(deadlineDate - currentDate);
+          project.timeLeft = timeLeft;
+        }
+      }
     }
 
     if (filteredProjects) {
