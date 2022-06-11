@@ -4,7 +4,7 @@ import ProjectCard from "./ProjectCard";
 import IAllProjects from "../../../interfaces/IAllProjects";
 import { useRouter } from "next/router";
 import ErrorMessage from "../utils/ErrorMessage";
-import ActionMessage from "./ActionMessage";
+import ActionMessage from "../utils/ActionMessage";
 import getPropQueryParam from "../../../utils/getPropQueryParam";
 import { Dispatch, SetStateAction } from "react";
 interface ProjectsContainerProps {
