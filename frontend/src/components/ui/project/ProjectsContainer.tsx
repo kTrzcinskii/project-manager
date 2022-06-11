@@ -3,7 +3,7 @@ import LoadingSpinner from "../utils/LoadingSpinner";
 import ProjectCard from "./ProjectCard";
 import IAllProjects from "../../../interfaces/IAllProjects";
 import { useRouter } from "next/router";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../utils/ErrorMessage";
 import ActionMessage from "./ActionMessage";
 import getPropQueryParam from "../../../utils/getPropQueryParam";
 import { Dispatch, SetStateAction } from "react";
