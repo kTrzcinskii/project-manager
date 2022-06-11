@@ -62,44 +62,48 @@ const SingleStatWithChart: React.FC<SingleStatWithChartProps> = ({
           {title}
         </Text>
       </VStack>
-      <Stack
-        direction={{ base: "row", md: "row", lg: "row", xl: "column" }}
-        spacing={7}
-        justifyContent='center'
-      >
-        <Box maxW='183px'>
-          <PieChart
-            data={charData}
-            onMouseOver={(_, index) => {
-              setCurrentHoverIndex(index);
-            }}
-            onMouseOut={() => {
-              setCurrentHoverIndex(null);
-            }}
-            label={(props) =>
-              currentHoverIndex === props.dataIndex ? props.dataEntry.value : ""
-            }
-            labelStyle={{ fontSize: 14, color: colors.font }}
-          />
-        </Box>
-        <VStack justifyContent='center'>
-          <LegendElement
-            priority='high'
-            color={colors.high}
-            fontColor={colors.font}
-          />
-          <LegendElement
-            priority='medium'
-            color={colors.medium}
-            fontColor={colors.font}
-          />
-          <LegendElement
-            priority='low'
-            color={colors.low}
-            fontColor={colors.font}
-          />
-        </VStack>
-      </Stack>
+      {data.all > 0 && (
+        <Stack
+          direction={{ base: "row", md: "row", lg: "row", xl: "column" }}
+          spacing={7}
+          justifyContent='center'
+        >
+          <Box maxW='183px'>
+            <PieChart
+              data={charData}
+              onMouseOver={(_, index) => {
+                setCurrentHoverIndex(index);
+              }}
+              onMouseOut={() => {
+                setCurrentHoverIndex(null);
+              }}
+              label={(props) =>
+                currentHoverIndex === props.dataIndex
+                  ? props.dataEntry.value
+                  : ""
+              }
+              labelStyle={{ fontSize: 14, color: colors.font }}
+            />
+          </Box>
+          <VStack justifyContent='center'>
+            <LegendElement
+              priority='high'
+              color={colors.high}
+              fontColor={colors.font}
+            />
+            <LegendElement
+              priority='medium'
+              color={colors.medium}
+              fontColor={colors.font}
+            />
+            <LegendElement
+              priority='low'
+              color={colors.low}
+              fontColor={colors.font}
+            />
+          </VStack>
+        </Stack>
+      )}
     </Stack>
   );
 };
