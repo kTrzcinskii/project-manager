@@ -1,9 +1,10 @@
-import { Heading, VStack } from "@chakra-ui/react";
+import { Heading, HStack, VStack, Text } from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
 import { useState } from "react";
 import Sidebar from "../src/components/sections/Sidebar";
 import GoalsStats from "../src/components/ui/statistics/GoalsStats";
 import ProjectsStats from "../src/components/ui/statistics/ProjectsStats";
+import SelectQuery from "../src/components/ui/statistics/SelectQuery";
 import useGetMainStats from "../src/hooks/query/useGetMainStats";
 import IMe from "../src/interfaces/IMe";
 import minHonPagesWithSidebar from "../src/utils/minHonPagesWithSidebar";
@@ -15,6 +16,7 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
   const minH = minHonPagesWithSidebar;
 
   const [query, setQuery] = useState("");
+  const [isCustomInput, setIsCustomInput] = useState(false);
 
   const { data, isLoading, isError } = useGetMainStats(query);
 
@@ -41,6 +43,17 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
         <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
           Your statistics
         </Heading>
+        <VStack>
+          <HStack mx='auto'>
+            <Text>From </Text>
+            <SelectQuery
+              setQuery={setQuery}
+              setIsCustomInput={setIsCustomInput}
+            />
+          </HStack>
+          {/* {//TODO: CUSTOM INPUT } */}
+          {isCustomInput && <Text>CUSTOM INPUT</Text>}
+        </VStack>
         <VStack w='full' spacing={5}>
           <ProjectsStats
             allProjectsNumber={data.allProjectsNumber}
