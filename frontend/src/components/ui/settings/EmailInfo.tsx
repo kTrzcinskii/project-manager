@@ -1,11 +1,10 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import ChangeBtn from "./ChangeBtn";
+import ModalContainer from "../utils/ModalContainer";
 import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 import ChangeEmailBody from "./modal-contents/change-email/ChangeEmailBody";
 import ChangeEmailFooter from "./modal-contents/change-email/ChangeEmailFooter";
-import ModalContainer from "../utils/ModalContainer";
 
 interface EmailInfoProps {
   email: string;
@@ -21,8 +20,12 @@ const EmailInfo: React.FC<EmailInfoProps> = ({ email }) => {
   return (
     <>
       <FieldContainer index={1}>
-        <InfoField header='email' value={email} />
-        <ChangeBtn onClick={onOpen} />
+        <InfoField
+          header='email'
+          value={email}
+          showEditBtn={true}
+          onOpen={onOpen}
+        />
       </FieldContainer>
       <ModalContainer
         isOpen={isOpen}

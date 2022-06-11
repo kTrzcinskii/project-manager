@@ -1,11 +1,10 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import ChangeBtn from "./ChangeBtn";
+import ModalContainer from "../utils/ModalContainer";
 import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 import ChangePasswordBody from "./modal-contents/change-password/ChangePasswordBody";
 import ChangePasswordFooter from "./modal-contents/change-password/ChangePasswordFooter";
-import ModalContainer from "../utils/ModalContainer";
 
 const PasswordInfo: React.FC = () => {
   const randomPassword = "**************";
@@ -19,8 +18,12 @@ const PasswordInfo: React.FC = () => {
   return (
     <>
       <FieldContainer index={3}>
-        <InfoField header='password' value={randomPassword} />
-        <ChangeBtn onClick={onOpen} />
+        <InfoField
+          header='password'
+          value={randomPassword}
+          showEditBtn={true}
+          onOpen={onOpen}
+        />
       </FieldContainer>
       <ModalContainer
         isOpen={isOpen}

@@ -1,11 +1,10 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import ChangeBtn from "./ChangeBtn";
+import ModalContainer from "../utils/ModalContainer";
 import FieldContainer from "./FieldContainer";
 import InfoField from "./InfoField";
 import ChangeUsernameBody from "./modal-contents/change-username/ChangeUsernameBody";
 import ChangeUsernameFooter from "./modal-contents/change-username/ChangeUsernameFooter";
-import ModalContainer from "../utils/ModalContainer";
 
 interface UsernameInfoProps {
   username: string;
@@ -21,8 +20,12 @@ const UsernameInfo: React.FC<UsernameInfoProps> = ({ username }) => {
   return (
     <>
       <FieldContainer index={0}>
-        <InfoField header='username' value={username} />
-        <ChangeBtn onClick={onOpen} />
+        <InfoField
+          header='username'
+          value={username}
+          onOpen={onOpen}
+          showEditBtn={true}
+        />
       </FieldContainer>
       <ModalContainer
         isOpen={isOpen}
