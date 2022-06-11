@@ -24,9 +24,7 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
 
   const isAnyGoalCreated = createdGoalsNumber > 0;
 
-  const textDelay = 1.1;
   const textDuration = 0.2;
-  const initialDelay = textDelay + textDuration;
 
   return (
     <VStack spacing={{ base: 3, md: 4, lg: 5 }} w='90%'>
@@ -44,7 +42,6 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
             opacity: 1,
             translateX: "0%",
             transition: {
-              delay: textDelay,
               duration: textDuration,
             },
           },
@@ -64,28 +61,28 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
           data={allGoalsNumber}
           title='All Goals'
           color='blue'
-          initialDelay={initialDelay}
+          initialDelay={textDuration}
           index={3}
         />
         <SingleStatNumber
           data={createdGoalsNumber}
           title='Created Goals'
           color='yellow'
-          initialDelay={initialDelay}
+          initialDelay={textDuration}
           index={2}
         />
         <SingleStatNumber
           data={updatedGoalsNumber}
           title='Updated Goals'
           color='purple'
-          initialDelay={initialDelay}
+          initialDelay={textDuration}
           index={1}
         />
         <SingleStatNumber
           data={completedGoalsNumber}
           title='Completed Goals'
           color='pink'
-          initialDelay={initialDelay}
+          initialDelay={textDuration}
           index={0}
         />
       </Stack>
@@ -105,7 +102,7 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
               opacity: 1,
               translateY: "0%",
               transition: {
-                delay: initialDelay + 4 * 0.2 + 0.1,
+                delay: 4 * 0.2 + 0.1,
                 duration: textDuration,
               },
             },
