@@ -1,16 +1,19 @@
-import { Heading, HStack, VStack, Text } from "@chakra-ui/react";
+import { Heading, HStack, VStack, Text, Flex, Button } from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
 import { useState } from "react";
 import Sidebar from "../src/components/sections/Sidebar";
+import ErrorMessage from "../src/components/ui/utils/ErrorMessage";
 import GoalsStats from "../src/components/ui/statistics/GoalsStats";
 import ProjectsStats from "../src/components/ui/statistics/ProjectsStats";
 import SelectQuery from "../src/components/ui/statistics/SelectQuery";
+import LoadingSpinner from "../src/components/ui/utils/LoadingSpinner";
 import useGetMainStats from "../src/hooks/query/useGetMainStats";
 import IMe from "../src/interfaces/IMe";
 import minHonPagesWithSidebar from "../src/utils/minHonPagesWithSidebar";
 import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
 import redirectServerSide from "../src/utils/server-side/redirectServerSide";
 import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
+import { useRouter } from "next/router";
 
 const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
   const minH = minHonPagesWithSidebar;
@@ -20,16 +23,46 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
 
   const { data, isLoading, isError } = useGetMainStats(query);
 
+  const router = useRouter();
+
   if (!data) {
-    return <>No data</>;
+    return (
+      <Sidebar>
+        <Flex
+          minH={minH}
+          justifyContent='center'
+          alignItems='center'
+          flexDirection='column'
+        >
+          <Text
+            fontSize={{ base: "md", md: "lg", lg: "xl" }}
+            textAlign='center'
+            color='gray.800'
+          >
+            It looks like there are no statistics to show yet. Change it by
+            creating new project!
+          </Text>
+          <Button
+            mt={5}
+            colorScheme='teal'
+            _focus={{ ring: 3, ringColor: "teal.700" }}
+            onClick={() => router.push("/create-project")}
+          >
+            Create New Project
+          </Button>
+        </Flex>
+      </Sidebar>
+    );
   }
 
   if (isError || isLoading) {
     return (
-      <>
-        {isError && "error"}
-        {isLoading && "loading"}
-      </>
+      <Sidebar>
+        <Flex minH={minH} justifyContent='center' alignItems='center'>
+          {isError && <ErrorMessage />}
+          {isLoading && <LoadingSpinner />}
+        </Flex>
+      </Sidebar>
     );
   }
 
