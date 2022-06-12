@@ -1,4 +1,13 @@
-import { Heading, HStack, VStack, Text, Flex, Button } from "@chakra-ui/react";
+import {
+  Heading,
+  HStack,
+  VStack,
+  Text,
+  Flex,
+  Button,
+  Stack,
+  Box,
+} from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
 import { useState } from "react";
 import Sidebar from "../src/components/sections/Sidebar";
@@ -14,16 +23,34 @@ import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
 import redirectServerSide from "../src/utils/server-side/redirectServerSide";
 import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
 import { useRouter } from "next/router";
+import DateRangeRadio from "../src/components/ui/statistics/DateRangeRadio";
+import DateInput from "../src/components/ui/form/DateInput";
+import StatsDateInput from "../src/components/ui/statistics/StatsDateInput";
+import CustomInputDays from "../src/components/ui/statistics/CustomInputDays";
 
 const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
   const minH = minHonPagesWithSidebar;
 
   const [query, setQuery] = useState("");
   const [isCustomInput, setIsCustomInput] = useState(false);
+  const [dateType, setDateType] = useState<"specific-date" | "date-range">(
+    "date-range"
+  );
 
   const { data, isLoading, isError } = useGetMainStats(query);
 
   const router = useRouter();
+
+  if (isError || isLoading) {
+    return (
+      <Sidebar>
+        <Flex minH={minH} justifyContent='center' alignItems='center'>
+          {isError && <ErrorMessage />}
+          {isLoading && <LoadingSpinner />}
+        </Flex>
+      </Sidebar>
+    );
+  }
 
   if (!data) {
     return (
@@ -55,17 +82,6 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
     );
   }
 
-  if (isError || isLoading) {
-    return (
-      <Sidebar>
-        <Flex minH={minH} justifyContent='center' alignItems='center'>
-          {isError && <ErrorMessage />}
-          {isLoading && <LoadingSpinner />}
-        </Flex>
-      </Sidebar>
-    );
-  }
-
   return (
     <Sidebar>
       <VStack
@@ -77,16 +93,45 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
           Your statistics
         </Heading>
         <VStack>
-          <HStack mx='auto'>
-            <Text>From </Text>
-            <SelectQuery
+          <Text
+            w='full'
+            color='teal.600'
+            fontSize={{ base: "xl", md: "2xl" }}
+            textAlign='center'
+          >
+            Select the date you want to check stats from
+          </Text>
+          <Stack
+            direction={{ base: "column", md: "column", lg: "row" }}
+            spacing={{ base: 4, md: 6, lg: 12 }}
+          >
+            <DateRangeRadio
+              setDateType={setDateType}
               setQuery={setQuery}
               setIsCustomInput={setIsCustomInput}
             />
-          </HStack>
-          {/* {//TODO: CUSTOM INPUT } */}
-          {isCustomInput && <Text>CUSTOM INPUT</Text>}
+            {dateType === "date-range" && (
+              <Stack
+                justifyContent='center'
+                direction={{ base: "column", md: "column", lg: "row" }}
+                spacing={{ base: 2, md: 2, lg: 6 }}
+              >
+                <HStack mx='auto'>
+                  <Text>From </Text>
+                  <SelectQuery
+                    setQuery={setQuery}
+                    setIsCustomInput={setIsCustomInput}
+                  />
+                </HStack>
+                {isCustomInput && <CustomInputDays setQuery={setQuery} />}
+              </Stack>
+            )}
+            {dateType === "specific-date" && (
+              <StatsDateInput setQuery={setQuery} />
+            )}
+          </Stack>
         </VStack>
+
         <VStack w='full' spacing={5}>
           <ProjectsStats
             allProjectsNumber={data.allProjectsNumber}
