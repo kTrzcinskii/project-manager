@@ -150,7 +150,14 @@ export class StatsService {
     const ONE_YEAR = 365 * ONE_DAY;
 
     if (from === 'today') {
-      return { searchFrom: new Date(searchTo.toLocaleDateString()), searchTo };
+      const hours = searchTo.getUTCHours() * 60 * 60 * 1000;
+      const minutes = searchTo.getMinutes() * 60 * 1000;
+      const seconds = searchTo.getSeconds() * 1000;
+
+      const searchFrom = new Date(
+        searchTo.getTime() - hours - minutes - seconds,
+      );
+      return { searchFrom, searchTo };
     }
 
     if (from === 'week') {
@@ -170,7 +177,15 @@ export class StatsService {
 
     //if it gets to this point it means from is the number
     if (typeof from === 'number') {
-      const searchFrom = new Date(searchTo.getTime() - from * ONE_DAY);
+      const hours = searchTo.getUTCHours() * 60 * 60 * 1000;
+      const minutes = searchTo.getMinutes() * 60 * 1000;
+      const seconds = searchTo.getSeconds() * 1000;
+      const miliseconds = hours + minutes + seconds;
+
+      const minus =
+        from === 1 ? miliseconds : miliseconds + (from - 1) * ONE_DAY;
+
+      const searchFrom = new Date(searchTo.getTime() - minus);
       return { searchFrom, searchTo };
     }
   }
