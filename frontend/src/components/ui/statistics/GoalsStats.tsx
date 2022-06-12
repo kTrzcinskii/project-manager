@@ -89,6 +89,7 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
       {isAnyGoalCreated && (
         <Text
           pt={10}
+          pb={12}
           color='teal.600'
           fontStyle='italic'
           fontSize='xl'
