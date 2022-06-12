@@ -18,7 +18,7 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
   setIsCustomInput,
 }) => {
   const [selectedTime, setSelectedTime] = useState<timeOption | null>(
-    timeOptions[0]
+    timeOptions[1]
   );
 
   return (
