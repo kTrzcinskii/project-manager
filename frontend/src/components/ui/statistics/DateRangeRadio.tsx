@@ -4,11 +4,13 @@ import { Dispatch, SetStateAction, useState } from "react";
 interface DateRangeRadioProps {
   setDateType: Dispatch<SetStateAction<"specific-date" | "date-range">>;
   setQuery: Dispatch<SetStateAction<string>>;
+  setIsCustomInput: Dispatch<SetStateAction<boolean>>;
 }
 
 const DateRangeRadio: React.FC<DateRangeRadioProps> = ({
   setDateType,
   setQuery,
+  setIsCustomInput,
 }) => {
   const [value, setValue] = useState<"specific-date" | "date-range">(
     "date-range"
@@ -22,6 +24,9 @@ const DateRangeRadio: React.FC<DateRangeRadioProps> = ({
         setDateType(value);
         if (value === "date-range") {
           setQuery("");
+        }
+        if (value === "specific-date") {
+          setIsCustomInput(false);
         }
       }}
     >
