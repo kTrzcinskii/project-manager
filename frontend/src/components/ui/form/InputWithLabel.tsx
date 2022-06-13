@@ -1,19 +1,20 @@
-import { Text, Divider, Box } from "@chakra-ui/react";
+import { Text, Divider, Box, BoxProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
-interface InputWithLabelProps {
+type InputWithLabelProps = BoxProps & {
   input: ReactNode;
   header: string;
   dontShowDivider?: boolean;
-}
+};
 
 const InputWithLabel: React.FC<InputWithLabelProps> = ({
   input,
   header,
   dontShowDivider = false,
+  ...props
 }) => {
   return (
-    <Box>
+    <Box {...props}>
       <Text fontSize='md' fontWeight='semibold' color='teal.800' mb={2}>
         {header}
       </Text>
