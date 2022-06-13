@@ -4,7 +4,7 @@ export default interface IProject {
   id: number;
   createdAt: Date;
   updatedAt: Date;
-  completedAt: Date;
+  completedAt: Date | null;
   title: string;
   description: string;
   goals: IGoal[];
