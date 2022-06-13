@@ -8,12 +8,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
-import { customTheme } from "../../../utils/selectCustomStyles";
+import { customTheme } from "../../../utils/selects/selectCustomStyles";
 import {
   customStyle,
   monthOption,
   monthOptions,
-} from "../../../utils/selectMonth";
+} from "../../../utils/selects/selectMonth";
 import CustomNumberInput from "../form/CustomNumberInput";
 import Select from "react-select";
 import newSpecificDateToastOptions from "../../../utils/toasts/newSpecificDateToastOptions";

@@ -1,5 +1,4 @@
-import { Theme, StylesConfig } from "react-select";
-import { priorityOption } from "./selectPriority";
+import { Theme } from "react-select";
 
 export const customTheme = (theme: Theme) => ({
   ...theme,

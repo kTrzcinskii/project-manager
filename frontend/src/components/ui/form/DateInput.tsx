@@ -4,8 +4,8 @@ import {
   monthOption,
   monthOptions,
   customStyle,
-} from "../../../utils/selectMonth";
-import { customTheme } from "../../../utils/selectCustomStyles";
+} from "../../../utils/selects/selectMonth";
+import { customTheme } from "../../../utils/selects/selectCustomStyles";
 import Select from "react-select";
 import CustomNumberInput from "./CustomNumberInput";
 import { CheckIcon } from "@chakra-ui/icons";

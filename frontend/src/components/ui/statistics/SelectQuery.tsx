@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Select from "react-select";
-import { customTheme } from "../../../utils/selectCustomStyles";
+import { customTheme } from "../../../utils/selects/selectCustomStyles";
 import {
   customStyle,
   timeOption,
   timeOptions,
-} from "../../../utils/selectTime";
+} from "../../../utils/selects/selectTime";
 import { Box } from "@chakra-ui/react";
 
 interface SelectQueryProps {

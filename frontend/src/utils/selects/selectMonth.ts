@@ -1,6 +1,6 @@
 import { StylesConfig } from "react-select";
 import { settingsObj } from "./selectCustomStyles";
-import { months } from "./transfromMonthNumberToString";
+import { months } from "../transfromMonthNumberToString";
 
 export interface monthOption {
   value: number;

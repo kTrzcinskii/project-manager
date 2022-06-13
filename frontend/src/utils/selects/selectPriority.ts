@@ -1,5 +1,5 @@
 import { StylesConfig } from "react-select";
-import { priorityType } from "../interfaces/IFilterFormValues";
+import { priorityType } from "../../interfaces/IFilterFormValues";
 import { settingsObj } from "./selectCustomStyles";
 
 export interface priorityOption {

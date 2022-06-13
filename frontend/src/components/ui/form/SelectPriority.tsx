@@ -1,12 +1,12 @@
 import { useState, memo } from "react";
 import Select from "react-select";
 import { priorityType } from "../../../interfaces/IFilterFormValues";
-import { customTheme } from "../../../utils/selectCustomStyles";
+import { customTheme } from "../../../utils/selects/selectCustomStyles";
 import {
   customStyle,
   priorityOption,
   priorityOptions,
-} from "../../../utils/selectPriority";
+} from "../../../utils/selects/selectPriority";
 
 interface SelectPriorityProps {
   setFieldValue: (field: string, value?: string) => void;
