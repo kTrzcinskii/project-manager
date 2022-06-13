@@ -92,7 +92,14 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
         <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
           Your statistics
         </Heading>
-        <VStack>
+        <VStack
+          bgColor='white'
+          px={5}
+          py={4}
+          borderWidth={2}
+          borderColor='teal'
+          rounded='lg'
+        >
           <Text
             w='full'
             color='teal.600'
