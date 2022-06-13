@@ -37,7 +37,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
   let defaultMonthIndex: number = 0;
   if (values && values[1]) {
-    defaultMonthIndex = Number(values[1]);
+    defaultMonthIndex = Number(values[1]) - 1;
   }
 
   const [selectedDay, setSelectedDay] = useState(defaultDay);
