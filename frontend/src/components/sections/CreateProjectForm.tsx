@@ -2,10 +2,13 @@ import { Button, Flex, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { format } from "date-fns";
 import add from "date-fns/add";
 import { Form, Formik } from "formik";
+import { useState } from "react";
 import useCreateProject from "../../hooks/mutation/useCreateProject";
 import ICreateProjectValues from "../../interfaces/ICreateProjectValues";
+import CreateProjectSchema from "../../utils/schemas/CreateProjectFormSchema";
 import DateInputWithNoBth from "../ui/form/DateInputWithNoBtn";
 import FavoriteCheckbox from "../ui/form/FavoriteCheckbox";
+import GoalsContainer from "../ui/form/GoalsContainer";
 import InputField from "../ui/form/InputField";
 import InputWithLabel from "../ui/form/InputWithLabel";
 import SelectPriorityCreateProject from "../ui/form/SelectPriorityCreateProject";
@@ -14,6 +17,8 @@ import TextAreaField from "../ui/form/TextAreaField";
 const CreateProjectForm: React.FC = () => {
   const tomorrow = add(new Date(), { days: 1 });
   const initialDeadline = format(tomorrow, "y-MM-dd");
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingError, setIsEditingError] = useState(false);
 
   const initialValues: ICreateProjectValues = {
     deadline: initialDeadline,
@@ -29,9 +34,12 @@ const CreateProjectForm: React.FC = () => {
     <Formik
       initialValues={initialValues}
       onSubmit={(values, action) => {
-        console.log(values);
+        if (isEditing) {
+          setIsEditingError(true);
+          action.setSubmitting(false);
+        }
       }}
-      // validationSchema={CreateProjectSchema}
+      validationSchema={CreateProjectSchema}
     >
       {({ isSubmitting, values, handleSubmit, setFieldValue }) => (
         <Form onSubmit={handleSubmit}>
@@ -87,8 +95,22 @@ const CreateProjectForm: React.FC = () => {
               dontShowDivider={true}
               w='full'
             />
+            <InputWithLabel
+              header='Goals'
+              input={
+                <GoalsContainer
+                  setFieldValue={setFieldValue}
+                  setIsEditing={setIsEditing}
+                  isEditingError={isEditingError}
+                  setIsEditingError={setIsEditingError}
+                  name='goals'
+                />
+              }
+              dontShowDivider={true}
+              w='full'
+            />
             <FavoriteCheckbox setFieldValue={setFieldValue} />
-            <Flex w='full' justifyContent='center' alignItems='center'>
+            <Flex w='full' justifyContent='center' alignItems='center' pb={5}>
               <Button
                 type='submit'
                 colorScheme='teal'
