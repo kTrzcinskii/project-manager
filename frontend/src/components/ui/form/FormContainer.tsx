@@ -9,7 +9,7 @@ interface FormContainerProps {
 const FormContainer: FC<FormContainerProps> = ({ children }) => {
   return (
     <Container
-      maxW={useBreakpointValue({ base: "xs", md: "md" })}
+      maxW={useBreakpointValue({ base: "xs", md: "md", lg: "4xl", xl: "4xl" })}
       bgColor='white'
       py={useBreakpointValue({
         base: 8,
