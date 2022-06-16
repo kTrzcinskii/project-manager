@@ -12,7 +12,7 @@ interface AccountDetailsProps {
 const AccountDetails: React.FC<AccountDetailsProps> = ({ user }) => {
   return (
     <VStack
-      w={{ base: "80%", md: "70%", lg: "50%" }}
+      w={{ base: "350px", md: "400px", lg: "450px", xl: "460px" }}
       alignItems='flex-start'
       mx='auto'
       spacing={{ base: 4, md: 8 }}
