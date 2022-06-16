@@ -1,11 +1,21 @@
-import { Button, Flex, useBreakpointValue, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  useBreakpointValue,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
+import axios from "axios";
 import { format } from "date-fns";
 import add from "date-fns/add";
 import { Form, Formik } from "formik";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import useCreateProject from "../../hooks/mutation/useCreateProject";
 import ICreateProjectValues from "../../interfaces/ICreateProjectValues";
 import CreateProjectSchema from "../../utils/schemas/CreateProjectFormSchema";
+import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
+import transfromAPIErrors from "../../utils/transformAPIErrors";
 import DateInputWithNoBth from "../ui/form/DateInputWithNoBtn";
 import FavoriteCheckbox from "../ui/form/FavoriteCheckbox";
 import GoalsContainer from "../ui/form/GoalsContainer";
@@ -29,6 +39,10 @@ const CreateProjectForm: React.FC = () => {
   };
   const formSpacing = useBreakpointValue({ base: 4, md: 6, lg: 8 });
   const mutation = useCreateProject();
+  const router = useRouter();
+
+  const toast = useToast();
+  const toastOptions = networkErrorToastOptions();
 
   return (
     <Formik
@@ -37,7 +51,28 @@ const CreateProjectForm: React.FC = () => {
         if (isEditing) {
           setIsEditingError(true);
           action.setSubmitting(false);
+          return;
         }
+        mutation.mutate(values, {
+          onSuccess: (response) => router.push(`/project/${response.data.id}`),
+          onError: (error) => {
+            action.setSubmitting(false);
+            if (axios.isAxiosError(error)) {
+              if (!error.response) {
+                toast(toastOptions);
+              }
+              action.setErrors(
+                transfromAPIErrors(error, [
+                  "deadline",
+                  "description",
+                  "goals",
+                  "priority",
+                  "title",
+                ])
+              );
+            }
+          },
+        });
       }}
       validationSchema={CreateProjectSchema}
     >
