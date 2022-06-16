@@ -79,7 +79,7 @@ const CreateProjectForm: React.FC = () => {
       {({ isSubmitting, values, handleSubmit, setFieldValue }) => (
         <Form onSubmit={handleSubmit}>
           <VStack
-            w={{ base: "300px", md: "380px", lg: "470px", xl: "500px" }}
+            w={{ base: "300px", md: "380px", lg: "440px", xl: "500px" }}
             align='flex-start'
             spacing={formSpacing}
             pt={{ base: 6, md: 10, lg: 14 }}

@@ -1,27 +1,49 @@
-import { Heading, VStack } from "@chakra-ui/react";
+import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
+import Image from "next/image";
 import CreateProjectForm from "../src/components/sections/CreateProjectForm";
 import Sidebar from "../src/components/sections/Sidebar";
 import minHonPagesWithSidebar from "../src/utils/minHonPagesWithSidebar";
 import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
 import redirectServerSide from "../src/utils/server-side/redirectServerSide";
 import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
+import create_project_image from "../public/images/create_project_image.svg";
 
 const CreateProject: NextPage = () => {
   const minH = minHonPagesWithSidebar;
 
   return (
     <Sidebar>
-      <VStack minH={minH} w='90%' mx='auto' bgColor='white'>
-        <Heading
-          color='teal.700'
-          pt={8}
-          fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-        >
-          Create New Project
-        </Heading>
-        <CreateProjectForm />
-      </VStack>
+      <HStack
+        minH={minH}
+        w='100%'
+        bgColor='white'
+        px={{ base: 0, md: 0, lg: 5 }}
+        justifyContent={{
+          base: "center",
+          md: "center",
+          lg: "center",
+          xl: "space-around",
+        }}
+      >
+        <Box w={{ base: 0, md: 0, lg: "0", xl: "400px" }}>
+          <Image
+            src={create_project_image}
+            alt='Working man'
+            layout='responsive'
+          />
+        </Box>
+        <VStack>
+          <Heading
+            color='teal.700'
+            pt={8}
+            fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+          >
+            Create New Project
+          </Heading>
+          <CreateProjectForm />
+        </VStack>
+      </HStack>
     </Sidebar>
   );
 };
