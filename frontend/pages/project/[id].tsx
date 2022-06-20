@@ -20,6 +20,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useQueryClient } from "react-query";
 import Sidebar from "../../src/components/sections/Sidebar";
 import DatesContainer from "../../src/components/ui/project/page/DatesContainer";
+import PriorityAndStatusBox from "../../src/components/ui/project/page/PriorityAndStatusBox";
 import ProjectProgress from "../../src/components/ui/project/page/ProjectProgress";
 import ErrorMessage from "../../src/components/ui/utils/ErrorMessage";
 import LoadingSpinner from "../../src/components/ui/utils/LoadingSpinner";
@@ -48,7 +49,6 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
   const router = useRouter();
   const { id, color } = router.query;
   const myColor = typeof color === "string" ? color : "teal";
-  console.log(myColor);
 
   const { data, isLoading, isError, error } = useGetSingleProject(Number(id));
   console.log(data);
@@ -113,7 +113,12 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
   return (
     <Sidebar>
       <VStack minH={minH} bgColor='white' w='full'>
-        <VStack spacing={{ base: 5, md: 6, lg: 8 }} pt={5} w='80%' mx='auto'>
+        <VStack
+          spacing={{ base: 5, md: 6, lg: 8 }}
+          pt={5}
+          w={{ base: "90%", md: " 85%", lg: "80%" }}
+          mx='auto'
+        >
           <Stack
             w='full'
             justifyContent='space-between'
@@ -142,19 +147,21 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
                   onClick={handleFavClick}
                 />
               </HStack>
-              <Text color={`${myColor}.600`} fontStyle='italic' w='full'>
+              <Text
+                color={`${myColor}.600`}
+                fontStyle='italic'
+                w='full'
+                textAlign='justify'
+              >
                 {data?.description}
               </Text>
             </VStack>
-            <Text fontSize='xl'>
-              Priority:{" "}
-              <chakra.span
-                textTransform='uppercase'
-                color={`${priorityColor}.500`}
-              >
-                {data?.priority}
-              </chakra.span>
-            </Text>
+            <PriorityAndStatusBox
+              priority={data?.priority}
+              status={data?.status}
+              priorityColor={priorityColor}
+              color={myColor}
+            />
           </Stack>
           <Stack
             w='full'
