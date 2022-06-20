@@ -34,7 +34,7 @@ const PriorityAndStatusBox: React.FC<PriorityAndStatusBoxProps> = ({
           {priority}
         </chakra.span>
       </Text>
-      <Text minW='162px'>
+      <Text minW='162px' textAlign='right'>
         Status:{" "}
         <chakra.span textTransform='capitalize' color={`${realColor}.600`}>
           {realStatus}
