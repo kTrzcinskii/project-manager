@@ -1,17 +1,22 @@
 import {
-  VStack,
-  Heading,
+  Box,
   chakra,
+  Heading,
   Link,
   useBreakpointValue,
-  Box,
+  VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import NextLink from "next/link";
 import Image from "next/image";
+import NextLink from "next/link";
 import page_image from "../public/images/404_image.png";
+import useMe from "../src/hooks/query/useMe";
 
 const NotFoundPage: NextPage = () => {
+  const { isSuccess } = useMe();
+
+  const link = isSuccess ? "/home" : "/";
+
   return (
     <VStack
       h='100vh'
@@ -21,7 +26,13 @@ const NotFoundPage: NextPage = () => {
       bgColor='gray.100'
     >
       <Box w={{ base: "350px", md: "380px", lg: "400px", xl: "450px" }}>
-        <Image src={page_image} alt='Astronaut' layout='responsive' />
+        <Image
+          src={page_image}
+          alt='Astronaut'
+          layout='responsive'
+          priority={true}
+          placeholder='blur'
+        />
       </Box>
       <Heading
         size={useBreakpointValue({ base: "2xl", md: "3xl" })}
@@ -32,7 +43,7 @@ const NotFoundPage: NextPage = () => {
         </chakra.span>{" "}
         Page not found
       </Heading>
-      <NextLink href='/' passHref>
+      <NextLink href={link} passHref>
         <Link
           color='teal.500'
           fontSize={useBreakpointValue({ base: "xl", md: "2xl" })}
