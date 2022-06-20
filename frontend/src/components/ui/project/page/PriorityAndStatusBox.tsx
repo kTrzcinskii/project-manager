@@ -19,13 +19,19 @@ const PriorityAndStatusBox: React.FC<PriorityAndStatusBoxProps> = ({
 
   return (
     <Stack
-      alignItems={{ base: "center", md: "center", lg: "flex-end" }}
+      alignItems={{
+        base: "center",
+        md: "center",
+        lg: "center",
+        xl: "flex-end",
+      }}
       justifyContent={{
         base: "space-between",
         md: "space-between",
-        lg: "center",
+        lg: "space-between",
+        xl: "center",
       }}
-      direction={{ base: "row", md: "row", lg: "column" }}
+      direction={{ base: "row", md: "row", lg: "row", xl: "column" }}
       fontSize={{ base: "lg", md: "xl" }}
     >
       <Text>

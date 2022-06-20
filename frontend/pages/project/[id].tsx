@@ -1,16 +1,12 @@
 import {
   Flex,
   Heading,
-  chakra,
-  Text,
-  VStack,
-  Stack,
   HStack,
   IconButton,
+  Stack,
+  Text,
   useToast,
-  CircularProgress,
-  CircularProgressLabel,
-  Box,
+  VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import type { NextPage, NextPageContext } from "next";
@@ -19,6 +15,7 @@ import { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useQueryClient } from "react-query";
 import Sidebar from "../../src/components/sections/Sidebar";
+import BtnContainer from "../../src/components/ui/project/page/BtnContainer";
 import DatesContainer from "../../src/components/ui/project/page/DatesContainer";
 import PriorityAndStatusBox from "../../src/components/ui/project/page/PriorityAndStatusBox";
 import ProjectProgress from "../../src/components/ui/project/page/ProjectProgress";
@@ -125,10 +122,12 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
             direction={{
               base: "column-reverse",
               md: "column-reverse",
-              lg: "row",
+              lg: "column-reverse",
+              xl: "row",
             }}
+            spacing={{ base: 0, md: 0, lg: 0, xl: 6 }}
           >
-            <VStack w={{ base: "full", md: "full", lg: "75%" }}>
+            <VStack w={{ base: "full", md: "full", lg: "full", xl: "70%" }}>
               <HStack w='full' spacing={4} alignItems='center'>
                 <Heading color={`${myColor}.800`}>{data?.title}</Heading>
                 <IconButton
@@ -152,6 +151,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
                 fontStyle='italic'
                 w='full'
                 textAlign='justify'
+                fontSize='lg'
               >
                 {data?.description}
               </Text>
@@ -186,6 +186,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
               <ProjectProgress progress={data?.progressBar} color={myColor} />
             )}
           </Stack>
+          <BtnContainer id={Number(id)} title={data?.title} />
         </VStack>
       </VStack>
     </Sidebar>
