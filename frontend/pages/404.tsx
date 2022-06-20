@@ -4,9 +4,12 @@ import {
   chakra,
   Link,
   useBreakpointValue,
+  Box,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import NextLink from "next/link";
+import Image from "next/image";
+import page_image from "../public/images/404_image.png";
 
 const NotFoundPage: NextPage = () => {
   return (
@@ -17,6 +20,9 @@ const NotFoundPage: NextPage = () => {
       spacing={10}
       bgColor='gray.100'
     >
+      <Box w={{ base: "350px", md: "380px", lg: "400px", xl: "450px" }}>
+        <Image src={page_image} alt='Astronaut' layout='responsive' />
+      </Box>
       <Heading
         size={useBreakpointValue({ base: "2xl", md: "3xl" })}
         fontWeight='normal'
