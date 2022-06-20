@@ -8,6 +8,9 @@ import {
   HStack,
   IconButton,
   useToast,
+  CircularProgress,
+  CircularProgressLabel,
+  Box,
 } from "@chakra-ui/react";
 import axios from "axios";
 import type { NextPage, NextPageContext } from "next";
@@ -16,6 +19,7 @@ import { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useQueryClient } from "react-query";
 import Sidebar from "../../src/components/sections/Sidebar";
+import DatesContainer from "../../src/components/ui/project/page/DatesContainer";
 import ErrorMessage from "../../src/components/ui/utils/ErrorMessage";
 import LoadingSpinner from "../../src/components/ui/utils/LoadingSpinner";
 import useEditProject from "../../src/hooks/mutation/useEditProject";
@@ -105,7 +109,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
   return (
     <Sidebar>
       <VStack minH={minH} bgColor='white' w='full'>
-        <VStack spacing={{ base: 5, md: 6, lg: 8 }} pt={5} w='90%' mx='auto'>
+        <VStack spacing={{ base: 5, md: 6, lg: 8 }} pt={5} w='80%' mx='auto'>
           <Stack
             w='full'
             justifyContent='space-between'
@@ -147,6 +151,39 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
                 {data?.priority}
               </chakra.span>
             </Text>
+          </Stack>
+          <Stack
+            w='full'
+            justifyContent='space-around'
+            alignItems='center'
+            direction={{
+              base: "column",
+              md: "column",
+              lg: "row",
+            }}
+            spacing={7}
+          >
+            {data?.createdAt && data.updatedAt && (
+              <DatesContainer
+                createdAt={data?.createdAt}
+                updatedAt={data?.updatedAt}
+                completedAt={data?.completedAt}
+              />
+            )}
+            <VStack>
+              <CircularProgress
+                value={data?.progressBar}
+                color='teal.400'
+                size='120px'
+              >
+                <CircularProgressLabel color='gray.600'>
+                  {data?.progressBar}%
+                </CircularProgressLabel>
+              </CircularProgress>
+              <Text fontWeight='semibold' color='gray.600' minW='122px'>
+                Current Progress
+              </Text>
+            </VStack>
           </Stack>
         </VStack>
       </VStack>
