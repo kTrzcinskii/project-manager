@@ -87,6 +87,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [actualFavorite, setActualFavorite] = useState(favorite);
 
   const router = useRouter();
+  const moveToProject = () =>
+    router.push(
+      { query: { color }, pathname: `/project/${id}` },
+      `/project/${id}`
+    );
 
   const favoriteMutation = useEditProject(id);
   const handleClick = () => {
@@ -152,7 +157,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         bgColor='white'
         color={`${color}.900`}
         zIndex={10}
-        onClick={() => router.push(`/project/${id}`)}
+        onClick={moveToProject}
         _focus={{ ring: 3, ringColor: `${color}.800` }}
       >
         See more details
@@ -183,7 +188,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           fontSize='2xl'
           fontWeight='medium'
           color={`${color}.900`}
-          onClick={() => router.push(`/project/${id}`)}
+          onClick={moveToProject}
           cursor='pointer'
         >
           {title}
@@ -193,7 +198,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         w='full'
         _groupHover={{ opacity: 0 }}
         transition='opacity 200ms ease-in-out'
-        onClick={() => router.push(`/project/${id}`)}
+        onClick={moveToProject}
       >
         <Box pt={7} w='80%'>
           <HStack
