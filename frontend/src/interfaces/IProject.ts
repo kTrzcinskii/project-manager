@@ -2,9 +2,9 @@ import IGoal from "./IGoal";
 
 export default interface IProject {
   id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  completedAt: Date | null;
+  createdAt: string;
+  updatedAt: string;
+  completedAt: string | null;
   title: string;
   description: string;
   goals: IGoal[];
