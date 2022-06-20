@@ -9,6 +9,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import add from "date-fns/add";
 import { Form, Formik } from "formik";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useCreateProject from "../../hooks/mutation/useCreateProject";
@@ -84,68 +85,107 @@ const CreateProjectForm: React.FC = () => {
             spacing={formSpacing}
             pt={{ base: 6, md: 10, lg: 14 }}
           >
-            <InputWithLabel
-              input={
-                <InputField
-                  name='title'
-                  placeholder='Enter title'
-                  value={values.title}
-                  w='full'
-                />
-              }
-              header='Title'
-              dontShowDivider={true}
+            <VStack
               w='full'
-            />
-            <InputWithLabel
-              input={
-                <TextAreaField
-                  name='description'
-                  placeholder='Enter description'
-                  value={values.description}
-                  w='full'
-                />
-              }
-              header='Description'
-              dontShowDivider={true}
+              align='flex-start'
+              spacing={formSpacing}
+              as={motion.div}
+              initial={{
+                opacity: 0,
+                translateX: "-150%",
+              }}
+              animate={{
+                opacity: 1,
+                translateX: "0%",
+                transition: {
+                  duration: 0.3,
+                  ease: "easeInOut",
+                  delay: 0.35,
+                },
+              }}
+            >
+              <InputWithLabel
+                input={
+                  <InputField
+                    name='title'
+                    placeholder='Enter title'
+                    value={values.title}
+                    w='full'
+                  />
+                }
+                header='Title'
+                dontShowDivider={true}
+                w='full'
+              />
+              <InputWithLabel
+                input={
+                  <TextAreaField
+                    name='description'
+                    placeholder='Enter description'
+                    value={values.description}
+                    w='full'
+                  />
+                }
+                header='Description'
+                dontShowDivider={true}
+                w='full'
+              />
+              <InputWithLabel
+                header='Priority'
+                input={
+                  <SelectPriorityCreateProject setFieldValue={setFieldValue} />
+                }
+                dontShowDivider={true}
+                w='full'
+              />
+              <InputWithLabel
+                header='Deadline'
+                input={
+                  <DateInputWithNoBth
+                    field='deadline'
+                    setFieldValue={setFieldValue}
+                    defaultValue={initialDeadline}
+                  />
+                }
+                dontShowDivider={true}
+                w='full'
+              />
+              <InputWithLabel
+                header='Goals'
+                input={
+                  <GoalsContainer
+                    setFieldValue={setFieldValue}
+                    setIsEditing={setIsEditing}
+                    isEditingError={isEditingError}
+                    setIsEditingError={setIsEditingError}
+                    name='goals'
+                  />
+                }
+                dontShowDivider={true}
+                w='full'
+              />
+              <FavoriteCheckbox setFieldValue={setFieldValue} />
+            </VStack>
+            <Flex
               w='full'
-            />
-            <InputWithLabel
-              header='Priority'
-              input={
-                <SelectPriorityCreateProject setFieldValue={setFieldValue} />
-              }
-              dontShowDivider={true}
-              w='full'
-            />
-            <InputWithLabel
-              header='Deadline'
-              input={
-                <DateInputWithNoBth
-                  field='deadline'
-                  setFieldValue={setFieldValue}
-                  defaultValue={initialDeadline}
-                />
-              }
-              dontShowDivider={true}
-              w='full'
-            />
-            <InputWithLabel
-              header='Goals'
-              input={
-                <GoalsContainer
-                  setFieldValue={setFieldValue}
-                  setIsEditing={setIsEditing}
-                  isEditingError={isEditingError}
-                  setIsEditingError={setIsEditingError}
-                  name='goals'
-                />
-              }
-              dontShowDivider={true}
-              w='full'
-            />
-            <FavoriteCheckbox setFieldValue={setFieldValue} />
-            <Flex w='full' justifyContent='center' alignItems='center' pb={5}>
+              justifyContent='center'
+              alignItems='center'
+              pb={5}
+              as={motion.div}
+              initial={{
+                opacity: 0,
+                translateY: "150%",
+              }}
+              animate={{
+                opacity: 1,
+                translateY: "0%",
+                transition: {
+                  duration: 0.3,
+                  ease: "easeInOut",
+                  delay: 0.65,
+                },
+              }}
+            >
               <Button
                 type='submit'
                 colorScheme='teal'

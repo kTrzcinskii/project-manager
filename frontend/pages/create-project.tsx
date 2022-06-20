@@ -8,6 +8,7 @@ import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
 import redirectServerSide from "../src/utils/server-side/redirectServerSide";
 import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
 import create_project_image from "../public/images/create_project_image.svg";
+import { motion } from "framer-motion";
 
 const CreateProject: NextPage = () => {
   const minH = minHonPagesWithSidebar;
@@ -38,6 +39,19 @@ const CreateProject: NextPage = () => {
             color='teal.700'
             pt={8}
             fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+            as={motion.h1}
+            initial={{
+              opacity: 0,
+              translateY: "-150%",
+            }}
+            animate={{
+              opacity: 1,
+              translateY: "0%",
+              transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+              },
+            }}
           >
             Create New Project
           </Heading>
