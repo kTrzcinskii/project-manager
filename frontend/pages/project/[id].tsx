@@ -20,6 +20,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useQueryClient } from "react-query";
 import Sidebar from "../../src/components/sections/Sidebar";
 import DatesContainer from "../../src/components/ui/project/page/DatesContainer";
+import ProjectProgress from "../../src/components/ui/project/page/ProjectProgress";
 import ErrorMessage from "../../src/components/ui/utils/ErrorMessage";
 import LoadingSpinner from "../../src/components/ui/utils/LoadingSpinner";
 import useEditProject from "../../src/hooks/mutation/useEditProject";
@@ -34,7 +35,7 @@ import successfulPostEditedToastOptions from "../../src/utils/toasts/successfulP
 
 interface ProjectPageProps {}
 
-const color = (priority: priority | undefined) => {
+const getPriorityColor = (priority: priority | undefined) => {
   if (priority === "low") return "blue";
   if (priority === "medium") return "green";
   if (priority === "high") return "red";
@@ -45,10 +46,13 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
   const minH = minHonPagesWithSidebar;
 
   const router = useRouter();
-  const { id } = router.query;
+  const { id, color } = router.query;
+  const myColor = typeof color === "string" ? color : "teal";
+  console.log(myColor);
+
   const { data, isLoading, isError, error } = useGetSingleProject(Number(id));
   console.log(data);
-  const priorityColor = color(data?.priority);
+  const priorityColor = getPriorityColor(data?.priority);
 
   const mutation = useEditProject(Number(id));
 
@@ -121,7 +125,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
           >
             <VStack w={{ base: "full", md: "full", lg: "75%" }}>
               <HStack w='full' spacing={4} alignItems='center'>
-                <Heading color='teal.800'>{data?.title}</Heading>
+                <Heading color={`${myColor}.800`}>{data?.title}</Heading>
                 <IconButton
                   aria-label='Make favorite/unfavorite'
                   variant='ghost'
@@ -138,7 +142,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
                   onClick={handleFavClick}
                 />
               </HStack>
-              <Text color='teal.600' fontStyle='italic' w='full'>
+              <Text color={`${myColor}.600`} fontStyle='italic' w='full'>
                 {data?.description}
               </Text>
             </VStack>
@@ -168,22 +172,12 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
                 createdAt={data?.createdAt}
                 updatedAt={data?.updatedAt}
                 completedAt={data?.completedAt}
+                color={myColor}
               />
             )}
-            <VStack>
-              <CircularProgress
-                value={data?.progressBar}
-                color='teal.400'
-                size='120px'
-              >
-                <CircularProgressLabel color='gray.600'>
-                  {data?.progressBar}%
-                </CircularProgressLabel>
-              </CircularProgress>
-              <Text fontWeight='semibold' color='gray.600' minW='122px'>
-                Current Progress
-              </Text>
-            </VStack>
+            {data && (
+              <ProjectProgress progress={data?.progressBar} color={myColor} />
+            )}
           </Stack>
         </VStack>
       </VStack>
