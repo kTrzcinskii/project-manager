@@ -10,7 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import type { NextPage } from "next";
+import type { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
@@ -22,6 +22,9 @@ import useEditProject from "../../src/hooks/mutation/useEditProject";
 import useGetSingleProject from "../../src/hooks/query/useGetSingleProject";
 import { priority } from "../../src/interfaces/IProject";
 import minHonPagesWithSidebar from "../../src/utils/minHonPagesWithSidebar";
+import isUserLoggedIn from "../../src/utils/server-side/isUserLoggedIn";
+import redirectServerSide from "../../src/utils/server-side/redirectServerSide";
+import setCookiesServerSide from "../../src/utils/server-side/setCookiesServerSide";
 import networkErrorToastOptions from "../../src/utils/toasts/networkErrorToastOptions";
 import successfulPostEditedToastOptions from "../../src/utils/toasts/successfulPostEdited";
 
@@ -146,5 +149,25 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
     </Sidebar>
   );
 };
+
+export async function getServerSideProps(ctx: NextPageContext) {
+  let cookies = ctx.req?.headers.cookie;
+
+  if (!cookies) {
+    return redirectServerSide("/unauthorized");
+  }
+
+  if (!cookies.includes("at=") && cookies.includes("rt=")) {
+    cookies = await setCookiesServerSide(ctx, cookies);
+  }
+
+  const { logged, user } = await isUserLoggedIn(cookies);
+
+  if (!logged || !user) {
+    return redirectServerSide("/unauthorized");
+  }
+
+  return { props: { user } };
+}
 
 export default ProjectPage;
