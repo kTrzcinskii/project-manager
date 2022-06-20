@@ -42,7 +42,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
 
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading, isError } = useGetSingleProject(Number(id));
+  const { data, isLoading, isError, error } = useGetSingleProject(Number(id));
   console.log(data);
   const priorityColor = color(data?.priority);
 
@@ -78,6 +78,10 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
       }
     );
   };
+
+  if (isError && axios.isAxiosError(error)) {
+    if (error.response?.data.statusCode === 404) router.push("/404");
+  }
 
   if (isLoading || isError) {
     return (
