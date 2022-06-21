@@ -5,11 +5,14 @@ import {
   useBreakpointValue,
   VStack,
   chakra,
+  Box,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Image from "next/image";
+import unauthorized_image from "../public/images/unauthorized_image.svg";
 
 const Unauthorized: NextPage = () => {
   const router = useRouter();
@@ -27,6 +30,13 @@ const Unauthorized: NextPage = () => {
       spacing={10}
       bgColor='gray.100'
     >
+      <Box w={{ base: "350px", md: "380px", lg: "400px", xl: "450px" }}>
+        <Image
+          src={unauthorized_image}
+          alt='Unauthorized Image'
+          layout='responsive'
+        />
+      </Box>
       <Heading
         size={useBreakpointValue({ base: "lg", md: "xl" })}
         fontWeight='normal'
