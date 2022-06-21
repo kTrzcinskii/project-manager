@@ -3,12 +3,15 @@ import { useState } from "react";
 
 interface FavoriteCheckboxProps {
   setFieldValue: (field: string, value?: boolean) => void;
+  defaultValue?: boolean;
 }
 
 const FavoriteCheckbox: React.FC<FavoriteCheckboxProps> = ({
   setFieldValue,
+  defaultValue,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const isDefaultChecked = defaultValue ? defaultValue : false;
+  const [isChecked, setIsChecked] = useState(isDefaultChecked);
 
   return (
     <Checkbox
