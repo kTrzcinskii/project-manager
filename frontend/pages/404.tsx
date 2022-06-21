@@ -9,7 +9,7 @@ import {
 import type { NextPage } from "next";
 import Image from "next/image";
 import NextLink from "next/link";
-import page_image from "../public/images/404_image.png";
+import page_image from "../public/images/not_found_image.svg";
 import useMe from "../src/hooks/query/useMe";
 
 const NotFoundPage: NextPage = () => {
@@ -26,13 +26,7 @@ const NotFoundPage: NextPage = () => {
       bgColor='gray.100'
     >
       <Box w={{ base: "350px", md: "380px", lg: "400px", xl: "450px" }}>
-        <Image
-          src={page_image}
-          alt='Astronaut'
-          layout='responsive'
-          priority={true}
-          placeholder='blur'
-        />
+        <Image src={page_image} alt='Not Found Image' layout='responsive' />
       </Box>
       <Heading
         size={useBreakpointValue({ base: "2xl", md: "3xl" })}
