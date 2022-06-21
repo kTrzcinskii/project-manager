@@ -48,7 +48,6 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
   const myColor = typeof color === "string" ? color : "teal";
 
   const { data, isLoading, isError, error } = useGetSingleProject(Number(id));
-  console.log(data);
   const priorityColor = getPriorityColor(data?.priority);
 
   const mutation = useEditProject(Number(id));
@@ -174,11 +173,12 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
             }}
             spacing={7}
           >
-            {data?.createdAt && data.updatedAt && (
+            {data?.createdAt && data.updatedAt && data.deadline && (
               <DatesContainer
                 createdAt={data?.createdAt}
                 updatedAt={data?.updatedAt}
                 completedAt={data?.completedAt}
+                deadline={data?.deadline}
                 color={myColor}
               />
             )}

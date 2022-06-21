@@ -8,7 +8,7 @@ export default interface IProject {
   title: string;
   description: string;
   goals: IGoal[];
-  deadline: Date;
+  deadline: string;
   status: status;
   priority: priority;
   progressBar: number;
