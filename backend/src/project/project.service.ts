@@ -217,9 +217,11 @@ export class ProjectService {
       );
     }
 
+    const deadline = dto.deadline ? new Date(dto.deadline) : project.deadline;
+
     const updatedProject = await this.prisma.project.update({
       where: { id: projectId },
-      data: { ...dto },
+      data: { ...dto, deadline },
       include: { goals: true },
     });
 

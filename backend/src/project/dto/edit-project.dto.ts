@@ -10,21 +10,21 @@ import { priority, priorityTypes } from '../types';
 export class EditProjectDto {
   @IsString()
   @IsOptional()
-  title: string;
+  title?: string;
 
   @IsString()
   @IsOptional()
-  description: string;
+  description?: string;
 
   @IsDateString()
   @IsOptional()
-  deadline: string;
+  deadline?: string;
 
   @IsIn(priorityTypes)
   @IsOptional()
-  priority: priority;
+  priority?: priority;
 
   @IsBoolean()
   @IsOptional()
-  favorite: boolean;
+  favorite?: boolean;
 }
