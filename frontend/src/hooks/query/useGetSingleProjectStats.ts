@@ -11,5 +11,7 @@ export default function useGetSingleProjectStats(
   return useQuery<
     ISingleProjectStats,
     Error | AxiosError<IServerErrorResponse>
-  >(["projectStats", projectId], () => getSingleProjectStats(projectId, query));
+  >(["projectStats", projectId, query], () =>
+    getSingleProjectStats(projectId, query)
+  );
 }
