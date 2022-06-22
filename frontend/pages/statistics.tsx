@@ -27,6 +27,7 @@ import DateRangeRadio from "../src/components/ui/statistics/DateRangeRadio";
 import DateInput from "../src/components/ui/form/DateInput";
 import StatsDateInput from "../src/components/ui/statistics/StatsDateInput";
 import CustomInputDays from "../src/components/ui/statistics/CustomInputDays";
+import ChooseDate from "../src/components/ui/statistics/ChooseDate";
 
 const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
   const minH = minHonPagesWithSidebar;
@@ -92,53 +93,13 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
         <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
           Your statistics
         </Heading>
-        <VStack
-          bgColor='white'
-          px={5}
-          py={4}
-          borderWidth={2}
-          borderColor='teal'
-          rounded='lg'
-        >
-          <Text
-            w='full'
-            color='teal.600'
-            fontSize={{ base: "xl", md: "2xl" }}
-            textAlign='center'
-          >
-            Select the date you want to check stats from
-          </Text>
-          <Stack
-            direction={{ base: "column", md: "column", lg: "row" }}
-            spacing={{ base: 4, md: 6, lg: 12 }}
-          >
-            <DateRangeRadio
-              setDateType={setDateType}
-              setQuery={setQuery}
-              setIsCustomInput={setIsCustomInput}
-            />
-            {dateType === "date-range" && (
-              <Stack
-                justifyContent='center'
-                direction={{ base: "column", md: "column", lg: "row" }}
-                spacing={{ base: 2, md: 2, lg: 6 }}
-              >
-                <HStack mx='auto'>
-                  <Text>From </Text>
-                  <SelectQuery
-                    setQuery={setQuery}
-                    setIsCustomInput={setIsCustomInput}
-                  />
-                </HStack>
-                {isCustomInput && <CustomInputDays setQuery={setQuery} />}
-              </Stack>
-            )}
-            {dateType === "specific-date" && (
-              <StatsDateInput setQuery={setQuery} />
-            )}
-          </Stack>
-        </VStack>
-
+        <ChooseDate
+          dateType={dateType}
+          setDateType={setDateType}
+          isCustomInput={isCustomInput}
+          setIsCustomInput={setIsCustomInput}
+          setQuery={setQuery}
+        />
         <VStack w='full' spacing={5}>
           <ProjectsStats
             allProjectsNumber={data.allProjectsNumber}
