@@ -19,6 +19,7 @@ import BtnContainer from "../../src/components/ui/project/page/BtnContainer";
 import DatesContainer from "../../src/components/ui/project/page/DatesContainer";
 import PriorityAndStatusBox from "../../src/components/ui/project/page/PriorityAndStatusBox";
 import ProjectProgress from "../../src/components/ui/project/page/ProjectProgress";
+import SingleProjectStats from "../../src/components/ui/project/page/SingleProjectStats";
 import ErrorMessage from "../../src/components/ui/utils/ErrorMessage";
 import LoadingSpinner from "../../src/components/ui/utils/LoadingSpinner";
 import useEditProject from "../../src/hooks/mutation/useEditProject";
@@ -186,6 +187,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
               <ProjectProgress progress={data?.progressBar} color={myColor} />
             )}
           </Stack>
+          <SingleProjectStats id={Number(id)} />
           <BtnContainer id={Number(id)} title={data?.title} />
         </VStack>
       </VStack>
