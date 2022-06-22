@@ -5,16 +5,20 @@ interface SingleStatNumberProps {
   data: number;
   title: string;
   color: string;
-  initialDelay: number;
-  index: number;
+  initialDelay?: number;
+  index?: number;
+  duration?: number;
+  gap?: number;
 }
 
 const SingleStatNumber: React.FC<SingleStatNumberProps> = ({
   data,
   title,
   color,
-  initialDelay,
-  index,
+  initialDelay = 0,
+  index = 0,
+  duration = 0.2,
+  gap = 0.1,
 }) => {
   return (
     <VStack
@@ -26,8 +30,8 @@ const SingleStatNumber: React.FC<SingleStatNumberProps> = ({
         visible: {
           opacity: 1,
           transition: {
-            duration: 0.2,
-            delay: initialDelay + 0.1 + index * 0.2,
+            duration,
+            delay: initialDelay + gap + index * 0.2,
           },
         },
       }}
