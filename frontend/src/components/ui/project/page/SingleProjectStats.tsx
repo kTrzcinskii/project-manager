@@ -8,9 +8,13 @@ import LoadingSpinner from "../../utils/LoadingSpinner";
 
 interface SingleProjectStatsProps {
   id: number;
+  color?: string;
 }
 
-const SingleProjectStats: React.FC<SingleProjectStatsProps> = ({ id }) => {
+const SingleProjectStats: React.FC<SingleProjectStatsProps> = ({
+  id,
+  color = "teal",
+}) => {
   const [query, setQuery] = useState("");
   const [isCustomInput, setIsCustomInput] = useState(false);
   const [dateType, setDateType] = useState<"specific-date" | "date-range">(
@@ -20,23 +24,12 @@ const SingleProjectStats: React.FC<SingleProjectStatsProps> = ({ id }) => {
   const { data, isLoading, isError } = useGetSingleProjectStats(id, query);
 
   if (isLoading || isError || !data) {
-    return (
-      <Flex
-        w='full'
-        mx='auto'
-        justifyContent='center'
-        alignItems='center'
-        flexDirection='column'
-      >
-        {isLoading && <LoadingSpinner />}
-        {(!data || isError) && <ErrorMessage />}
-      </Flex>
-    );
+    return <></>;
   }
 
   return (
     <>
-      <Heading color='teal.600' fontSize={{ base: "xl", md: "2xl" }}>
+      <Heading color={`${color}.600`} fontSize={{ base: "xl", md: "2xl" }}>
         Project&apos;s Stats
       </Heading>
       <ChooseDate
@@ -45,6 +38,7 @@ const SingleProjectStats: React.FC<SingleProjectStatsProps> = ({ id }) => {
         isCustomInput={isCustomInput}
         setIsCustomInput={setIsCustomInput}
         setQuery={setQuery}
+        color={color}
       />
       <Stack
         direction={{ base: "column", md: "column", lg: "row" }}

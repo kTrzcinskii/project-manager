@@ -7,9 +7,14 @@ import {
   NumberInputProps,
 } from "@chakra-ui/number-input";
 
-type CustomNumberInputProps = NumberInputProps;
+type CustomNumberInputProps = NumberInputProps & {
+  color?: string;
+};
 
-const CustomNumberInput: React.FC<CustomNumberInputProps> = ({ ...props }) => {
+const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
+  color = "teal",
+  ...props
+}) => {
   return (
     <NumberInput
       {...props}
@@ -19,7 +24,7 @@ const CustomNumberInput: React.FC<CustomNumberInputProps> = ({ ...props }) => {
       _hover={{ bgColor: "gray.200", borderColor: "gray.200" }}
       maxH='38px'
       role='group'
-      focusBorderColor='teal.500'
+      focusBorderColor={`${color}.500`}
     >
       <NumberInputField
         maxH='38px'
@@ -29,16 +34,16 @@ const CustomNumberInput: React.FC<CustomNumberInputProps> = ({ ...props }) => {
       <NumberInputStepper>
         <NumberIncrementStepper
           borderColor='gray.100'
-          _hover={{ color: "teal.400" }}
+          _hover={{ color: `${color}.400` }}
           _groupHover={{ borderColor: "gray.200" }}
-          _groupFocusWithin={{ color: "teal.500" }}
+          _groupFocusWithin={{ color: `${color}.500` }}
           _active={{}}
         />
         <NumberDecrementStepper
           borderColor='gray.100'
           _groupHover={{ borderColor: "gray.200" }}
-          _hover={{ color: "teal.400" }}
-          _groupFocusWithin={{ color: "teal.500" }}
+          _hover={{ color: `${color}.400` }}
+          _groupFocusWithin={{ color: `${color}.500` }}
           _active={{}}
         />
       </NumberInputStepper>

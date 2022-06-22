@@ -5,12 +5,14 @@ interface DateRangeRadioProps {
   setDateType: Dispatch<SetStateAction<"specific-date" | "date-range">>;
   setQuery: Dispatch<SetStateAction<string>>;
   setIsCustomInput: Dispatch<SetStateAction<boolean>>;
+  color?: string;
 }
 
 const DateRangeRadio: React.FC<DateRangeRadioProps> = ({
   setDateType,
   setQuery,
   setIsCustomInput,
+  color = "teal",
 }) => {
   const [value, setValue] = useState<"specific-date" | "date-range">(
     "date-range"
@@ -33,7 +35,7 @@ const DateRangeRadio: React.FC<DateRangeRadioProps> = ({
       <Stack w='114px' justifyContent='center' mx='auto'>
         <Radio
           value='date-range'
-          colorScheme='teal'
+          colorScheme={color}
           _focus={{}}
           style={{ touchAction: "none" }}
         >
@@ -41,7 +43,7 @@ const DateRangeRadio: React.FC<DateRangeRadioProps> = ({
         </Radio>
         <Radio
           value='specific-date'
-          colorScheme='teal'
+          colorScheme={color}
           _focus={{}}
           style={{ touchAction: "none" }}
         >

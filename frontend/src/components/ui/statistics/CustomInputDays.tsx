@@ -4,9 +4,13 @@ import CustomNumberInput from "../form/CustomNumberInput";
 
 interface CustomInputDaysProps {
   setQuery: Dispatch<SetStateAction<string>>;
+  color?: string;
 }
 
-const CustomInputDays: React.FC<CustomInputDaysProps> = ({ setQuery }) => {
+const CustomInputDays: React.FC<CustomInputDaysProps> = ({
+  setQuery,
+  color = "teal",
+}) => {
   const [currentValue, setCurrentValue] = useState(1);
 
   useEffect(() => {
@@ -17,6 +21,7 @@ const CustomInputDays: React.FC<CustomInputDaysProps> = ({ setQuery }) => {
     <HStack justifyContent='center'>
       <Text>Last</Text>
       <CustomNumberInput
+        color={color}
         defaultValue={currentValue}
         min={1}
         onChange={(value) => {

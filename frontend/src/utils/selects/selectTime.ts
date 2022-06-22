@@ -1,5 +1,5 @@
 import { StylesConfig } from "react-select";
-import { settingsObj } from "./selectCustomStyles";
+import { settingsObjWithColor } from "./selectCustomStyles";
 
 export interface timeOption {
   value: "today" | "week" | "month" | "year" | "custom";
@@ -14,6 +14,8 @@ export const timeOptions: timeOption[] = [
   { value: "custom", label: "custom input" },
 ];
 
+const mySettingsObj = settingsObjWithColor();
+
 export const customStyle: StylesConfig<timeOption, false> = {
-  ...settingsObj,
+  ...mySettingsObj,
 };

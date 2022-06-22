@@ -8,21 +8,22 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
-import { customTheme } from "../../../utils/selects/selectCustomStyles";
-import {
-  customStyle,
-  monthOption,
-  monthOptions,
-} from "../../../utils/selects/selectMonth";
+import { monthOption, monthOptions } from "../../../utils/selects/selectMonth";
 import CustomNumberInput from "../form/CustomNumberInput";
-import Select from "react-select";
+import Select, { StylesConfig, Theme } from "react-select";
 import newSpecificDateToastOptions from "../../../utils/toasts/newSpecificDateToastOptions";
+import getColorsForProjectStats from "../../../utils/getColorsForProjectStats";
+import { settingsObjWithColor } from "../../../utils/selects/selectCustomStyles";
 
 interface StatsDateInputProps {
   setQuery: Dispatch<SetStateAction<string>>;
+  color?: string;
 }
 
-const StatsDateInput: React.FC<StatsDateInputProps> = ({ setQuery }) => {
+const StatsDateInput: React.FC<StatsDateInputProps> = ({
+  setQuery,
+  color = "teal",
+}) => {
   const [selectedDay, setSelectedDay] = useState(1);
   const [selectedMonth, setSelectedMonth] = useState<monthOption | null>(
     monthOptions[0]
@@ -47,6 +48,25 @@ const StatsDateInput: React.FC<StatsDateInputProps> = ({ setQuery }) => {
     toast(toastOptions);
   };
 
+  const colors = getColorsForProjectStats(color);
+
+  const settingsObj = settingsObjWithColor(
+    colors.primaryColor,
+    colors.secondaryColor
+  );
+  const customStyle: StylesConfig<monthOption, false> = {
+    ...settingsObj,
+  };
+  const customTheme = (theme: Theme) => ({
+    ...theme,
+    colors: {
+      ...theme.colors,
+      primary: colors.primaryColor,
+      primary25: colors.secondaryColor,
+      neutral0: "#EDF2F7",
+    },
+  });
+
   return (
     <VStack minW='350px' justifyContent='center'>
       <Stack
@@ -61,6 +81,7 @@ const StatsDateInput: React.FC<StatsDateInputProps> = ({ setQuery }) => {
         >
           <Box maxW='80px'>
             <CustomNumberInput
+              color={color}
               min={1}
               max={31}
               defaultValue={selectedDay}
@@ -71,6 +92,7 @@ const StatsDateInput: React.FC<StatsDateInputProps> = ({ setQuery }) => {
           </Box>
           <Box maxW='90px'>
             <CustomNumberInput
+              color={color}
               min={2000}
               max={3000}
               defaultValue={selectedYear}
@@ -82,6 +104,7 @@ const StatsDateInput: React.FC<StatsDateInputProps> = ({ setQuery }) => {
         </HStack>
         <Box maxW='80px' display={{ base: "none", md: "block" }}>
           <CustomNumberInput
+            color={color}
             min={1}
             max={31}
             defaultValue={selectedDay}
@@ -104,6 +127,7 @@ const StatsDateInput: React.FC<StatsDateInputProps> = ({ setQuery }) => {
         </Box>
         <Box maxW='90px' display={{ base: "none", md: "block" }}>
           <CustomNumberInput
+            color={color}
             min={2000}
             max={3000}
             defaultValue={selectedYear}
@@ -116,8 +140,8 @@ const StatsDateInput: React.FC<StatsDateInputProps> = ({ setQuery }) => {
           aria-label='Accept Date'
           icon={<CheckIcon />}
           onClick={handleClick}
-          colorScheme='teal'
-          _focus={{ ring: 3, ringColor: "teal.800" }}
+          colorScheme={color}
+          _focus={{ ring: 3, ringColor: `${color}.800` }}
         />
       </Stack>
     </VStack>

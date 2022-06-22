@@ -11,6 +11,7 @@ interface ChooseDateProps {
   setQuery: Dispatch<SetStateAction<string>>;
   setIsCustomInput: Dispatch<SetStateAction<boolean>>;
   dateType: "date-range" | "specific-date";
+  color?: string;
 }
 
 const ChooseDate: React.FC<ChooseDateProps> = ({
@@ -19,6 +20,7 @@ const ChooseDate: React.FC<ChooseDateProps> = ({
   setQuery,
   setIsCustomInput,
   dateType,
+  color = "teal",
 }) => {
   return (
     <VStack
@@ -26,12 +28,12 @@ const ChooseDate: React.FC<ChooseDateProps> = ({
       px={5}
       py={4}
       borderWidth={2}
-      borderColor='teal'
+      borderColor={color}
       rounded='lg'
     >
       <Text
         w='full'
-        color='teal.600'
+        color={`${color}.600`}
         fontSize={{ base: "xl", md: "2xl" }}
         textAlign='center'
       >
@@ -45,6 +47,7 @@ const ChooseDate: React.FC<ChooseDateProps> = ({
           setDateType={setDateType}
           setQuery={setQuery}
           setIsCustomInput={setIsCustomInput}
+          color={color}
         />
         {dateType === "date-range" && (
           <Stack
@@ -57,12 +60,17 @@ const ChooseDate: React.FC<ChooseDateProps> = ({
               <SelectQuery
                 setQuery={setQuery}
                 setIsCustomInput={setIsCustomInput}
+                color={color}
               />
             </HStack>
-            {isCustomInput && <CustomInputDays setQuery={setQuery} />}
+            {isCustomInput && (
+              <CustomInputDays setQuery={setQuery} color={color} />
+            )}
           </Stack>
         )}
-        {dateType === "specific-date" && <StatsDateInput setQuery={setQuery} />}
+        {dateType === "specific-date" && (
+          <StatsDateInput setQuery={setQuery} color={color} />
+        )}
       </Stack>
     </VStack>
   );
