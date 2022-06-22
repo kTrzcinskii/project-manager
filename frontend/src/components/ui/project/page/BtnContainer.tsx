@@ -43,7 +43,7 @@ const BtnContainer: React.FC<BtnContainerProps> = ({ id, title }) => {
 
   return (
     <>
-      <HStack spacing={4}>
+      <HStack spacing={4} py={6}>
         <Button
           colorScheme='teal'
           _focus={{ ring: 3, ringColor: "teal.800" }}

@@ -18,8 +18,10 @@ import Sidebar from "../../src/components/sections/Sidebar";
 import BtnContainer from "../../src/components/ui/project/page/BtnContainer";
 import DatesContainer from "../../src/components/ui/project/page/DatesContainer";
 import PriorityAndStatusBox from "../../src/components/ui/project/page/PriorityAndStatusBox";
+import ProjectGoalsContainer from "../../src/components/ui/project/page/ProjectGoalsContainer";
 import ProjectProgress from "../../src/components/ui/project/page/ProjectProgress";
 import SingleProjectStats from "../../src/components/ui/project/page/SingleProjectStats";
+import ChooseDate from "../../src/components/ui/statistics/ChooseDate";
 import ErrorMessage from "../../src/components/ui/utils/ErrorMessage";
 import LoadingSpinner from "../../src/components/ui/utils/LoadingSpinner";
 import useEditProject from "../../src/hooks/mutation/useEditProject";
@@ -88,7 +90,13 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
     if (error.response?.data.statusCode === 404) router.push("/404");
   }
 
-  if (isLoading || isError) {
+  const [query, setQuery] = useState("");
+  const [isCustomInput, setIsCustomInput] = useState(false);
+  const [dateType, setDateType] = useState<"specific-date" | "date-range">(
+    "date-range"
+  );
+
+  if (isLoading || isError || !data) {
     return (
       <Sidebar>
         <Flex
@@ -187,7 +195,22 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
               <ProjectProgress progress={data?.progressBar} color={myColor} />
             )}
           </Stack>
-          <SingleProjectStats id={Number(id)} />
+          <ProjectGoalsContainer goals={data?.goals} color={myColor} />
+          <Heading
+            color={`${myColor}.600`}
+            fontSize={{ base: "xl", md: "2xl" }}
+          >
+            Project&apos;s Stats
+          </Heading>
+          <ChooseDate
+            dateType={dateType}
+            setDateType={setDateType}
+            isCustomInput={isCustomInput}
+            setIsCustomInput={setIsCustomInput}
+            setQuery={setQuery}
+            color={myColor}
+          />
+          <SingleProjectStats id={Number(id)} query={query} />
           <BtnContainer id={Number(id)} title={data?.title} />
         </VStack>
       </VStack>
