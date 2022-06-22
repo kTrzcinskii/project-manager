@@ -145,7 +145,10 @@ const EditProjectForm: React.FC = () => {
               <InputWithLabel
                 header='Priority'
                 input={
-                  <SelectPriorityCreateProject setFieldValue={setFieldValue} />
+                  <SelectPriorityCreateProject
+                    setFieldValue={setFieldValue}
+                    defaultValue={initialValues.priority}
+                  />
                 }
                 dontShowDivider={true}
                 w='full'

@@ -1,5 +1,6 @@
 import { useState, memo } from "react";
 import Select from "react-select";
+import { priority } from "../../../interfaces/IProject";
 import { customTheme } from "../../../utils/selects/selectCustomStyles";
 import {
   customStyle,
@@ -9,14 +10,20 @@ import {
 
 interface SelectPriorityCreateProjectProps {
   setFieldValue: (field: string, value?: string) => void;
+  defaultValue?: priority;
 }
 
 const SelectPriorityCreateProject: React.FC<
   SelectPriorityCreateProjectProps
-> = ({ setFieldValue }) => {
+> = ({ setFieldValue, defaultValue }) => {
+  const value = defaultValue || "medium";
+  const defaultIndex = priorityCreateProjectOptions
+    .map((option) => option.value)
+    .indexOf(value);
+
   const [selectedPriorityOption, setSelectedPriorityOption] =
     useState<priorityCreateProjectOption | null>(
-      priorityCreateProjectOptions[1]
+      priorityCreateProjectOptions[defaultIndex]
     );
 
   return (
