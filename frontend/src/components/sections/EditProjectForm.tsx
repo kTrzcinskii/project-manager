@@ -104,11 +104,9 @@ const EditProjectForm: React.FC = () => {
               as={motion.div}
               initial={{
                 opacity: 0,
-                translateX: "-150%",
               }}
               animate={{
                 opacity: 1,
-                translateX: "0%",
                 transition: {
                   duration: 0.3,
                   ease: "easeInOut",
