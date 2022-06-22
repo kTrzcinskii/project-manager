@@ -219,9 +219,21 @@ export class ProjectService {
 
     const deadline = dto.deadline ? new Date(dto.deadline) : project.deadline;
 
+    let status: status;
+    const now = new Date();
+    if (now.getTime() < deadline.getTime()) {
+      status = 'inProgress';
+    } else {
+      status = 'backlog';
+    }
+
+    if (project.progressBar === 100) {
+      status = 'finished';
+    }
+
     const updatedProject = await this.prisma.project.update({
       where: { id: projectId },
-      data: { ...dto, deadline },
+      data: { ...dto, deadline, status },
       include: { goals: true },
     });
 
