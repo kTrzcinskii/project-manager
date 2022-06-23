@@ -14,9 +14,15 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> &
     name: string;
     icon?: ReactNode;
     myRef?: LegacyRef<HTMLInputElement> | undefined;
+    color?: string;
   };
 
-const InputField: React.FC<InputFieldProps> = ({ icon, myRef, ...props }) => {
+const InputField: React.FC<InputFieldProps> = ({
+  icon,
+  myRef,
+  color = "teal",
+  ...props
+}) => {
   const [field, meta] = useField(props);
 
   return (
@@ -28,7 +34,7 @@ const InputField: React.FC<InputFieldProps> = ({ icon, myRef, ...props }) => {
           {...props}
           id={field.name}
           variant='filled'
-          _focus={{ borderColor: "teal.500", borderWidth: 2 }}
+          _focus={{ borderColor: `${color}.500`, borderWidth: 2 }}
           ref={myRef}
         />
       </InputGroup>
