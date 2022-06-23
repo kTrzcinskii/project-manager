@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { RefObject } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import ICreateGoalValues from "../../interfaces/ICreateGoalValues";
 import CreateGoalFormSchema from "../../utils/schemas/CreateGoalFormSchema";
 import { AiOutlineFileText } from "react-icons/ai";
@@ -10,6 +10,7 @@ interface CreateGoalFormProps {
   projectId: number;
   initialRef: RefObject<HTMLInputElement>;
   onClose: () => void;
+  setIsSubmitting: Dispatch<SetStateAction<boolean>>;
   color?: string;
 }
 
@@ -18,6 +19,7 @@ const CreateGoalForm: React.FC<CreateGoalFormProps> = ({
   color = "teal",
   initialRef,
   onClose,
+  setIsSubmitting,
 }) => {
   const initialValues: ICreateGoalValues = { content: "" };
 
@@ -27,11 +29,11 @@ const CreateGoalForm: React.FC<CreateGoalFormProps> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={(values, action) => {
-        console.log(values);
+        setIsSubmitting(true);
       }}
       validationSchema={CreateGoalFormSchema}
     >
-      {({ isSubmitting, values, handleSubmit }) => (
+      {({ values, handleSubmit }) => (
         <Form onSubmit={handleSubmit} id='create-goal-form'>
           <InputField
             name='content'

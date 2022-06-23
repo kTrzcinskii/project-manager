@@ -1,8 +1,9 @@
 import { Box, Button, Heading, useDisclosure, VStack } from "@chakra-ui/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import IGoal from "../../../../interfaces/IGoal";
 import CreateGoalForm from "../../../sections/CreateGoalForm";
 import ModalContainer from "../../utils/ModalContainer";
+import CreateGoalFooter from "./CreateGoalFooter";
 import SingleGoal from "./SingleGoal";
 
 interface ProjectGoalsContainerProps {
@@ -18,6 +19,7 @@ const ProjectGoalsContainer: React.FC<ProjectGoalsContainerProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef<HTMLInputElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <>
@@ -54,9 +56,16 @@ const ProjectGoalsContainer: React.FC<ProjectGoalsContainerProps> = ({
             onClose={onClose}
             projectId={id}
             color={color}
+            setIsSubmitting={setIsSubmitting}
           />
         }
-        footer={<></>}
+        footer={
+          <CreateGoalFooter
+            isSubmitting={isSubmitting}
+            onClose={onClose}
+            color={color}
+          />
+        }
       />
     </>
   );
