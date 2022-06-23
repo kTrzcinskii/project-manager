@@ -1,6 +1,6 @@
 const projectCardColors: string[] = [
   "orange",
-  "red",
+  "pink",
   "purple",
   "blue",
   "gray",

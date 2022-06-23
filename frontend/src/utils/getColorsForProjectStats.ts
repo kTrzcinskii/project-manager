@@ -3,8 +3,8 @@ const getColorsForProjectStats = (color: string) => {
     return { primaryColor: "#319795", secondaryColor: "#81E6D9" };
   } else if (color === "orange") {
     return { primaryColor: "#DD6B20", secondaryColor: "#FBD38D" };
-  } else if (color === "red") {
-    return { primaryColor: "#E53E3E", secondaryColor: "#FEB2B2" };
+  } else if (color === "pink") {
+    return { primaryColor: "#D53F8C", secondaryColor: "#FBB6CE" };
   } else if (color === "purple") {
     return { primaryColor: "#805AD5", secondaryColor: "#D6BCFA" };
   } else if (color === "blue") {
