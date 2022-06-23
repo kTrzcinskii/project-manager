@@ -5,6 +5,11 @@ import CreateGoalFormSchema from "../../utils/schemas/CreateGoalFormSchema";
 import { AiOutlineFileText } from "react-icons/ai";
 import InputField from "../ui/form/InputField";
 import getColorsForProjectStats from "../../utils/getColorsForProjectStats";
+import useCreateGoal from "../../hooks/mutation/useCreateGoal";
+import { useQueryClient } from "react-query";
+import { useToast } from "@chakra-ui/react";
+import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
+import axios from "axios";
 
 interface CreateGoalFormProps {
   projectId: number;
@@ -25,11 +30,33 @@ const CreateGoalForm: React.FC<CreateGoalFormProps> = ({
 
   const myColor = getColorsForProjectStats(color).primaryColor;
 
+  const mutation = useCreateGoal(projectId);
+  const queryClient = useQueryClient();
+
+  const toast = useToast();
+  const toastNetworError = networkErrorToastOptions();
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values, action) => {
         setIsSubmitting(true);
+        mutation.mutate(values, {
+          onSuccess: () => {
+            queryClient.invalidateQueries(["project", projectId]);
+            queryClient.invalidateQueries(["projectStats", projectId]);
+            onClose();
+            setIsSubmitting(false);
+          },
+          onError: (error) => {
+            if (axios.isAxiosError(error)) {
+              if (!error.response) {
+                toast(toastNetworError);
+              }
+              toast(toastNetworError);
+            }
+          },
+        });
       }}
       validationSchema={CreateGoalFormSchema}
     >
