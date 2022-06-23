@@ -18,6 +18,8 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
   index,
   color = "teal",
 }) => {
+  const btnColor = color === "pink" ? "pink.800" : color;
+
   return (
     <HStack
       w='full'
@@ -42,7 +44,7 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
         <IconButton
           aria-label='Mark Goal as completed/ucompleted'
           variant='ghost'
-          color={color}
+          color={btnColor}
           _hover={{ transform: "scale(1.3)" }}
           _focus={{}}
           _active={{}}
@@ -51,7 +53,7 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
         <IconButton
           aria-label='Edit Goal'
           variant='ghost'
-          color={color}
+          color={btnColor}
           _hover={{ transform: "scale(1.3)" }}
           _focus={{}}
           _active={{}}
