@@ -1,11 +1,7 @@
-import {
-  CheckIcon,
-  DeleteIcon,
-  EditIcon,
-  SmallCloseIcon,
-} from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { HStack, IconButton, Text } from "@chakra-ui/react";
 import IGoal from "../../../../interfaces/IGoal";
+import { BsCircle, BsCircleFill } from "react-icons/bs";
 
 interface SingleGoalProps {
   goal: IGoal;
@@ -36,7 +32,12 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
         <Text color={`${color}.700`} fontWeight='semibold'>
           {index + 1}
         </Text>
-        <Text color={`${color}.700`} fontWeight='medium'>
+        <Text
+          color={`${color}.700`}
+          fontWeight='medium'
+          textDecoration={goal.completed ? "line-through" : "null"}
+          fontStyle={goal.completed ? "italic" : "inherit"}
+        >
           {goal.content}
         </Text>
       </HStack>
@@ -48,7 +49,7 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
           _hover={{ transform: "scale(1.3)" }}
           _focus={{}}
           _active={{}}
-          icon={goal.completed ? <SmallCloseIcon boxSize={6} /> : <CheckIcon />}
+          icon={goal.completed ? <BsCircleFill /> : <BsCircle />}
         />
         <IconButton
           aria-label='Edit Goal'
