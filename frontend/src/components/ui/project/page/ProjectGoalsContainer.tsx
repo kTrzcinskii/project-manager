@@ -1,5 +1,6 @@
 import { Heading, VStack } from "@chakra-ui/react";
 import IGoal from "../../../../interfaces/IGoal";
+import SingleGoal from "./SingleGoal";
 
 interface ProjectGoalsContainerProps {
   goals: IGoal[];
@@ -19,6 +20,11 @@ const ProjectGoalsContainer: React.FC<ProjectGoalsContainerProps> = ({
       >
         Goals
       </Heading>
+      <VStack w='full'>
+        {goals.map((goal, index) => (
+          <SingleGoal goal={goal} key={goal.id} index={index} color={color} />
+        ))}
+      </VStack>
     </VStack>
   );
 };
