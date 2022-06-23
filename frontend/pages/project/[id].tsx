@@ -195,7 +195,11 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
               <ProjectProgress progress={data?.progressBar} color={myColor} />
             )}
           </Stack>
-          <ProjectGoalsContainer goals={data?.goals} color={myColor} />
+          <ProjectGoalsContainer
+            goals={data?.goals}
+            color={myColor}
+            id={Number(id)}
+          />
           <Heading
             color={`${myColor}.600`}
             fontSize={{ base: "xl", md: "2xl" }}
