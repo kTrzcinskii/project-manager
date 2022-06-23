@@ -11,9 +11,14 @@ import DeleteProjectFooter from "./DeleteProjectFooter";
 interface BtnContainerProps {
   id: number;
   title?: string;
+  color?: string;
 }
 
-const BtnContainer: React.FC<BtnContainerProps> = ({ id, title }) => {
+const BtnContainer: React.FC<BtnContainerProps> = ({
+  id,
+  title,
+  color = "teal",
+}) => {
   const router = useRouter();
   const handleEdit = () => router.push(`/edit-project/${id}`);
 
@@ -45,8 +50,8 @@ const BtnContainer: React.FC<BtnContainerProps> = ({ id, title }) => {
     <>
       <HStack spacing={4} py={6}>
         <Button
-          colorScheme='teal'
-          _focus={{ ring: 3, ringColor: "teal.800" }}
+          colorScheme={color}
+          _focus={{ ring: 3, ringColor: `${color}.800` }}
           minW='134px'
           onClick={handleEdit}
         >

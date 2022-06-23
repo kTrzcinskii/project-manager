@@ -215,7 +215,7 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
             color={myColor}
           />
           <SingleProjectStats id={Number(id)} query={query} />
-          <BtnContainer id={Number(id)} title={data?.title} />
+          <BtnContainer id={Number(id)} title={data?.title} color={myColor} />
         </VStack>
       </VStack>
     </Sidebar>
