@@ -39,14 +39,14 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
   const errorToastOptions = networkErrorToastOptions();
 
   const updateGoalMutation = useUpdateGoal(goal.id);
-  const handleSwitchMarked = () => {
+  const handleUpdateGoal = () => {
     updateGoalMutation.mutate(null, {
       onSuccess: () => {
         setIsVisible(false);
-        setTimeout(
-          () => queryClient.invalidateQueries(["project", projectId]),
-          300
-        );
+        setTimeout(() => {
+          queryClient.invalidateQueries(["project", projectId]);
+          queryClient.invalidateQueries(["projectStats", projectId]);
+        }, 300);
         setTimeout(() => setIsVisible(true), 400);
       },
       onError: (error) => {
@@ -126,7 +126,7 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
             _focus={{}}
             _active={{}}
             icon={goal.completed ? <BsCircleFill /> : <BsCircle />}
-            onClick={handleSwitchMarked}
+            onClick={handleUpdateGoal}
           />
           <IconButton
             aria-label='Edit Goal'
@@ -168,6 +168,10 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
             onClose={onCloseDelete}
             color={color}
             isSubmitting={isSubmittingDelete}
+            id={goal.id}
+            projectId={projectId}
+            setIsSubmitting={setIsSubmittingDelete}
+            setIsVisible={setIsVisible}
           />
         }
       />
