@@ -1,5 +1,11 @@
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { HStack, IconButton, Text, useToast } from "@chakra-ui/react";
+import {
+  HStack,
+  IconButton,
+  Text,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import IGoal from "../../../../interfaces/IGoal";
 import { BsCircle, BsCircleFill } from "react-icons/bs";
 import useUpdateGoal from "../../../../hooks/mutation/useUpdateGoal";
@@ -7,7 +13,10 @@ import { useQueryClient } from "react-query";
 import networkErrorToastOptions from "../../../../utils/toasts/networkErrorToastOptions";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import ModalContainer from "../../utils/ModalContainer";
+import DeleteGoalBody from "./DeleteGoalBody";
+import DeleteGoalFooter from "./DeleteGoalFooter";
 
 interface SingleGoalProps {
   goal: IGoal;
@@ -53,77 +62,116 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
 
   const [isVisible, setIsVisible] = useState(true);
 
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+  const initialRefEdit = useRef<HTMLInputElement>(null);
+
+  const {
+    isOpen: isOpenDelete,
+    onOpen: onOpenDelete,
+    onClose: onCloseDelete,
+  } = useDisclosure();
+  const [isSubmittingDelete, setIsSubmittingDelete] = useState(false);
+
   return (
-    <HStack
-      w='full'
-      justifyContent='space-between'
-      px='3'
-      py='1'
-      bgColor={`${color}.50`}
-      _hover={{ bgColor: `${color}.100` }}
-      transition='ease-in-out'
-      transitionDuration='200ms'
-      rounded='lg'
-      as={motion.div}
-      variants={{
-        visible: {
-          opacity: 1,
-          translateX: "0%",
-          transition: { duration: 0.2 },
-        },
-        hidden: {
-          opacity: 0,
-          translateX: "50%",
-          transition: { duration: 0.2 },
-        },
-      }}
-      initial='visible'
-      animate={isVisible ? "visible" : "hidden"}
-    >
-      <HStack spacing={4} fontSize='md'>
-        <Text color={`${color}.700`} fontWeight='semibold'>
-          {index + 1}
-        </Text>
-        <Text
-          color={`${color}.700`}
-          fontWeight='medium'
-          textDecoration={goal.completed ? "line-through" : "null"}
-          fontStyle={goal.completed ? "italic" : "inherit"}
-        >
-          {goal.content}
-        </Text>
+    <>
+      <HStack
+        w='full'
+        justifyContent='space-between'
+        px='3'
+        py='1'
+        bgColor={`${color}.50`}
+        _hover={{ bgColor: `${color}.100` }}
+        transition='ease-in-out'
+        transitionDuration='200ms'
+        rounded='lg'
+        as={motion.div}
+        variants={{
+          visible: {
+            opacity: 1,
+            translateX: "0%",
+            transition: { duration: 0.2 },
+          },
+          hidden: {
+            opacity: 0,
+            translateX: "50%",
+            transition: { duration: 0.2 },
+          },
+        }}
+        initial='visible'
+        animate={isVisible ? "visible" : "hidden"}
+      >
+        <HStack spacing={4} fontSize='md'>
+          <Text color={`${color}.700`} fontWeight='semibold'>
+            {index + 1}
+          </Text>
+          <Text
+            color={`${color}.700`}
+            fontWeight='medium'
+            textDecoration={goal.completed ? "line-through" : "null"}
+            fontStyle={goal.completed ? "italic" : "inherit"}
+          >
+            {goal.content}
+          </Text>
+        </HStack>
+        <HStack spacing={3}>
+          <IconButton
+            aria-label='Mark Goal as completed/ucompleted'
+            variant='ghost'
+            color={btnColor}
+            _hover={{ transform: "scale(1.3)" }}
+            _focus={{}}
+            _active={{}}
+            icon={goal.completed ? <BsCircleFill /> : <BsCircle />}
+            onClick={handleSwitchMarked}
+          />
+          <IconButton
+            aria-label='Edit Goal'
+            variant='ghost'
+            color={btnColor}
+            _hover={{ transform: "scale(1.3)" }}
+            _focus={{}}
+            _active={{}}
+            icon={<EditIcon />}
+            onClick={onOpenEdit}
+          />
+          <IconButton
+            aria-label='Delete Goal'
+            variant='ghost'
+            color='red'
+            _hover={{ transform: "scale(1.3)" }}
+            _focus={{}}
+            _active={{}}
+            icon={<DeleteIcon />}
+            onClick={onOpenDelete}
+          />
+        </HStack>
       </HStack>
-      <HStack spacing={3}>
-        <IconButton
-          aria-label='Mark Goal as completed/ucompleted'
-          variant='ghost'
-          color={btnColor}
-          _hover={{ transform: "scale(1.3)" }}
-          _focus={{}}
-          _active={{}}
-          icon={goal.completed ? <BsCircleFill /> : <BsCircle />}
-          onClick={handleSwitchMarked}
-        />
-        <IconButton
-          aria-label='Edit Goal'
-          variant='ghost'
-          color={btnColor}
-          _hover={{ transform: "scale(1.3)" }}
-          _focus={{}}
-          _active={{}}
-          icon={<EditIcon />}
-        />
-        <IconButton
-          aria-label='Delete Goal'
-          variant='ghost'
-          color='red'
-          _hover={{ transform: "scale(1.3)" }}
-          _focus={{}}
-          _active={{}}
-          icon={<DeleteIcon />}
-        />
-      </HStack>
-    </HStack>
+      <ModalContainer
+        isOpen={isOpenEdit}
+        onClose={onCloseEdit}
+        initialRef={initialRefEdit}
+        header='Edit Goal Content'
+        body={<></>}
+        footer={<></>}
+      />
+      <ModalContainer
+        isOpen={isOpenDelete}
+        onClose={onCloseDelete}
+        header='Delete Goal'
+        body={<DeleteGoalBody content={goal.content} color={color} />}
+        footer={
+          <DeleteGoalFooter
+            onClose={onCloseDelete}
+            color={color}
+            isSubmitting={isSubmittingDelete}
+          />
+        }
+      />
+    </>
   );
 };
 
