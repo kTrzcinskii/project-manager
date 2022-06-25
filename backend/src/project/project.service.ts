@@ -16,7 +16,21 @@ export class ProjectService {
       where: {
         id: projectId,
       },
-      include: { goals: true },
+      include: {
+        goals: {
+          orderBy: [{ completed: 'asc' }, { content: 'asc' }],
+          select: {
+            completed: true,
+            completedAt: true,
+            content: true,
+            createdAt: true,
+            id: true,
+            project: true,
+            projectId: true,
+            updatedAt: true,
+          },
+        },
+      },
     });
 
     if (!project || project.userId !== userId) {
@@ -30,7 +44,21 @@ export class ProjectService {
       updatedProject = await this.prisma.project.update({
         where: { id: projectId },
         data: { status: 'backlog' },
-        include: { goals: true },
+        include: {
+          goals: {
+            orderBy: [{ completed: 'desc' }, { content: 'asc' }],
+            select: {
+              completed: true,
+              completedAt: true,
+              content: true,
+              createdAt: true,
+              id: true,
+              project: true,
+              projectId: true,
+              updatedAt: true,
+            },
+          },
+        },
       });
 
       if (!updatedProject) {
