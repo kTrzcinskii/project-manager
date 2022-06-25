@@ -31,7 +31,7 @@ const ProjectGoalsContainer: React.FC<ProjectGoalsContainerProps> = ({
         >
           Goals
         </Heading>
-        <VStack w='full'>
+        <VStack w='full' overflow='hidden'>
           {goals.map((goal, index) => (
             <SingleGoal
               goal={goal}
