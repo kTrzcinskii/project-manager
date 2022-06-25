@@ -33,7 +33,13 @@ const ProjectGoalsContainer: React.FC<ProjectGoalsContainerProps> = ({
         </Heading>
         <VStack w='full'>
           {goals.map((goal, index) => (
-            <SingleGoal goal={goal} key={goal.id} index={index} color={color} />
+            <SingleGoal
+              goal={goal}
+              key={goal.id}
+              index={index}
+              color={color}
+              projectId={id}
+            />
           ))}
         </VStack>
         <Box pt={4}>
