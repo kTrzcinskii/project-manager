@@ -1,7 +1,10 @@
-import { HStack, Button, color } from "@chakra-ui/react";
+import { HStack, Button, color, useToast } from "@chakra-ui/react";
+import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { useQueryClient } from "react-query";
 import useDeleteGoal from "../../../../hooks/mutation/useDeleteGoal";
+import atLeastOneGoalToastOptions from "../../../../utils/toasts/atLeastOneGoalToastOptions";
+import networkErrorToastOptions from "../../../../utils/toasts/networkErrorToastOptions";
 
 interface DeleteGoalFooterProps {
   color?: string;
@@ -25,6 +28,9 @@ const DeleteGoalFooter: React.FC<DeleteGoalFooterProps> = ({
   const mutation = useDeleteGoal(id);
   const queryClient = useQueryClient();
 
+  const toast = useToast();
+  const toastNetworError = networkErrorToastOptions();
+
   const handleDelete = () => {
     setIsSubmitting(true);
     mutation.mutate(null, {
@@ -36,6 +42,21 @@ const DeleteGoalFooter: React.FC<DeleteGoalFooterProps> = ({
           queryClient.invalidateQueries(["project", projectId]);
           queryClient.invalidateQueries(["projectStats", projectId]);
         }, 200);
+      },
+      onError: (error) => {
+        setIsSubmitting(false);
+        if (axios.isAxiosError(error)) {
+          if (!error.response) {
+            toast(toastNetworError);
+          } else {
+            const message = error.response.data.message;
+            const realMessage =
+              typeof message === "string" ? message : message[0];
+            const toastOneGoalError = atLeastOneGoalToastOptions(realMessage);
+            toast(toastOneGoalError);
+            onClose();
+          }
+        }
       },
     });
   };
