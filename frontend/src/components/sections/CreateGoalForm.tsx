@@ -55,6 +55,7 @@ const CreateGoalForm: React.FC<CreateGoalFormProps> = ({
               }
               toast(toastNetworError);
             }
+            setIsSubmitting(false);
           },
         });
       }}
