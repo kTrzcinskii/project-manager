@@ -1,8 +1,13 @@
 import { Container, Flex, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { RefObject } from "react";
 import HeroBtnContainer from "../ui/hero/HeroBtnContainer";
 import HeroText from "../ui/hero/HeroText";
 
-const HeroSection: React.FC = ({}) => {
+interface HeroSectionProps {
+  divRef: RefObject<HTMLDivElement>;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ divRef }) => {
   return (
     <Flex
       w='full'
@@ -27,7 +32,7 @@ const HeroSection: React.FC = ({}) => {
         >
           <VStack align={"flex-start"} spacing={6}>
             <HeroText />
-            <HeroBtnContainer />
+            <HeroBtnContainer divRef={divRef} />
           </VStack>
         </Container>
       </VStack>

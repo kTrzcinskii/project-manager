@@ -1,7 +1,13 @@
 import { Flex, useBreakpointValue, HStack, Stack } from "@chakra-ui/react";
+import { RefObject } from "react";
 import HeroBtn from "./HeroBtn";
+import HeroBtnSec from "./HeroBtnSec";
 
-const HeroBtnContainer: React.FC = () => {
+interface HeroBtnContainerProps {
+  divRef: RefObject<HTMLDivElement>;
+}
+
+const HeroBtnContainer: React.FC<HeroBtnContainerProps> = ({ divRef }) => {
   return (
     <Flex
       direction={useBreakpointValue({
@@ -27,9 +33,7 @@ const HeroBtnContainer: React.FC = () => {
           md: 0,
         })}
       >
-        <HeroBtn type='secondary' href='#toDo'>
-          Learn More
-        </HeroBtn>
+        <HeroBtnSec divRef={divRef} />
       </Stack>
     </Flex>
   );
