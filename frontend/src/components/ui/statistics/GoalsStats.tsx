@@ -15,14 +15,12 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
   completedGoalsNumber,
   updatedGoalsNumber,
 }) => {
-  const percent = Math.floor((completedGoalsNumber / createdGoalsNumber) * 100);
+  const percent = Math.floor((completedGoalsNumber / allGoalsNumber) * 100);
 
   const text =
     percent >= 50
       ? "Keep up this great work!"
       : "Let's try to make more of it, shall we?";
-
-  const isAnyGoalCreated = createdGoalsNumber > 0;
 
   const textDuration = 0.2;
 
@@ -86,38 +84,36 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
           index={0}
         />
       </Stack>
-      {isAnyGoalCreated && (
-        <Text
-          pt={10}
-          pb={12}
-          color='teal.600'
-          fontStyle='italic'
-          fontSize='xl'
-          as={motion.p}
-          variants={{
-            hidden: {
-              opacity: 0,
-              translateY: "-80%",
+      <Text
+        pt={10}
+        pb={12}
+        color='teal.600'
+        fontStyle='italic'
+        fontSize='xl'
+        as={motion.p}
+        variants={{
+          hidden: {
+            opacity: 0,
+            translateY: "-80%",
+          },
+          visible: {
+            opacity: 1,
+            translateY: "0%",
+            transition: {
+              delay: 4 * 0.2 + 0.1,
+              duration: textDuration,
             },
-            visible: {
-              opacity: 1,
-              translateY: "0%",
-              transition: {
-                delay: 4 * 0.2 + 0.1,
-                duration: textDuration,
-              },
-            },
-          }}
-          initial='hidden'
-          animate='visible'
-        >
-          You have completed{" "}
-          <chakra.span fontWeight='semibold' color='teal.700'>
-            {percent}%
-          </chakra.span>{" "}
-          of goals that you created. {text}
-        </Text>
-      )}
+          },
+        }}
+        initial='hidden'
+        animate='visible'
+      >
+        You have completed{" "}
+        <chakra.span fontWeight='semibold' color='teal.700'>
+          {percent}%
+        </chakra.span>{" "}
+        of your goals. {text}
+      </Text>
     </VStack>
   );
 };
