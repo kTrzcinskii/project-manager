@@ -10,6 +10,7 @@ import { useQueryClient } from "react-query";
 import { useToast } from "@chakra-ui/react";
 import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 import axios from "axios";
+import transfromAPIErrors from "../../utils/transformAPIErrors";
 
 interface CreateGoalFormProps {
   projectId: number;
@@ -53,7 +54,7 @@ const CreateGoalForm: React.FC<CreateGoalFormProps> = ({
               if (!error.response) {
                 toast(toastNetworError);
               }
-              toast(toastNetworError);
+              action.setErrors(transfromAPIErrors(error, ["content"]));
             }
             setIsSubmitting(false);
           },
