@@ -96,7 +96,7 @@ export class GoalService {
       ((completedGoals.length - goalValue) / (allGoals.length - 1)) * 100,
     );
 
-    let completedAt: Date | null = null;
+    let completedAt: Date = project.completedAt;
     let status: status = project.status;
     if (status !== 'finished' && progressBar === 100) {
       status = 'finished';
