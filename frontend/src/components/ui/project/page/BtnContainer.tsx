@@ -27,11 +27,12 @@ const BtnContainer: React.FC<BtnContainerProps> = ({
   const time = 2000;
   const deleteProjecToastOptions = deleteProjectToastOptions(time);
   const mutation = useDeleteProject(id);
+
   const handleDelete = () => {
     mutation.mutate(null, {
       onSuccess: () => {
         toast(deleteProjecToastOptions);
-        setTimeout(() => router.back(), time);
+        setTimeout(() => router.push("/home"), time);
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
