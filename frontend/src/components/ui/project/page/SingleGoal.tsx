@@ -17,6 +17,8 @@ import { useRef, useState } from "react";
 import ModalContainer from "../../utils/ModalContainer";
 import DeleteGoalBody from "./DeleteGoalBody";
 import DeleteGoalFooter from "./DeleteGoalFooter";
+import EditGoalForm from "../../../sections/EditGoalForm";
+import EditGoalFooter from "./EditGoalFooter";
 
 interface SingleGoalProps {
   goal: IGoal;
@@ -68,6 +70,7 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
     onClose: onCloseEdit,
   } = useDisclosure();
   const initialRefEdit = useRef<HTMLInputElement>(null);
+  const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
 
   const {
     isOpen: isOpenDelete,
@@ -155,8 +158,24 @@ const SingleGoal: React.FC<SingleGoalProps> = ({
         onClose={onCloseEdit}
         initialRef={initialRefEdit}
         header='Edit Goal Content'
-        body={<></>}
-        footer={<></>}
+        body={
+          <EditGoalForm
+            content={goal.content}
+            id={goal.id}
+            initialRef={initialRefEdit}
+            onClose={onCloseEdit}
+            setIsSubmitting={setIsSubmittingEdit}
+            color={color}
+            projectId={projectId}
+          />
+        }
+        footer={
+          <EditGoalFooter
+            color={color}
+            isSubmitting={isSubmittingEdit}
+            onClose={onCloseEdit}
+          />
+        }
       />
       <ModalContainer
         isOpen={isOpenDelete}
