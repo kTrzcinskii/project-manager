@@ -3,60 +3,50 @@ import Image, { StaticImageData } from "next/image";
 import { RefObject } from "react";
 
 interface PhotoAndTextContainerProps {
-  image1: StaticImageData;
-  image2?: StaticImageData;
+  image: StaticImageData;
   header: string;
   text: string;
-  id: string;
-  pos?: "left" | "right";
   bgColor?: string;
-  myRef: RefObject<HTMLDivElement>;
+  myRef?: RefObject<HTMLDivElement>;
+  headingAlign?: "left" | "right";
 }
 
 const PhotoAndTextContainer: React.FC<PhotoAndTextContainerProps> = ({
-  image1,
-  image2,
+  image,
   header,
   text,
-  id,
-  pos = "left",
   bgColor = "gray",
   myRef,
+  headingAlign = "left",
 }) => {
-  const realDir = pos === "left" ? "row" : "row-reverse";
-
   return (
     <Stack
       minH='100vh'
       w='full'
-      direction={{ base: "column", md: "column", lg: realDir }}
-      id={id}
-      justifyContent={{ base: "center", md: "center", lg: "space-around" }}
+      px={{ base: 5, md: 5, lg: 12 }}
+      direction='column'
+      justifyContent='center'
       alignItems='center'
       spacing={{ base: 5, md: 6, lg: 10 }}
-      bgColor={`${bgColor}.100`}
+      bgColor={`${bgColor}.50`}
       ref={myRef}
+      textAlign='justify'
     >
-      <VStack w={{ base: "350px", md: "450px", lg: "650px" }}>
-        <Box
-          w='full'
-          borderWidth={3}
-          borderColor='teal.500'
-          rounded='lg'
-          p={2}
-          bgColor='white'
-        >
-          <Image alt='' layout='responsive' src={image1} />
-        </Box>
-        {image2 && (
-          <Box w='full'>
-            <Image alt='' layout='responsive' src={image2} />
-          </Box>
-        )}
-      </VStack>
+      <Box
+        w={{ base: "350px", md: "400px", lg: "600px", xl: "750px" }}
+        borderWidth={3}
+        borderColor='teal.500'
+        rounded='lg'
+        p={2}
+        bgColor='white'
+      >
+        <Image alt='' layout='responsive' src={image} />
+      </Box>
       <VStack>
-        <Heading>{header}</Heading>
-        <Text>{text}</Text>
+        <Heading w='full' color='teal.600' textAlign={headingAlign}>
+          {header}
+        </Heading>
+        <Text w='full'>{text}</Text>
       </VStack>
     </Stack>
   );
