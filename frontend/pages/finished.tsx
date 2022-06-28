@@ -1,5 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import type { NextPage, NextPageContext } from "next";
+import Head from "next/head";
 import Sidebar from "../src/components/sections/Sidebar";
 import Header from "../src/components/ui/home/Header";
 import ProjectsWrapper from "../src/components/ui/project/ProjectsWrapper";
@@ -15,19 +16,24 @@ const Finished: NextPage<{
   const minH = minHonPagesWithSidebar;
 
   return (
-    <Sidebar>
-      <VStack spacing={{ base: 5, md: 10 }} minH={minH}>
-        <Header
-          username={user.username}
-          constantText='here are your completed projects!'
-        />
-        <ProjectsWrapper
-          title='Finished Projects'
-          query='&status=finished'
-          showFavoriteFilter={true}
-        />
-      </VStack>
-    </Sidebar>
+    <>
+      <Head>
+        <title>Finished Projects</title>
+      </Head>
+      <Sidebar>
+        <VStack spacing={{ base: 5, md: 10 }} minH={minH}>
+          <Header
+            username={user.username}
+            constantText='here are your completed projects!'
+          />
+          <ProjectsWrapper
+            title='Finished Projects'
+            query='&status=finished'
+            showFavoriteFilter={true}
+          />
+        </VStack>
+      </Sidebar>
+    </>
   );
 };
 

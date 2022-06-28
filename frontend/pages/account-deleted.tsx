@@ -7,6 +7,7 @@ import {
   chakra,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -20,35 +21,40 @@ const AccountDeleted: NextPage = () => {
   }, [router]);
 
   return (
-    <VStack
-      h='100vh'
-      w='full'
-      justifyContent='center'
-      spacing={10}
-      bgColor='gray.100'
-    >
-      <Heading
-        size={useBreakpointValue({ base: "lg", md: "xl" })}
-        fontWeight='normal'
-        px={5}
-        textAlign='center'
+    <>
+      <Head>
+        <title>Account Deleted</title>
+      </Head>
+      <VStack
+        h='100vh'
+        w='full'
+        justifyContent='center'
+        spacing={10}
+        bgColor='gray.100'
       >
-        Your account has been successfully{" "}
-        <chakra.span color='red'>deleted</chakra.span>.
-      </Heading>
-      <Text
-        fontSize={useBreakpointValue({ base: "md", md: "xl" })}
-        px={5}
-        textAlign='center'
-      >
-        You will be automatically redirected to home page in 5 seconds, or you
-        can{" "}
-        <NextLink href='/' passHref>
-          <Link color='teal.500'>click here</Link>
-        </NextLink>
-        .
-      </Text>
-    </VStack>
+        <Heading
+          size={useBreakpointValue({ base: "lg", md: "xl" })}
+          fontWeight='normal'
+          px={5}
+          textAlign='center'
+        >
+          Your account has been successfully{" "}
+          <chakra.span color='red'>deleted</chakra.span>.
+        </Heading>
+        <Text
+          fontSize={useBreakpointValue({ base: "md", md: "xl" })}
+          px={5}
+          textAlign='center'
+        >
+          You will be automatically redirected to home page in 5 seconds, or you
+          can{" "}
+          <NextLink href='/' passHref>
+            <Link color='teal.500'>click here</Link>
+          </NextLink>
+          .
+        </Text>
+      </VStack>
+    </>
   );
 };
 

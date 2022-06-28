@@ -7,6 +7,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import NextLink from "next/link";
 import page_image from "../public/images/not_found_image.svg";
@@ -18,34 +19,39 @@ const NotFoundPage: NextPage = () => {
   const link = isSuccess ? "/home" : "/";
 
   return (
-    <VStack
-      h='100vh'
-      w='full'
-      justifyContent='center'
-      spacing={10}
-      bgColor='gray.100'
-    >
-      <Box w={{ base: "350px", md: "380px", lg: "400px", xl: "450px" }}>
-        <Image src={page_image} alt='Not Found Image' layout='responsive' />
-      </Box>
-      <Heading
-        size={useBreakpointValue({ base: "2xl", md: "3xl" })}
-        fontWeight='normal'
+    <>
+      <Head>
+        <title>Page not found</title>
+      </Head>
+      <VStack
+        h='100vh'
+        w='full'
+        justifyContent='center'
+        spacing={10}
+        bgColor='gray.100'
       >
-        <chakra.span color='teal.600' fontWeight='semibold'>
-          404
-        </chakra.span>{" "}
-        Page not found
-      </Heading>
-      <NextLink href={link} passHref>
-        <Link
-          color='teal.500'
-          fontSize={useBreakpointValue({ base: "xl", md: "2xl" })}
+        <Box w={{ base: "350px", md: "380px", lg: "400px", xl: "450px" }}>
+          <Image src={page_image} alt='Not Found Image' layout='responsive' />
+        </Box>
+        <Heading
+          size={useBreakpointValue({ base: "2xl", md: "3xl" })}
+          fontWeight='normal'
         >
-          Go to Home page
-        </Link>
-      </NextLink>
-    </VStack>
+          <chakra.span color='teal.600' fontWeight='semibold'>
+            404
+          </chakra.span>{" "}
+          Page not found
+        </Heading>
+        <NextLink href={link} passHref>
+          <Link
+            color='teal.500'
+            fontSize={useBreakpointValue({ base: "xl", md: "2xl" })}
+          >
+            Go to Home page
+          </Link>
+        </NextLink>
+      </VStack>
+    </>
   );
 };
 

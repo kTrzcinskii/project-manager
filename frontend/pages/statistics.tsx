@@ -28,6 +28,7 @@ import DateInput from "../src/components/ui/form/DateInput";
 import StatsDateInput from "../src/components/ui/statistics/StatsDateInput";
 import CustomInputDays from "../src/components/ui/statistics/CustomInputDays";
 import ChooseDate from "../src/components/ui/statistics/ChooseDate";
+import Head from "next/head";
 
 const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
   const minH = minHonPagesWithSidebar;
@@ -44,78 +45,93 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
 
   if (isError || isLoading) {
     return (
-      <Sidebar>
-        <Flex minH={minH} justifyContent='center' alignItems='center'>
-          {isError && <ErrorMessage />}
-          {isLoading && <LoadingSpinner />}
-        </Flex>
-      </Sidebar>
+      <>
+        <Head>
+          <title>Statistics</title>
+        </Head>
+        <Sidebar>
+          <Flex minH={minH} justifyContent='center' alignItems='center'>
+            {isError && <ErrorMessage />}
+            {isLoading && <LoadingSpinner />}
+          </Flex>
+        </Sidebar>
+      </>
     );
   }
 
   if (!data) {
     return (
-      <Sidebar>
-        <Flex
-          minH={minH}
-          justifyContent='center'
-          alignItems='center'
-          flexDirection='column'
-        >
-          <Text
-            fontSize={{ base: "md", md: "lg", lg: "xl" }}
-            textAlign='center'
-            color='gray.800'
+      <>
+        <Head>
+          <title>Statistics</title>
+        </Head>
+        <Sidebar>
+          <Flex
+            minH={minH}
+            justifyContent='center'
+            alignItems='center'
+            flexDirection='column'
           >
-            It looks like there are no statistics to show yet. Change it by
-            creating new project!
-          </Text>
-          <Button
-            mt={5}
-            colorScheme='teal'
-            _focus={{ ring: 3, ringColor: "teal.700" }}
-            onClick={() => router.push("/create-project")}
-          >
-            Create New Project
-          </Button>
-        </Flex>
-      </Sidebar>
+            <Text
+              fontSize={{ base: "md", md: "lg", lg: "xl" }}
+              textAlign='center'
+              color='gray.800'
+            >
+              It looks like there are no statistics to show yet. Change it by
+              creating new project!
+            </Text>
+            <Button
+              mt={5}
+              colorScheme='teal'
+              _focus={{ ring: 3, ringColor: "teal.700" }}
+              onClick={() => router.push("/create-project")}
+            >
+              Create New Project
+            </Button>
+          </Flex>
+        </Sidebar>
+      </>
     );
   }
 
   return (
-    <Sidebar>
-      <VStack
-        minH={minH}
-        spacing={{ base: 6, md: 10, lg: 14 }}
-        pt={{ base: 3, md: 6 }}
-      >
-        <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
-          Your statistics
-        </Heading>
-        <ChooseDate
-          dateType={dateType}
-          setDateType={setDateType}
-          isCustomInput={isCustomInput}
-          setIsCustomInput={setIsCustomInput}
-          setQuery={setQuery}
-        />
-        <VStack w='full' spacing={5}>
-          <ProjectsStats
-            allProjectsNumber={data.allProjectsNumber}
-            completedProjectsNumber={data.completedProjectsNumber}
-            createdProjectsNumber={data.createdProjectsNumber}
-            updatedProjectsNumber={data.updatedProjectsNumber}
+    <>
+      <Head>
+        <title>Statistics</title>
+      </Head>
+      <Sidebar>
+        <VStack
+          minH={minH}
+          spacing={{ base: 6, md: 10, lg: 14 }}
+          pt={{ base: 3, md: 6 }}
+        >
+          <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
+            Your statistics
+          </Heading>
+          <ChooseDate
+            dateType={dateType}
+            setDateType={setDateType}
+            isCustomInput={isCustomInput}
+            setIsCustomInput={setIsCustomInput}
+            setQuery={setQuery}
           />
-          <GoalsStats
-            allGoalsNumber={data.allGoalsNumber}
-            completedGoalsNumber={data.completedGoalsNumber}
-            createdGoalsNumber={data.createdGoalsNumber}
-            updatedGoalsNumber={data.updatedGoalsNumber}
-          />
+          <VStack w='full' spacing={5}>
+            <ProjectsStats
+              allProjectsNumber={data.allProjectsNumber}
+              completedProjectsNumber={data.completedProjectsNumber}
+              createdProjectsNumber={data.createdProjectsNumber}
+              updatedProjectsNumber={data.updatedProjectsNumber}
+            />
+            <GoalsStats
+              allGoalsNumber={data.allGoalsNumber}
+              completedGoalsNumber={data.completedGoalsNumber}
+              createdGoalsNumber={data.createdGoalsNumber}
+              updatedGoalsNumber={data.updatedGoalsNumber}
+            />
+          </VStack>
         </VStack>
-      </VStack>
-    </Sidebar>
+      </Sidebar>
+    </>
   );
 };
 
