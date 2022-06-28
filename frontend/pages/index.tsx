@@ -5,6 +5,7 @@ import all_projects_ss from "../public/images/all_projects_ss.png";
 import PhotoAndTextContainer from "../src/components/ui/main-page/PhotoAndTextContainer";
 import { useRef } from "react";
 import single_project_ss from "../public/images/single_project_page_ss.png";
+import filter_ss from "../public/images/filters_ss.png";
 
 const Home: NextPage = () => {
   const learMoreRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,12 @@ const Home: NextPage = () => {
         text='Progress, completed goals, creation and edit date, deadline, priority, status and more. All of above are available on your project page so that you could easily follow your goals and be as efficient as you can.'
         headingAlign='right'
         bgColor='blackAlpha'
+      />
+      <PhotoAndTextContainer
+        image={filter_ss}
+        header='Easly browse through your projects!'
+        text='With those advanced filters you can easily find whatever project you like in your wide collection. You can filter based on every element of your project, such as title, progress, status, priortiy, etc.'
+        bgColor='whiteAlpha'
       />
     </Box>
   );
