@@ -33,6 +33,7 @@ const Home: NextPage = () => {
         header='Search trough your projects!'
         text='With those advanced filters you can easily find whatever project you like in your wide collection. You can filter based on every element of your project, such as title, progress, status, priortiy, etc.'
         bgColor='whiteAlpha'
+        bgBox='blackAlpha.600'
       />
       <PhotoAndTextContainer
         image={create_project_ss}
