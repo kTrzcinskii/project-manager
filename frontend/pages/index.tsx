@@ -9,6 +9,7 @@ import filter_ss from "../public/images/filters_ss.png";
 import create_project_ss from "../public/images/create_project_ss.png";
 import main_stats_ss from "../public/images/main_stats.png";
 import settings_ss from "../public/images/settings_ss.png";
+import CreatedBy from "../src/components/ui/main-page/CreatedBy";
 
 const Home: NextPage = () => {
   const learMoreRef = useRef<HTMLDivElement>(null);
@@ -57,6 +58,7 @@ const Home: NextPage = () => {
         bgColor='whiteAlpha'
         bgBox='gray.100'
       />
+      <CreatedBy />
     </Box>
   );
 };
