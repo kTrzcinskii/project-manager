@@ -7,6 +7,7 @@ import { useRef } from "react";
 import single_project_ss from "../public/images/single_project_page_ss.png";
 import filter_ss from "../public/images/filters_ss.png";
 import create_project_ss from "../public/images/create_project_ss.png";
+import main_stats_ss from "../public/images/main_stats.png";
 
 const Home: NextPage = () => {
   const learMoreRef = useRef<HTMLDivElement>(null);
@@ -38,6 +39,13 @@ const Home: NextPage = () => {
         header='Easily create new projets!'
         text="With this user-friendly UI it will take you seconds to create new project and start working on it. After it's been created you can edit it, change priority, status, deadline and more with a few clicks."
         headingAlign='right'
+      />
+      <PhotoAndTextContainer
+        image={main_stats_ss}
+        header='Keep your finger on the pulse!'
+        text="With the statistics section you can keep track of your recent projects, how much you have created, edited and completed. They are divided by their priority so you could find out if you have completed the most urgent ones. You can also see the same stats related to goals of those projects. It's a great way to stay productive and organised!"
+        bgBox='gray.100'
+        bgColor='blackAlpha'
       />
     </Box>
   );
