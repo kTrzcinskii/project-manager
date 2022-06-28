@@ -8,6 +8,7 @@ import single_project_ss from "../public/images/single_project_page_ss.png";
 import filter_ss from "../public/images/filters_ss.png";
 import create_project_ss from "../public/images/create_project_ss.png";
 import main_stats_ss from "../public/images/main_stats.png";
+import settings_ss from "../public/images/settings_ss.png";
 
 const Home: NextPage = () => {
   const learMoreRef = useRef<HTMLDivElement>(null);
@@ -18,20 +19,20 @@ const Home: NextPage = () => {
       <PhotoAndTextContainer
         image={all_projects_ss}
         header='Keep track of all your projects in one place!'
-        text='With Project Manager you can easily take care of all your current work in one place. With priorities and status you can easily group your projects and keep it organised.'
+        text='With Project Manager you can conveniently take care of all your current work in one place. With priorities and status you can easily group your projects and keep them organised.'
         myRef={learMoreRef}
       />
       <PhotoAndTextContainer
         image={single_project_ss}
         header='See all the details about the project!'
-        text='Progress, completed goals, creation and edit date, deadline, priority, status and more. All of above are available on your project page so that you could easily follow your goals and be as efficient as you can.'
+        text='Progress, completed goals, creation and edit date, deadline, priority, status and more. All of above are available on your project page so that you could follow your goals and be as efficient as you can.'
         headingAlign='right'
         bgColor='blackAlpha'
       />
       <PhotoAndTextContainer
         image={filter_ss}
         header='Search trough your projects!'
-        text='With those advanced filters you can easily find whatever project you like in your wide collection. You can filter based on every element of your project, such as title, progress, status, priortiy, etc.'
+        text='With those advanced filters you can comfortably find whatever project you like in your wide collection. You can filter based on every element of your project, such as title, progress, status, priortiy, etc.'
         bgColor='whiteAlpha'
         bgBox='blackAlpha.600'
       />
@@ -47,6 +48,14 @@ const Home: NextPage = () => {
         text="With the statistics section you can keep track of your recent projects, how much you have created, edited and completed. They are divided by their priority so you could find out if you have completed the most urgent ones. You can also see the same stats related to goals of those projects. It's a great way to stay productive and organised!"
         bgBox='gray.100'
         bgColor='blackAlpha'
+      />
+      <PhotoAndTextContainer
+        image={settings_ss}
+        header='Manage your account!'
+        text="You have full power over your account. You can change your username, email and password anytime you want. What's more, you can delete any of your project or even your account if you only want to."
+        headingAlign='right'
+        bgColor='whiteAlpha'
+        bgBox='gray.100'
       />
     </Box>
   );
