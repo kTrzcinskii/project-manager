@@ -6,6 +6,7 @@ import PhotoAndTextContainer from "../src/components/ui/main-page/PhotoAndTextCo
 import { useRef } from "react";
 import single_project_ss from "../public/images/single_project_page_ss.png";
 import filter_ss from "../public/images/filters_ss.png";
+import create_project_ss from "../public/images/create_project_ss.png";
 
 const Home: NextPage = () => {
   const learMoreRef = useRef<HTMLDivElement>(null);
@@ -28,9 +29,15 @@ const Home: NextPage = () => {
       />
       <PhotoAndTextContainer
         image={filter_ss}
-        header='Easly browse through your projects!'
+        header='Search trough your projects!'
         text='With those advanced filters you can easily find whatever project you like in your wide collection. You can filter based on every element of your project, such as title, progress, status, priortiy, etc.'
         bgColor='whiteAlpha'
+      />
+      <PhotoAndTextContainer
+        image={create_project_ss}
+        header='Easily create new projets!'
+        text="With this user-friendly UI it will take you seconds to create new project and start working on it. After it's been created you can edit it, change priority, status, deadline and more with a few clicks."
+        headingAlign='right'
       />
     </Box>
   );
