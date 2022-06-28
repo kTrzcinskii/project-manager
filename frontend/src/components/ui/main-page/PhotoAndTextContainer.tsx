@@ -9,6 +9,7 @@ interface PhotoAndTextContainerProps {
   bgColor?: string;
   myRef?: RefObject<HTMLDivElement>;
   headingAlign?: "left" | "right";
+  bgBox?: string;
 }
 
 const PhotoAndTextContainer: React.FC<PhotoAndTextContainerProps> = ({
@@ -18,6 +19,7 @@ const PhotoAndTextContainer: React.FC<PhotoAndTextContainerProps> = ({
   bgColor = "gray",
   myRef,
   headingAlign = "left",
+  bgBox = "white",
 }) => {
   return (
     <Stack
@@ -38,12 +40,15 @@ const PhotoAndTextContainer: React.FC<PhotoAndTextContainerProps> = ({
         borderColor='teal.500'
         rounded='lg'
         p={2}
-        bgColor='white'
+        bgColor={bgBox}
       >
         <Image alt='' layout='responsive' src={image} />
       </Box>
-      <VStack>
-        <Heading w='full' color='teal.600' textAlign={headingAlign}>
+      <VStack
+        w={{ base: "95%", md: " 90%", lg: "600px", xl: "750px" }}
+        textAlign={headingAlign}
+      >
+        <Heading w='full' color='teal.600'>
           {header}
         </Heading>
         <Text w='full'>{text}</Text>
