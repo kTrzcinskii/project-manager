@@ -17,6 +17,6 @@ async function bootstrap() {
     origin: config.get('FRONTEND_ORIGIN'),
   });
   app.use(cookieParser());
-  await app.listen(5000);
+  await app.listen(process.env.PORT || 5000);
 }
 bootstrap();
