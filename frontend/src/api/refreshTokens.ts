@@ -3,7 +3,7 @@ import ISuccessful from "../interfaces/ISuccessful";
 import ISuccessfulWithTokens from "../interfaces/ISuccessfulWithTokens";
 import { setCookies } from "cookies-next";
 
-const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_ENDPOINT}/auth/refresh`;
+const endpoint = "/api/auth/refresh";
 
 const refreshTokens = async (_failedRequest: any) => {
   try {
