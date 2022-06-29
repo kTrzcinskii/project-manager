@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import useLogout from "../../../hooks/mutation/useLogout";
 import NavItem from "./NavItem";
 import SidebarLinks from "./SidebarLinks";
+import { removeCookies } from "cookies-next";
 
 interface SidebarContentProps extends BoxProps {
   onClose: () => void;
@@ -26,6 +27,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   const handleLogout = () => {
     mutation.mutate(null, {
       onSuccess: () => {
+        removeCookies("at");
+        removeCookies("rt");
         router.push("/");
       },
       onError: (error) => {

@@ -26,16 +26,16 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async signupLocal(@Body() dto: SignUpDto, @Res() response: Response) {
     const tokens = await this.authService.signupLocal(dto);
-    this.cookiesService.asignCookies(response, tokens);
-    return response.json({ successful: true });
+    // this.cookiesService.asignCookies(response, tokens);
+    return response.json({ successful: true, tokens });
   }
 
   @Post('local/signin')
   @HttpCode(HttpStatus.OK)
   async signinLocal(@Body() dto: SignInDto, @Res() response: Response) {
     const tokens = await this.authService.signinLocal(dto);
-    this.cookiesService.asignCookies(response, tokens);
-    return response.json({ successful: true });
+    // this.cookiesService.asignCookies(response, tokens);
+    return response.json({ successful: true, tokens });
   }
 
   @UseGuards(AtGuard)
@@ -43,7 +43,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async logout(@GetCurrentUser() user: Payload, @Res() response: Response) {
     await this.authService.logout(user.sub);
-    this.cookiesService.deteleCookies(response);
+    // this.cookiesService.deteleCookies(response);
     return response.json({ successful: true });
   }
 
@@ -56,7 +56,7 @@ export class AuthController {
     @RtCookie() rtCookie: string,
   ) {
     const tokens = await this.authService.refreshTokens(user.sub, rtCookie);
-    this.cookiesService.asignCookies(response, tokens);
-    return response.json({ successful: true });
+    // this.cookiesService.asignCookies(response, tokens);
+    return response.json({ successful: true, tokens });
   }
 }
