@@ -13,7 +13,6 @@ export class CookiesService {
       sameSite: 'lax',
       secure: true,
       httpOnly: true,
-      domain: this.config.get('FRONTEND_ORIGIN'),
     });
 
     response.cookie('rt', tokens.refresh_token, {
@@ -21,7 +20,6 @@ export class CookiesService {
       sameSite: 'lax',
       secure: true,
       httpOnly: true,
-      domain: this.config.get('FRONTEND_ORIGIN'),
     });
   }
 
@@ -31,7 +29,6 @@ export class CookiesService {
       sameSite: 'lax',
       secure: true,
       httpOnly: true,
-      domain: this.config.get('FRONTEND_ORIGIN'),
     });
 
     response.cookie('rt', 'DELETED', {
@@ -39,7 +36,6 @@ export class CookiesService {
       sameSite: 'lax',
       secure: true,
       httpOnly: true,
-      domain: this.config.get('FRONTEND_ORIGIN'),
     });
   }
 }
