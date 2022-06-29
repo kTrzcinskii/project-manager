@@ -1,22 +1,35 @@
-import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
+import { Box, Flex, Heading, HStack, VStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import type { NextPage, NextPageContext } from "next";
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import settings_image from "../public/images/settings_image.svg";
 import Sidebar from "../src/components/sections/Sidebar";
 import AccountDetails from "../src/components/ui/settings/AccountDetails";
 import DeleteAccountBtn from "../src/components/ui/settings/DeleteAccountBtn";
-import IMe from "../src/interfaces/IMe";
+import ErrorMessage from "../src/components/ui/utils/ErrorMessage";
+import LoadingSpinner from "../src/components/ui/utils/LoadingSpinner";
+import useMe from "../src/hooks/query/useMe";
 import minHonPagesWithSidebar from "../src/utils/minHonPagesWithSidebar";
-import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
-import redirectServerSide from "../src/utils/server-side/redirectServerSide";
-import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
-import Image from "next/image";
-import settings_image from "../public/images/settings_image.svg";
-import Head from "next/head";
 
-const Settings: NextPage<{
-  user: IMe;
-}> = ({ user }) => {
+const Settings: NextPage = () => {
   const minH = minHonPagesWithSidebar;
+
+  const { data, isError, isLoading } = useMe();
+  const router = useRouter();
+
+  if (isLoading) {
+    return (
+      <Flex h='full' w='full' justifyContent='center' alignItems='center'>
+        <LoadingSpinner />
+      </Flex>
+    );
+  }
+  if (!data || isError) {
+    router.push("/unauthorized");
+    return <ErrorMessage />;
+  }
 
   return (
     <>
@@ -55,7 +68,7 @@ const Settings: NextPage<{
             >
               Account Settings
             </Heading>
-            <AccountDetails user={user} />
+            <AccountDetails user={data} />
             <DeleteAccountBtn />
           </VStack>
           <Box w={{ base: 0, md: 0, lg: "0", xl: "400px" }}>
@@ -66,25 +79,5 @@ const Settings: NextPage<{
     </>
   );
 };
-
-export async function getServerSideProps(ctx: NextPageContext) {
-  let cookies = ctx.req?.headers.cookie;
-
-  if (!cookies) {
-    return redirectServerSide("/unauthorized");
-  }
-
-  if (!cookies.includes("at=") && cookies.includes("rt=")) {
-    cookies = await setCookiesServerSide(ctx, cookies);
-  }
-
-  const { logged, user } = await isUserLoggedIn(cookies);
-
-  if (!logged || !user) {
-    return redirectServerSide("/unauthorized");
-  }
-
-  return { props: { user } };
-}
 
 export default Settings;

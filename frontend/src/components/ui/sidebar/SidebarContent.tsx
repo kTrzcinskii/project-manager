@@ -31,9 +31,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
         removeCookies("rt");
         router.push("/");
       },
-      onError: (error) => {
-        //TODO: Error notification
-        console.log(error);
+      onError: () => {
+        router.push("/");
       },
     });
   };

@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
-import type { NextPage, NextPageContext } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -27,11 +27,9 @@ import ErrorMessage from "../../src/components/ui/utils/ErrorMessage";
 import LoadingSpinner from "../../src/components/ui/utils/LoadingSpinner";
 import useEditProject from "../../src/hooks/mutation/useEditProject";
 import useGetSingleProject from "../../src/hooks/query/useGetSingleProject";
+import useMe from "../../src/hooks/query/useMe";
 import { priority } from "../../src/interfaces/IProject";
 import minHonPagesWithSidebar from "../../src/utils/minHonPagesWithSidebar";
-import isUserLoggedIn from "../../src/utils/server-side/isUserLoggedIn";
-import redirectServerSide from "../../src/utils/server-side/redirectServerSide";
-import setCookiesServerSide from "../../src/utils/server-side/setCookiesServerSide";
 import networkErrorToastOptions from "../../src/utils/toasts/networkErrorToastOptions";
 import successfulPostEditedToastOptions from "../../src/utils/toasts/successfulPostEdited";
 
@@ -96,6 +94,24 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
   const [dateType, setDateType] = useState<"specific-date" | "date-range">(
     "date-range"
   );
+
+  const {
+    data: dataAuth,
+    isError: isErrorAuth,
+    isLoading: isLoadingAuth,
+  } = useMe();
+
+  if (isLoadingAuth) {
+    return (
+      <Flex h='full' w='full' justifyContent='center' alignItems='center'>
+        <LoadingSpinner />
+      </Flex>
+    );
+  }
+  if (!dataAuth || isErrorAuth) {
+    router.push("/unauthorized");
+    return <ErrorMessage />;
+  }
 
   if (isLoading || isError || !data) {
     return (
@@ -232,25 +248,5 @@ const ProjectPage: NextPage<ProjectPageProps> = ({}) => {
     </>
   );
 };
-
-export async function getServerSideProps(ctx: NextPageContext) {
-  let cookies = ctx.req?.headers.cookie;
-
-  if (!cookies) {
-    return redirectServerSide("/unauthorized");
-  }
-
-  if (!cookies.includes("at=") && cookies.includes("rt=")) {
-    cookies = await setCookiesServerSide(ctx, cookies);
-  }
-
-  const { logged, user } = await isUserLoggedIn(cookies);
-
-  if (!logged || !user) {
-    return redirectServerSide("/unauthorized");
-  }
-
-  return { props: { user } };
-}
 
 export default ProjectPage;

@@ -1,37 +1,27 @@
-import {
-  Heading,
-  HStack,
-  VStack,
-  Text,
-  Flex,
-  Button,
-  Stack,
-  Box,
-} from "@chakra-ui/react";
-import type { NextPage, NextPageContext } from "next";
+import { Button, Flex, Heading, Text, VStack } from "@chakra-ui/react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import Sidebar from "../src/components/sections/Sidebar";
-import ErrorMessage from "../src/components/ui/utils/ErrorMessage";
+import ChooseDate from "../src/components/ui/statistics/ChooseDate";
 import GoalsStats from "../src/components/ui/statistics/GoalsStats";
 import ProjectsStats from "../src/components/ui/statistics/ProjectsStats";
-import SelectQuery from "../src/components/ui/statistics/SelectQuery";
+import ErrorMessage from "../src/components/ui/utils/ErrorMessage";
 import LoadingSpinner from "../src/components/ui/utils/LoadingSpinner";
 import useGetMainStats from "../src/hooks/query/useGetMainStats";
-import IMe from "../src/interfaces/IMe";
+import useMe from "../src/hooks/query/useMe";
 import minHonPagesWithSidebar from "../src/utils/minHonPagesWithSidebar";
-import isUserLoggedIn from "../src/utils/server-side/isUserLoggedIn";
-import redirectServerSide from "../src/utils/server-side/redirectServerSide";
-import setCookiesServerSide from "../src/utils/server-side/setCookiesServerSide";
-import { useRouter } from "next/router";
-import DateRangeRadio from "../src/components/ui/statistics/DateRangeRadio";
-import DateInput from "../src/components/ui/form/DateInput";
-import StatsDateInput from "../src/components/ui/statistics/StatsDateInput";
-import CustomInputDays from "../src/components/ui/statistics/CustomInputDays";
-import ChooseDate from "../src/components/ui/statistics/ChooseDate";
-import Head from "next/head";
 
-const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
+const Statistics: NextPage = () => {
   const minH = minHonPagesWithSidebar;
+
+  const {
+    data: dataAuth,
+    isError: isErrorAuth,
+    isLoading: isLoadingAuth,
+  } = useMe();
+  const router = useRouter();
 
   const [query, setQuery] = useState("");
   const [isCustomInput, setIsCustomInput] = useState(false);
@@ -41,7 +31,17 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
 
   const { data, isLoading, isError } = useGetMainStats(query);
 
-  const router = useRouter();
+  if (isLoadingAuth) {
+    return (
+      <Flex h='full' w='full' justifyContent='center' alignItems='center'>
+        <LoadingSpinner />
+      </Flex>
+    );
+  }
+  if (!dataAuth || isErrorAuth) {
+    router.push("/unauthorized");
+    return <ErrorMessage />;
+  }
 
   if (isError || isLoading) {
     return (
@@ -134,25 +134,5 @@ const Statistics: NextPage<{ user: IMe }> = ({ user }) => {
     </>
   );
 };
-
-export async function getServerSideProps(ctx: NextPageContext) {
-  let cookies = ctx.req?.headers.cookie;
-
-  if (!cookies) {
-    return redirectServerSide("/unauthorized");
-  }
-
-  if (!cookies.includes("at=") && cookies.includes("rt=")) {
-    cookies = await setCookiesServerSide(ctx, cookies);
-  }
-
-  const { logged, user } = await isUserLoggedIn(cookies);
-
-  if (!logged || !user) {
-    return redirectServerSide("/unauthorized");
-  }
-
-  return { props: { user } };
-}
 
 export default Statistics;
