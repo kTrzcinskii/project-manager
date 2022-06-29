@@ -34,6 +34,7 @@ const Register: NextPage = () => {
               lg: "space-around",
               xl: "space-around",
             }}
+            overflow='hidden'
           >
             <VStack
               spacing={useBreakpointValue({ base: 4, md: 6, lg: 8 })}
