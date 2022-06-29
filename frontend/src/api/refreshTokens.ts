@@ -12,8 +12,12 @@ const refreshTokens = async (_failedRequest: any) => {
       {},
       { withCredentials: true }
     );
-    setCookies("at", response.data.tokens.access_token);
-    setCookies("rt", response.data.tokens.refresh_token);
+    if (response.data.tokens.access_token) {
+      setCookies("at", response.data.tokens.access_token);
+    }
+    if (response.data.tokens.refresh_token) {
+      setCookies("rt", response.data.tokens.refresh_token);
+    }
   } catch (error) {
     console.error(error);
   }
