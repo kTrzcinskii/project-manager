@@ -1,12 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { Tokens } from 'src/auth/types';
 
 @Injectable()
 export class CookiesService {
-  constructor(private config: ConfigService) {}
-
   asignCookies(response: Response, tokens: Tokens) {
     response.cookie('at', tokens.access_token, {
       expires: new Date(new Date().getTime() + 60 * 1000 * 30), // 30 min
