@@ -18,8 +18,6 @@ export class CookiesService {
       secure: true,
       httpOnly: true,
     });
-
-    response.setHeader('Access-Control-Allow-Origin', '*');
   }
 
   deteleCookies(response: Response) {
@@ -36,7 +34,5 @@ export class CookiesService {
       secure: true,
       httpOnly: true,
     });
-
-    response.setHeader('Access-Control-Allow-Origin', '*');
   }
 }
