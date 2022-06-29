@@ -30,6 +30,7 @@ const ProgressBarSlider: React.FC<ProgressBarSliderProps> = ({
   return (
     <Flex w='full' justifyContent='center' alignItems='center'>
       <RangeSlider
+        // eslint-disable-next-line jsx-a11y/aria-proptypes
         aria-label={["Progress Bar Min", "Progress Bar Max"]}
         colorScheme='teal'
         w='94%'
