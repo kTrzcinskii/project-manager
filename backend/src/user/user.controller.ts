@@ -12,7 +12,6 @@ import { Payload } from 'src/auth/types';
 import { GetCurrentUser } from 'src/common/decorators';
 import { AtGuard } from 'src/common/guards';
 import { Serialize } from 'src/common/interceptors';
-import { CookiesService } from 'src/cookies/cookies.service';
 import {
   ChangeEmailDto,
   ChangePasswordDto,
@@ -25,10 +24,7 @@ import { UserService } from './user.service';
 @Controller('user')
 @UseGuards(AtGuard)
 export class UserController {
-  constructor(
-    private userService: UserService,
-    private cookiesService: CookiesService,
-  ) {}
+  constructor(private userService: UserService) {}
 
   @Serialize(PublicUserDto)
   @Get('me')
@@ -66,7 +62,6 @@ export class UserController {
     @Res() response: Response,
   ) {
     const successful = await this.userService.deleteAccount(user.sub, dto);
-    this.cookiesService.deteleCookies(response);
     return response.json(successful);
   }
 }
