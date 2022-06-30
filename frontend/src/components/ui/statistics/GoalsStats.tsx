@@ -84,36 +84,38 @@ const GoalsStats: React.FC<GoalsStatsProps> = ({
           index={0}
         />
       </Stack>
-      <Text
-        pt={10}
-        pb={12}
-        color='teal.600'
-        fontStyle='italic'
-        fontSize='xl'
-        as={motion.p}
-        variants={{
-          hidden: {
-            opacity: 0,
-            translateY: "-80%",
-          },
-          visible: {
-            opacity: 1,
-            translateY: "0%",
-            transition: {
-              delay: 4 * 0.2 + 0.1,
-              duration: textDuration,
+      {percent && percent !== NaN && (
+        <Text
+          pt={10}
+          pb={12}
+          color='teal.600'
+          fontStyle='italic'
+          fontSize='xl'
+          as={motion.p}
+          variants={{
+            hidden: {
+              opacity: 0,
+              translateY: "-80%",
             },
-          },
-        }}
-        initial='hidden'
-        animate='visible'
-      >
-        You have completed{" "}
-        <chakra.span fontWeight='semibold' color='teal.700'>
-          {percent}%
-        </chakra.span>{" "}
-        of your goals. {text}
-      </Text>
+            visible: {
+              opacity: 1,
+              translateY: "0%",
+              transition: {
+                delay: 4 * 0.2 + 0.1,
+                duration: textDuration,
+              },
+            },
+          }}
+          initial='hidden'
+          animate='visible'
+        >
+          You have completed{" "}
+          <chakra.span fontWeight='semibold' color='teal.700'>
+            {percent}%
+          </chakra.span>{" "}
+          of your goals. {text}
+        </Text>
+      )}
     </VStack>
   );
 };
