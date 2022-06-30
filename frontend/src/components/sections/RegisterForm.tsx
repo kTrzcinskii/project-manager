@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import transfromAPIErrors from "../../utils/transformAPIErrors";
 import networkErrorToastOptions from "../../utils/toasts/networkErrorToastOptions";
 import { motion } from "framer-motion";
+import { setCookies } from "cookies-next";
 
 const RegisterForm: React.FC = () => {
   const router = useRouter();
@@ -34,7 +35,9 @@ const RegisterForm: React.FC = () => {
       initialValues={initialValues}
       onSubmit={(values, action) => {
         mutation.mutate(values, {
-          onSuccess: () => {
+          onSuccess: (response) => {
+            setCookies("at", response.data.tokens.access_token);
+            setCookies("rt", response.data.tokens.refresh_token);
             router.push("/home");
           },
           onError: (error) => {

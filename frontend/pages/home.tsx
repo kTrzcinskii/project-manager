@@ -18,7 +18,7 @@ const Home: NextPage = () => {
 
   if (isLoading) {
     return (
-      <Flex h='full' w='full' justifyContent='center' alignItems='center'>
+      <Flex h='100vh' w='full' justifyContent='center' alignItems='center'>
         <LoadingSpinner />
       </Flex>
     );

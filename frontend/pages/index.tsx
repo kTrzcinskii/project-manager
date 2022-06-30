@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         />
         <PhotoAndTextContainer
           image={create_project_ss}
-          header='Easily create new projets!'
+          header='Easily create new projects!'
           text="With this user-friendly UI it will take you seconds to create new project and start working on it. After it's been created you can edit it, change priority, status, deadline and more with a few clicks."
           headingAlign='right'
         />

@@ -21,7 +21,7 @@ const Settings: NextPage = () => {
 
   if (isLoading) {
     return (
-      <Flex h='full' w='full' justifyContent='center' alignItems='center'>
+      <Flex h='100vh' w='full' justifyContent='center' alignItems='center'>
         <LoadingSpinner />
       </Flex>
     );
@@ -47,6 +47,7 @@ const Settings: NextPage = () => {
             lg: "center",
             xl: "space-around",
           }}
+          overflow='hidden'
         >
           <VStack spacing={{ base: 6, md: 10, lg: 14 }} pt={{ base: 3, md: 6 }}>
             <Heading
