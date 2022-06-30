@@ -38,7 +38,7 @@ const Home: NextPage = () => {
         />
         <PhotoAndTextContainer
           image={filter_ss}
-          header='Search trough your projects!'
+          header='Search through your projects!'
           text='With those advanced filters you can comfortably find whatever project you like in your wide collection. You can filter based on every element of your project, such as title, progress, status, priortiy, etc.'
           bgColor='whiteAlpha'
           bgBox='blackAlpha.600'
