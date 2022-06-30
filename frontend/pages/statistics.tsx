@@ -50,12 +50,7 @@ const Statistics: NextPage = () => {
           <title>Statistics</title>
         </Head>
         <Sidebar>
-          <Flex
-            minH={minH}
-            justifyContent='center'
-            alignItems='center'
-            overflow='hidden'
-          >
+          <Flex minH={minH} justifyContent='center' alignItems='center'>
             {isError && <ErrorMessage />}
             {isLoading && <LoadingSpinner />}
           </Flex>
@@ -109,6 +104,7 @@ const Statistics: NextPage = () => {
           minH={minH}
           spacing={{ base: 6, md: 10, lg: 14 }}
           pt={{ base: 3, md: 6 }}
+          overflow='hidden'
         >
           <Heading color='teal.600' fontSize={{ base: "3xl", md: "4xl" }}>
             Your statistics
