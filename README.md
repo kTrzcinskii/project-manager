@@ -1,6 +1,5 @@
 # Project Manager
 It's a fullstack app that helps you organise your work and stay productive.
-To see more [click here](https://project-manager-kt.netlify.app/) to visit the site.
 
 ## The stack I used
 Everything is written in Typescript
